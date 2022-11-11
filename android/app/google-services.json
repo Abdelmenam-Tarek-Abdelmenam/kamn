@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "75340097528",
+    "project_id": "kamn-bd641",
+    "storage_bucket": "kamn-bd641.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:75340097528:android:e553e629ddb4a18591d80d",
+        "android_client_info": {
+          "package_name": "dev.kamn.kamn"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "75340097528-9sisqd9sp821s0kfrkt14tmsp26gsf0o.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "dev.kamn.kamn",
+            "certificate_hash": "90cde396df0839d19a774eedcdb4c9a39b91258c"
+          }
+        },
+        {
+          "client_id": "75340097528-rc6oppss8079clp39u825fhpu3vn8nbb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDFELwNin8M6odwBKJTiP443fIaUvqlXTM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "75340097528-rc6oppss8079clp39u825fhpu3vn8nbb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
