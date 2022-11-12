@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kamn/data/models/app_user.dart';
 
+import 'bloc/auth_bloc/auth_status_bloc.dart';
 import 'bloc/my_bloc_observer.dart';
 import 'bloc/style_bloc/style_bloc.dart';
 import 'data/data_sources/pref_repository.dart';
@@ -14,17 +17,25 @@ void main() async {
   await PreferenceRepository.init();
   await Firebase.initializeApp();
   Bloc.observer = MyBlocObserver();
-  runApp(const MyApp());
+
+  User? user = FirebaseAuth.instance.currentUser;
+  AppUser appUser = AppUser.fromFirebaseUser(user);
+
+  runApp(MyApp(appUser));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp(this.user, {super.key});
+  final AppUser user;
 
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
         providers: [
           BlocProvider(
             create: (context) => StyleBloc(),
+          ),
+          BlocProvider(
+            create: (context) => AuthBloc(user),
           ),
         ],
         child: BlocBuilder<StyleBloc, StyleBlocState>(
@@ -48,7 +59,7 @@ class MyApp extends StatelessWidget {
               debugShowCheckedModeBanner: false,
               themeMode: state.themeMode,
               onGenerateRoute: RouteGenerator.getRoute,
-              initialRoute: Routes.splash,
+              initialRoute: user.isEmpty ? Routes.login : Routes.landing,
               // ),
             );
           },

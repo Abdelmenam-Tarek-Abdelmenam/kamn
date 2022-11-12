@@ -1,15 +1,53 @@
 import 'package:flutter/material.dart';
-import 'package:kamn/presentation/view/splash_view/splash_view.dart';
+import 'package:kamn/presentation/view/benefits_view/benefits_view.dart';
+import 'package:kamn/presentation/view/landing_view/landing_view.dart';
+import 'package:kamn/presentation/view/login_view/login_view.dart';
+import 'package:kamn/presentation/view/user_view/user_view.dart';
+
+import '../view/coaches_view/coaches_view.dart';
+import '../view/customer_support_view/customer_support_view.dart';
+import '../view/matches_view/matches_view.dart';
+import '../view/store_view/store_view.dart';
+import '../view/tournaments_view/tournaments_view.dart';
 
 class Routes {
-  static const String splash = "/";
+  static const String login = "/login";
+  static const String landing = "/";
+  static const String home = "/home";
+  static const String user = "/user";
+  static const String benefits = "/benfits";
+  static const String coaches = "/coaches";
+  static const String match = "/matches";
+  static const String store = "/store";
+  static const String tournaments = "/tournaments";
+  static const String customerSupport = "/customerSupport";
 }
 
 class RouteGenerator {
   static Route<dynamic> getRoute(RouteSettings settings) {
     switch (settings.name) {
-      case Routes.splash:
-        return MaterialPageRoute(builder: (_) => const SplashView());
+      case Routes.login:
+        return MaterialPageRoute(builder: (_) => LoginView());
+      case Routes.landing:
+        return MaterialPageRoute(
+            builder: (_) => const LandingView(HomePageStates.splash));
+      case Routes.home:
+        return MaterialPageRoute(
+            builder: (_) => const LandingView(HomePageStates.landing));
+      case Routes.match:
+        return MaterialPageRoute(builder: (_) => const MatchesView());
+      case Routes.coaches:
+        return MaterialPageRoute(builder: (_) => const CoachesView());
+      case Routes.benefits:
+        return MaterialPageRoute(builder: (_) => const BenefitsView());
+      case Routes.store:
+        return MaterialPageRoute(builder: (_) => const StoreView());
+      case Routes.customerSupport:
+        return MaterialPageRoute(builder: (_) => const CustomerSupportView());
+      case Routes.tournaments:
+        return MaterialPageRoute(builder: (_) => const TournamentsView());
+      case Routes.user:
+        return MaterialPageRoute(builder: (_) => const UserView());
       default:
         return unDefinedRoute();
     }

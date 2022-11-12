@@ -4,37 +4,37 @@ TextTheme _textTheme(bool dark) => TextTheme(
       displayLarge: GoogleFonts.poppins(
           fontSize: 26,
           fontWeight: FontWeight.bold,
-          color: dark ? ColorManagerDark.blackColor : ColorManager.blackColor),
+          color: dark ? ColorManager.whiteColor : ColorManager.darkBlue),
       displayMedium: GoogleFonts.alegreyaSans(
           fontSize: 22,
           fontWeight: FontWeight.w800,
-          color: dark ? ColorManagerDark.whiteColor : ColorManager.whiteColor),
+          color: dark ? ColorManager.whiteColor : ColorManager.whiteColor),
       displaySmall: GoogleFonts.alegreyaSans(
           fontSize: 16,
           fontWeight: FontWeight.w700,
-          color: dark ? ColorManagerDark.mainBlue : ColorManager.mainBlue),
+          color: dark ? ColorManager.mainBlue : ColorManager.mainBlue),
       headlineMedium: GoogleFonts.alegreyaSans(
           fontSize: 20,
           fontWeight: FontWeight.w700,
-          color: dark ? ColorManagerDark.mainYellow : ColorManager.mainYellow),
+          color: dark ? ColorManager.lightGrey : ColorManager.lightGrey),
       bodySmall: GoogleFonts.alegreyaSans(
           fontSize: 18,
           fontWeight: FontWeight.w400,
           letterSpacing: 0.4,
-          color: dark ? ColorManagerDark.whiteColor : ColorManager.whiteColor),
+          color: dark ? ColorManager.whiteColor : ColorManager.darkGrey),
       titleMedium: GoogleFonts.alegreyaSans(
           fontSize: 22,
           fontWeight: FontWeight.w700,
-          color: dark ? ColorManagerDark.whiteColor : ColorManager.whiteColor),
+          color: dark ? ColorManager.whiteColor : ColorManager.whiteColor),
       titleSmall: GoogleFonts.alegreyaSans(
           fontSize: 24,
           fontWeight: FontWeight.w400,
-          color: dark ? ColorManagerDark.mainYellow : ColorManager.mainYellow),
+          color: dark ? ColorManager.lightBlue : ColorManager.lightBlue),
       labelLarge:
           GoogleFonts.alegreyaSans(fontSize: 16, fontWeight: FontWeight.w500),
       labelSmall: GoogleFonts.alegreyaSans(
           fontSize: 14,
           fontWeight: FontWeight.w400,
           letterSpacing: 1.5,
-          color: dark ? ColorManagerDark.blackColor : ColorManager.blackColor),
+          color: dark ? ColorManager.blackColor : ColorManager.blackColor),
     );

@@ -19,13 +19,15 @@ class StyleManager {
   ];
 
   static const BorderRadius border = BorderRadius.all(
-    Radius.circular(10),
+    Radius.circular(8),
   );
 
   static const Radius radius10 = Radius.circular(10);
 }
 
 class PaddingManager {
+  static const p2 = EdgeInsets.all(2.0);
+  static const p4 = EdgeInsets.all(4.0);
   static const p8 = EdgeInsets.all(8.0);
   static const p10 = EdgeInsets.all(10.0);
   static const p15 = EdgeInsets.all(15.0);
