@@ -34,7 +34,7 @@ class LandingView extends StatelessWidget {
       icon: const Icon(Icons.person_outline_outlined));
 
   Widget homePageView(BuildContext context) => FutureBuilder(
-      future: Future.delayed(const Duration(seconds: 2)),
+      future: Future.delayed(const Duration(seconds: 0)),
       builder: (context, snap) {
         if (snap.connectionState == ConnectionState.done) {
           return HomeGrid();

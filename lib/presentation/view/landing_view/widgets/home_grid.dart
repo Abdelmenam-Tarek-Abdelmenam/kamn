@@ -27,13 +27,13 @@ class HomeGrid extends StatelessWidget {
         image: LottieManager.store,
         route: Routes.store),
     GridItem(
-        title: StringManger.customerSupport,
-        image: LottieManager.customerSupport,
-        route: Routes.customerSupport),
-    GridItem(
         title: StringManger.tournaments,
         image: LottieManager.tournaments,
-        route: Routes.match)
+        route: Routes.match),
+    GridItem(
+        title: StringManger.leaderBoard,
+        image: LottieManager.leaderBoard,
+        route: Routes.leaderBoard),
   ];
 
   @override

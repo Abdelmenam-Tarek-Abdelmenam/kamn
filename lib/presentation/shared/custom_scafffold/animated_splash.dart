@@ -2,16 +2,23 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:kamn/presentation/resources/asstes_manager.dart';
+import 'package:kamn/presentation/shared/custom_scafffold/widgets/customer_support_icon.dart';
 import 'widgets/gradient_container.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView(
-      {required this.child, this.menuIcon, this.action, this.title, Key? key})
+      {required this.child,
+      this.menuIcon,
+      this.action,
+      this.title,
+      this.showDivider = true,
+      Key? key})
       : super(key: key);
   final Widget child;
   final String? title;
   final Widget? menuIcon;
   final Widget? action;
+  final bool showDivider;
 
   @override
   State<SplashView> createState() => _SplashViewState();
@@ -39,6 +46,8 @@ class _SplashViewState extends State<SplashView> {
             ? Colors.white
             : Colors.transparent,
         child: Scaffold(
+          floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+          floatingActionButton: const CustomerSupportIcon(),
           appBar: AppBar(
             leading: widget.menuIcon,
             backgroundColor: Colors.transparent,
@@ -56,6 +65,8 @@ class _SplashViewState extends State<SplashView> {
           backgroundColor: Colors.transparent,
           body: Stack(
             children: [
+              Visibility(
+                  visible: widget.showDivider, child: whiteDivider(context)),
               splashImage(),
               Visibility(
                 visible: animationFinished == AnimationState.end,
@@ -84,6 +95,12 @@ class _SplashViewState extends State<SplashView> {
             width: MediaQuery.of(context).size.width / 2.5,
           ),
         ),
+      );
+
+  Widget whiteDivider(BuildContext context) => Divider(
+        thickness: 2,
+        height: 0,
+        color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.5),
       );
 }
 

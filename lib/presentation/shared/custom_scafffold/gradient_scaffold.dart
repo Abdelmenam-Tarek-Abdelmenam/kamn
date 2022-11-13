@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kamn/presentation/resources/string_manager.dart';
+import 'package:kamn/presentation/shared/custom_scafffold/widgets/customer_support_icon.dart';
 
 import '../../resources/asstes_manager.dart';
 import 'widgets/gradient_container.dart';
@@ -15,6 +16,8 @@ class GradientScaffold extends StatelessWidget {
     return GradientContainer(
       SafeArea(
         child: Scaffold(
+          floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+          floatingActionButton: const CustomerSupportIcon(),
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             backgroundColor: Colors.transparent,

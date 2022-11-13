@@ -6,6 +6,8 @@ import 'package:kamn/presentation/view/user_view/user_view.dart';
 
 import '../view/coaches_view/coaches_view.dart';
 import '../view/customer_support_view/customer_support_view.dart';
+import '../view/leader_board_view/leader_board_view.dart';
+import '../view/login_view/signup_view.dart';
 import '../view/matches_view/matches_view.dart';
 import '../view/store_view/store_view.dart';
 import '../view/tournaments_view/tournaments_view.dart';
@@ -20,7 +22,9 @@ class Routes {
   static const String match = "/matches";
   static const String store = "/store";
   static const String tournaments = "/tournaments";
+  static const String leaderBoard = "/leaderBoard";
   static const String customerSupport = "/customerSupport";
+  static const String signup = "/signup";
 }
 
 class RouteGenerator {
@@ -28,6 +32,8 @@ class RouteGenerator {
     switch (settings.name) {
       case Routes.login:
         return MaterialPageRoute(builder: (_) => LoginView());
+      case Routes.signup:
+        return MaterialPageRoute(builder: (_) => const SignupView());
       case Routes.landing:
         return MaterialPageRoute(
             builder: (_) => const LandingView(HomePageStates.splash));
@@ -38,6 +44,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const MatchesView());
       case Routes.coaches:
         return MaterialPageRoute(builder: (_) => const CoachesView());
+      case Routes.leaderBoard:
+        return MaterialPageRoute(builder: (_) => const LeaderBoardView());
       case Routes.benefits:
         return MaterialPageRoute(builder: (_) => const BenefitsView());
       case Routes.store:

@@ -1,6 +1,13 @@
+// ignore_for_file: must_be_immutable
+
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kamn/bloc/auth_bloc/auth_status_bloc.dart';
 import 'package:kamn/presentation/resources/styles_manager.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
+import 'package:kamn/presentation/view/login_view/widgets/login_page_icon.dart';
 
 import '../../resources/routes_manger.dart';
 import '../../resources/string_manager.dart';
@@ -8,11 +15,15 @@ import '../../shared/custom_scafffold/animated_splash.dart';
 import '../../shared/on_will_pop.dart';
 import '../../shared/widget/form_field.dart';
 import 'widgets/login_icons.dart';
+import 'dart:math' as math;
 
 class LoginView extends StatelessWidget {
   LoginView({Key? key}) : super(key: key);
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController passController = TextEditingController();
+  final TextEditingController passController1 = TextEditingController();
+  final TextEditingController passController2 = TextEditingController();
+  bool showPass1 = false;
+  bool showPass2 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,36 +33,31 @@ class LoginView extends StatelessWidget {
         onTap: () {
           FocusScope.of(context).unfocus();
         },
-        child: SplashView(
-          menuIcon: IconButton(
-            icon: const Icon(Icons.more_vert),
-            onPressed: () {
-              Navigator.pushNamed(context, Routes.home);
-            },
-          ),
-          child: SingleChildScrollView(
-            child: SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: PaddingManager.p15,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.person_pin,
-                      size: 120,
-                    ),
-                    Dividers.h10,
-                    emailBox(context),
-                    Dividers.h20,
-                    const LoginIcons(),
-                    Dividers.h10,
-                    Dividers.horizontalLine,
-                    Dividers.h10,
-                    TextButton(
-                        onPressed: signUpCallBack,
-                        child: Text(StringManger.signUp))
-                  ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: SplashView(
+            showDivider: false,
+            menuIcon: IconButton(
+              icon: const Icon(Icons.more_vert),
+              onPressed: () {
+                Navigator.pushNamed(context, Routes.home);
+              },
+            ),
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: SizedBox(
+                width: double.infinity,
+                child: Padding(
+                  padding: PaddingManager.p15,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const LoginPageIcon(),
+                      emailBox(context),
+                      Dividers.h10,
+                      const LoginIcons(),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -61,30 +67,137 @@ class LoginView extends StatelessWidget {
     );
   }
 
-  Widget emailBox(BuildContext context) => Column(
-        children: [
-          DefaultFormField(
-            controller: emailController,
-            title: StringManger.emailAddress,
+  Widget emailBox(BuildContext context) => ClipRRect(
+        borderRadius: StyleManager.border,
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+          child: Container(
+            padding: PaddingManager.p10,
+            decoration: BoxDecoration(
+                borderRadius: StyleManager.border,
+                color:
+                    Theme.of(context).colorScheme.onPrimary.withOpacity(0.75)),
+            child: BlocConsumer<AuthBloc, AuthStates>(
+              listener: (context, state) {
+                if (state.status == AuthStatus.successLogIn) {
+                  print("Login OK");
+                } else if (state.status == AuthStatus.successSignUp) {
+                  print("SignUp OK");
+                }
+              },
+              builder: (context, state) {
+                return AnimatedSize(
+                  duration: const Duration(seconds: 1),
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: AuthModes.values
+                            .map((e) => modeItem(e, state.mode, context))
+                            .toList(),
+                      ),
+                      DefaultFormField(
+                        controller: emailController,
+                        title: StringManger.emailAddress,
+                        fillHint: AutofillHints.email,
+                      ),
+                      passwordsWidgets(state.mode),
+                      Dividers.h10,
+                      SizedBox(
+                          width: double.infinity,
+                          height: 40,
+                          child: ElevatedButton(
+                              onPressed: () => callBack(context),
+                              child: Text(state.mode.getName)))
+                    ],
+                  ),
+                );
+              },
+            ),
           ),
-          Dividers.h15,
-          DefaultFormField(
-            controller: passController,
-            title: StringManger.password,
-          ),
-          Dividers.h10,
-          SizedBox(
-              width: double.infinity,
-              height: 40,
-              child: ElevatedButton(
-                  onPressed: loginCallBack, child: const Text("Login")))
-        ],
+        ),
       );
 
-  void loginCallBack() {
-    print(emailController.text);
-    print(passController.text);
-  }
+  Widget modeItem(AuthModes e, AuthModes mode, BuildContext context) =>
+      Expanded(
+        child: InkWell(
+          onTap: () => context.read<AuthBloc>().add(ChangeAuthModeEvent(e)),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FittedBox(
+                  child: Text(
+                e.getName,
+                style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color:
+                        Theme.of(context).colorScheme.primary.withOpacity(0.8)),
+              )),
+              Visibility(
+                visible: e == mode,
+                child: Transform.rotate(
+                    angle: -math.pi / 2,
+                    child: Icon(Icons.play_arrow_rounded,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.8))),
+              ),
+            ],
+          ),
+        ),
+      );
 
-  void signUpCallBack() {}
+  Widget passwordsWidgets(AuthModes mode) => Visibility(
+        visible: mode != AuthModes.forgetPass,
+        child: Column(
+          children: [
+            Dividers.h15,
+            StatefulBuilder(
+              builder: (_, setState) => DefaultFormField(
+                controller: passController1,
+                title: StringManger.password,
+                isPass: showPass1,
+                suffix: IconButton(
+                  icon: Icon(showPass1 ? Icons.lock_reset : Icons.lock_open),
+                  onPressed: () {
+                    setState(() {
+                      showPass1 = !showPass1;
+                    });
+                  },
+                ),
+              ),
+            ),
+            mode == AuthModes.signUp
+                ? Column(
+                    children: [
+                      Dividers.h15,
+                      StatefulBuilder(
+                        builder: (_, setState) => DefaultFormField(
+                          controller: passController2,
+                          title: StringManger.password2,
+                          isPass: showPass2,
+                          suffix: IconButton(
+                            icon: Icon(
+                                showPass2 ? Icons.lock_reset : Icons.lock_open),
+                            onPressed: () {
+                              setState(() {
+                                showPass2 = !showPass2;
+                              });
+                            },
+                          ),
+                        ),
+                      )
+                    ],
+                  )
+                : Container(),
+          ],
+        ),
+      );
+
+  void callBack(BuildContext context) {
+    Navigator.of(context).pushNamed(Routes.signup);
+    print(emailController.text);
+    print(passController1.text);
+  }
 }

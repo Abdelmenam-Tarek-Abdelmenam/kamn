@@ -12,7 +12,7 @@ class BottomPanel extends StatelessWidget {
     ListItem(
         title: StringManger.userPage,
         icon: FontAwesomeIcons.user,
-        route: Routes.match),
+        route: Routes.user),
     ListItem(
         title: StringManger.match,
         icon: FontAwesomeIcons.football,
@@ -30,13 +30,13 @@ class BottomPanel extends StatelessWidget {
         icon: FontAwesomeIcons.store,
         route: Routes.store),
     ListItem(
-        title: StringManger.customerSupport,
-        icon: Icons.chat,
-        route: Routes.customerSupport),
-    ListItem(
         title: StringManger.tournaments,
-        icon: Icons.wine_bar,
-        route: Routes.match)
+        icon: FontAwesomeIcons.medal,
+        route: Routes.match),
+    ListItem(
+        title: StringManger.leaderBoard,
+        icon: Icons.leaderboard_outlined,
+        route: Routes.leaderBoard),
   ];
 
   @override
