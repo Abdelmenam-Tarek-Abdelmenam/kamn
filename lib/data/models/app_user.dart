@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../presentation/resources/string_manager.dart';
+
 class AppUser {
   String id;
   String? email;
@@ -32,4 +34,46 @@ class AppUser {
   );
 
   bool get isEmpty => id == '';
+}
+
+enum UserCategory {
+  player,
+  coach,
+  referee,
+  fieldOwner;
+
+  @override
+  String toString() {
+    switch (this) {
+      case UserCategory.player:
+        return StringManger.player;
+      case UserCategory.coach:
+        return StringManger.coach;
+      case UserCategory.referee:
+        return StringManger.referee;
+      case UserCategory.fieldOwner:
+        return StringManger.fieldOwner;
+    }
+  }
+}
+
+enum Games {
+  football,
+  basketball,
+  volleyball,
+  tennis;
+
+  @override
+  String toString() {
+    switch (this) {
+      case Games.football:
+        return StringManger.football;
+      case Games.basketball:
+        return StringManger.basketball;
+      case Games.volleyball:
+        return StringManger.volleyball;
+      case Games.tennis:
+        return StringManger.tennis;
+    }
+  }
 }

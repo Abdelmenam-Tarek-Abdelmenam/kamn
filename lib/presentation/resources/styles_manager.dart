@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class StyleManager {
   static final List<BoxShadow> smallShadow = [
     BoxShadow(
-      color: Colors.grey.withOpacity(0.8),
+      color: Colors.grey.withOpacity(0.4),
       spreadRadius: 1,
       blurRadius: 1,
-      offset: const Offset(0, 1), // changes position of shadow
+      offset: const Offset(0, 2), // changes position of shadow
     ),
   ];
   static final List<BoxShadow> bigShadow = [

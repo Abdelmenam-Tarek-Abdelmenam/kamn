@@ -9,6 +9,30 @@ abstract class AuthStatusEvent extends Equatable {
 
 class LoginInUsingGoogleEvent extends AuthStatusEvent {}
 
+class ChangeAuthModeEvent extends AuthStatusEvent {
+  final AuthModes mode;
+  const ChangeAuthModeEvent(this.mode);
+
+  @override
+  List<Object?> get props => [mode];
+}
+
+class ChangeUserCategoryEvent extends AuthStatusEvent {
+  final UserCategory category;
+  const ChangeUserCategoryEvent(this.category);
+
+  @override
+  List<Object?> get props => [category];
+}
+
+class ChangeUserGameEvent extends AuthStatusEvent {
+  final Games game;
+  const ChangeUserGameEvent(this.game);
+
+  @override
+  List<Object?> get props => [game];
+}
+
 class LoginInUsingEmailEvent extends AuthStatusEvent {
   final String email;
   final String password;

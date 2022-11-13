@@ -42,8 +42,7 @@ ThemeData lightThemeData = ThemeData(
   )),
   elevatedButtonTheme: ElevatedButtonThemeData(
       style: ButtonStyle(
-    backgroundColor:
-        MaterialStateProperty.all(ColorManager.lightGrey.withOpacity(0.8)),
+    backgroundColor: MaterialStateProperty.all(ColorManager.mainBlue),
     fixedSize: MaterialStateProperty.all(const Size(120, 30)),
     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
         RoundedRectangleBorder(
@@ -66,7 +65,7 @@ ThemeData lightThemeData = ThemeData(
     onSecondary: ColorManager.lightGrey, // used
     onPrimary: ColorManager.whiteColor, // used
     primary: ColorManager.mainBlue,
-    secondary: ColorManager.lightGrey,
+    secondary: ColorManager.darkGrey, //used
     surface: ColorManager.darkWhite,
     error: ColorManager.darkRed,
     onError: ColorManager.lightRed,

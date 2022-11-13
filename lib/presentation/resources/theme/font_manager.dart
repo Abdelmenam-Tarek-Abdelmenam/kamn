@@ -10,9 +10,9 @@ TextTheme _textTheme(bool dark) => TextTheme(
           fontWeight: FontWeight.w800,
           color: dark ? ColorManager.whiteColor : ColorManager.whiteColor),
       displaySmall: GoogleFonts.alegreyaSans(
-          fontSize: 16,
+          fontSize: 22,
           fontWeight: FontWeight.w700,
-          color: dark ? ColorManager.mainBlue : ColorManager.mainBlue),
+          color: dark ? ColorManager.mainBlue : ColorManager.darkBlue),
       headlineMedium: GoogleFonts.alegreyaSans(
           fontSize: 20,
           fontWeight: FontWeight.w700,
@@ -31,7 +31,7 @@ TextTheme _textTheme(bool dark) => TextTheme(
           fontWeight: FontWeight.w400,
           color: dark ? ColorManager.lightBlue : ColorManager.lightBlue),
       labelLarge:
-          GoogleFonts.alegreyaSans(fontSize: 16, fontWeight: FontWeight.w500),
+          GoogleFonts.alegreyaSans(fontSize: 22, fontWeight: FontWeight.w500),
       labelSmall: GoogleFonts.alegreyaSans(
           fontSize: 14,
           fontWeight: FontWeight.w400,

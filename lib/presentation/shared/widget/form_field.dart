@@ -29,13 +29,12 @@ class DefaultFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: PaddingManager.p8.copyWith(top: 0),
+      padding: PaddingManager.p8.copyWith(top: 2),
       decoration: BoxDecoration(
           borderRadius: StyleManager.border,
           border: Border.all(
               width: 3,
-              color:
-                  Theme.of(context).colorScheme.onSecondary.withOpacity(0.8)),
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.8)),
           color: Colors.transparent),
       child: TextFormField(
         controller: controller,
@@ -45,7 +44,7 @@ class DefaultFormField extends StatelessWidget {
         keyboardType: keyboardType,
         validator: validator,
         style: Theme.of(context).textTheme.labelLarge!.copyWith(
-              color: Theme.of(context).colorScheme.onSecondary.withOpacity(0.8),
+              color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
             ),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(right: 5.0),
@@ -53,27 +52,21 @@ class DefaultFormField extends StatelessWidget {
           errorBorder: InputBorder.none,
           border: UnderlineInputBorder(
               borderSide: BorderSide(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSecondary
-                      .withOpacity(0.8),
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
                   width: 3)),
           enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onSecondary
-                      .withOpacity(0.8),
+                  color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
                   width: 3)),
           suffixIcon: suffix,
           prefixIcon: prefix == null
               ? null
               : Icon(prefix,
-                  size: 20, color: Theme.of(context).colorScheme.onSecondary),
+                  size: 20, color: Theme.of(context).colorScheme.primary),
           labelText: title,
           labelStyle: TextStyle(
             fontSize: 16,
-            color: Theme.of(context).colorScheme.onSecondary.withOpacity(0.8),
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
           ),
         ),
       ),

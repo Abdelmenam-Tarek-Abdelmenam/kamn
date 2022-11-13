@@ -6,7 +6,6 @@ import 'package:kamn/data/models/app_user.dart';
 
 import 'bloc/auth_bloc/auth_status_bloc.dart';
 import 'bloc/my_bloc_observer.dart';
-import 'bloc/style_bloc/style_bloc.dart';
 import 'data/data_sources/pref_repository.dart';
 import 'presentation/resources/routes_manger.dart';
 import 'presentation/resources/string_manager.dart';
@@ -31,16 +30,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (context) => StyleBloc(),
-          ),
+          // BlocProvider(
+          //   create: (context) => StyleBloc(),
+          // ),
           BlocProvider(
             create: (context) => AuthBloc(user),
           ),
         ],
-        child: BlocBuilder<StyleBloc, StyleBlocState>(
-          builder: (context, state) {
-            StringManger.setLanguage = state.languageMode.index;
+        child: Builder(
+          builder: (context) {
+            // StringManger.setLanguage = 0;
             return
                 // Directionality(
                 // textDirection: state.languageMode.textDirection,
@@ -55,9 +54,9 @@ class MyApp extends StatelessWidget {
               // ],
               title: StringManger.appName,
               theme: lightThemeData,
-              darkTheme: darkThemeData,
+              // darkTheme: darkThemeData,
               debugShowCheckedModeBanner: false,
-              themeMode: state.themeMode,
+              themeMode: ThemeMode.light,
               onGenerateRoute: RouteGenerator.getRoute,
               initialRoute: user.isEmpty ? Routes.login : Routes.landing,
               // ),

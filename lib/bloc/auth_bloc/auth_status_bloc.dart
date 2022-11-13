@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
 
 import '../../data/models/app_user.dart';
 import '../../data/repositories/auth_repository.dart';
@@ -18,6 +19,23 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
     on<SignUpInUsingEmailEvent>(_signUpUsingEmailHandler);
     on<LoginInUsingEmailEvent>(_loginUsingEmailHandler);
     on<ForgetPasswordEvent>(_forgetPasswordHandler);
+    on<ChangeAuthModeEvent>(_changeModeHandler);
+    on<ChangeUserCategoryEvent>(_changeUserCategoryHandler);
+    on<ChangeUserGameEvent>(_changUserGameHandler);
+  }
+
+  void _changeModeHandler(ChangeAuthModeEvent event, Emitter<AuthStates> emit) {
+    emit(state.copyWith(mode: event.mode));
+  }
+
+  void _changeUserCategoryHandler(
+      ChangeUserCategoryEvent event, Emitter<AuthStates> emit) {
+    emit(state.copyWith(category: event.category));
+  }
+
+  void _changUserGameHandler(
+      ChangeUserGameEvent event, Emitter<AuthStates> emit) {
+    emit(state.copyWith(game: event.game));
   }
 
   Future<void> _loginUsingGoogleHandler(
