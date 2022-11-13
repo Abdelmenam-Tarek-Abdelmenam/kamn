@@ -19,14 +19,15 @@ class SignupView extends StatelessWidget {
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
           child: Container(
-            height: 420,
+            // height: 420,
             decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.7),
+                color:
+                    Theme.of(context).colorScheme.onPrimary.withOpacity(0.65),
                 // boxShadow: StyleManager.smallShadow,
                 borderRadius:
                     const BorderRadius.vertical(bottom: Radius.circular(70))),
             child: Padding(
-              padding: PaddingManager.p15,
+              padding: PaddingManager.p15.copyWith(bottom: 50),
               child: signUpWidgets(context),
             ),
           ),

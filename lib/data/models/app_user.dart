@@ -58,6 +58,7 @@ enum UserCategory {
 }
 
 enum Games {
+  gym,
   football,
   basketball,
   volleyball,
@@ -74,6 +75,8 @@ enum Games {
         return StringManger.volleyball;
       case Games.tennis:
         return StringManger.tennis;
+      case Games.gym:
+        return StringManger.gym;
     }
   }
 }

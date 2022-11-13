@@ -35,8 +35,8 @@ class StringManger {
 
   // landing Page
   static String get userPage => ["Profile", "صفحه المستخدم"][langIndex];
-  static String get match => ["Practice matches", "لعب مباراه"][langIndex];
-  static String get coaches => ["Coaches", "المدربين"][langIndex];
+  static String get match => ["Thunder matches", "لعب مباراه"][langIndex];
+  static String get coaches => ["Coaches-GYM", "المدربين"][langIndex];
   static String get benfits => ["Benefits", "الخصومات"][langIndex];
   static String get store => ["Store", "المتجر"][langIndex];
   static String get tournaments => ["Tournaments", "المسابقات"][langIndex];
@@ -51,6 +51,7 @@ class StringManger {
   static String get referee => ["Referee", "حكم"][langIndex];
   static String get fieldOwner => ["Field owner", "صاحب ملعب"][langIndex];
   static String get game => ["Game", "اللعبه"][langIndex];
+  static String get gym => ["GYM", "كمال اجسام"][langIndex];
   static String get football => ["Football", "كره قدم"][langIndex];
   static String get basketball => ["Basketball", "كره سله"][langIndex];
   static String get volleyball => ["Volleyball", "كره طائره"][langIndex];

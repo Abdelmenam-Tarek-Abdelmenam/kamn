@@ -90,9 +90,12 @@ class _SplashViewState extends State<SplashView> {
             : Alignment.bottomCenter,
         child: Padding(
           padding: const EdgeInsets.only(bottom: 30.0),
-          child: Image.asset(
-            AssetsManager.logo,
-            width: MediaQuery.of(context).size.width / 2.5,
+          child: Hero(
+            tag: "KMANLogo",
+            child: Image.asset(
+              AssetsManager.logo,
+              width: MediaQuery.of(context).size.width / 2.5,
+            ),
           ),
         ),
       );

@@ -39,9 +39,12 @@ class GradientScaffold extends StatelessWidget {
                 alignment: Alignment.bottomCenter,
                 child: Padding(
                   padding: const EdgeInsets.only(bottom: 20.0),
-                  child: Image.asset(
-                    AssetsManager.logo,
-                    width: MediaQuery.of(context).size.width / 2.5,
+                  child: Hero(
+                    tag: "KMANLogo",
+                    child: Image.asset(
+                      AssetsManager.logo,
+                      width: MediaQuery.of(context).size.width / 2.5,
+                    ),
                   ),
                 ),
               ),

@@ -44,8 +44,8 @@ class DefaultFormField extends StatelessWidget {
         keyboardType: keyboardType,
         validator: validator,
         style: Theme.of(context).textTheme.labelLarge!.copyWith(
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
-            ),
+            color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
+            fontSize: 16),
         decoration: InputDecoration(
           contentPadding: const EdgeInsets.only(right: 5.0),
           errorStyle: const TextStyle(fontSize: 10),

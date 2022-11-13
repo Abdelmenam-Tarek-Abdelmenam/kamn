@@ -30,7 +30,7 @@ class LoginPageIcon extends StatelessWidget {
               color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
               shape: BoxShape.circle),
           margin: PaddingManager.p15.copyWith(top: 0),
-          padding: PaddingManager.p15,
+          padding: PaddingManager.p15.copyWith(top: 10),
           child:
               Lottie.asset(LottieManager.login, width: 100, fit: BoxFit.cover),
         );

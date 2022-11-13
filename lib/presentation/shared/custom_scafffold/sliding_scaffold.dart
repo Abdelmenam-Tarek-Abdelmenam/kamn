@@ -5,7 +5,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import '../../resources/styles_manager.dart';
 import 'widgets/bottom_panel.dart';
 
-const double panelHeight = 26;
+const double panelHeight = 20;
 
 class SlidingScaffold extends StatelessWidget {
   const SlidingScaffold({required this.child, required this.title, Key? key})
@@ -20,6 +20,7 @@ class SlidingScaffold extends StatelessWidget {
         child: Scaffold(
           backgroundColor: Colors.transparent,
           appBar: AppBar(
+            centerTitle: true,
             backgroundColor: Colors.transparent,
             elevation: 0,
             title: Text(title),
@@ -43,7 +44,9 @@ class SlidingScaffold extends StatelessWidget {
               ),
               child: BottomPanel(),
             ),
-            body: child,
+            body: Column(
+              children: [whiteDivider(context), child],
+            ),
           ),
         ),
       ),
@@ -52,7 +55,7 @@ class SlidingScaffold extends StatelessWidget {
 
   Widget whiteDivider(BuildContext context) => Divider(
         thickness: 2,
-        height: 0,
+        height: 1,
         color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.5),
       );
 
@@ -63,7 +66,7 @@ class SlidingScaffold extends StatelessWidget {
           borderRadius: StyleManager.border.copyWith(
               bottomLeft: const Radius.circular(0),
               bottomRight: const Radius.circular(0)),
-          color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.9),
+          color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.80),
         ),
         child: Padding(
           padding: const EdgeInsets.only(top: 5.0),
@@ -78,7 +81,7 @@ class SlidingScaffold extends StatelessWidget {
               separatorBuilder: (_, __) => const SizedBox(
                     height: 3,
                   ),
-              itemCount: 3),
+              itemCount: 2),
         ),
       );
 }

@@ -22,8 +22,8 @@ class LoginView extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passController1 = TextEditingController();
   final TextEditingController passController2 = TextEditingController();
-  bool showPass1 = false;
-  bool showPass2 = false;
+  bool showPass1 = true;
+  bool showPass2 = true;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +48,7 @@ class LoginView extends StatelessWidget {
               child: SizedBox(
                 width: double.infinity,
                 child: Padding(
-                  padding: PaddingManager.p15,
+                  padding: PaddingManager.p15.copyWith(top: 0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
