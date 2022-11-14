@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kamn/presentation/resources/asstes_manager.dart';
+import 'package:kamn/presentation/shared/widget/dividers.dart';
 import 'package:kamn/presentation/shared/widget/error_image.dart';
 
 import '../../../../data/models/product.dart';
@@ -11,8 +12,11 @@ class ProductDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double width = MediaQuery.of(context).size.width / 2 - 30;
     return Container(
       margin: const EdgeInsets.all(5.0),
+      width: width > 200 ? 200 : width,
+      height: 200,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.65),
         borderRadius: StyleManager.border,
@@ -28,7 +32,8 @@ class ProductDesign extends StatelessWidget {
                   Hero(
                     tag: item.id,
                     child: ClipRRect(
-                      borderRadius: StyleManager.border, // Image border
+                      borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(10)), // Image border
                       child: item.img == ""
                           ? Image.asset(
                               AssetsManager.noProductImage,
@@ -48,38 +53,42 @@ class ProductDesign extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          item.name,
-                          maxLines: 1,
-                          strutStyle: const StrutStyle(
-                            forceStrutHeight: true,
-                            height: 1.5,
+                        FittedBox(
+                          child: Text(
+                            item.name,
+                            maxLines: 1,
+                            strutStyle: const StrutStyle(
+                              forceStrutHeight: true,
+                              height: 1.5,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
-                          overflow: TextOverflow.ellipsis,
-                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        Dividers.h5,
+                        Text(
+                          item.provider,
+                          style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         Text(
                           "${item.price} EGP",
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
-                        TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              item.provider,
-                              style: Theme.of(context).textTheme.headlineMedium,
-                            ))
                       ],
                     ),
                   )
                 ],
               ),
               Positioned(
-                right: 10,
-                top: constraints.maxHeight * .58 - 10,
-                child: CircleAvatar(
+                right: 5,
+                top: constraints.maxHeight * .58 - 35,
+                child: const CircleAvatar(
                   radius: 20,
-                  backgroundColor: Theme.of(context).primaryColor,
-                  child: const Icon(Icons.add_shopping_cart_sharp),
+                  // backgroundColor: Theme.of(context).primaryColor,
+                  child: Icon(
+                    Icons.add_shopping_cart_sharp,
+                    size: 22,
+                  ),
                 ),
               )
             ],

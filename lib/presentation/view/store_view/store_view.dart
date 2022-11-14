@@ -24,7 +24,10 @@ class StoreView extends StatelessWidget {
                 Padding(
                   padding: PaddingManager.p15,
                   child: ProductList(),
-                )
+                ),
+                const SizedBox(
+                  height: 100,
+                ),
               ],
             ),
           ),

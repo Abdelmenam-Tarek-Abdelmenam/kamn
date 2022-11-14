@@ -67,4 +67,8 @@ class StringManger {
   static String get chat => ["Chat Us", "راسلنا"][langIndex];
   static String get call => ["Call Us", "كلمنا"][langIndex];
   static String get email => ["Email Us", "راسلنا"][langIndex];
+
+  // store
+  static String get addToCard => ["Add to cart", "اضافه للعربه"][langIndex];
+  static String get todayOffer => ["Today offer", "عرض اليوم"][langIndex];
 }

@@ -9,7 +9,7 @@ class ErrorImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
+    return Image.network(
       url,
       height: height,
       width: width,

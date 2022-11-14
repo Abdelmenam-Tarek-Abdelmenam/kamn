@@ -25,4 +25,5 @@ class LottieManager {
   static const login = "${lottiePath}login.json";
   static const signup = "${lottiePath}signup.json";
   static const forgetPassword = "${lottiePath}forgetPassword.json";
+  static const offers = "${lottiePath}offers.zip";
 }

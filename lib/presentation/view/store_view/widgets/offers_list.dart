@@ -1,30 +1,205 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:kamn/data/models/product.dart';
+import 'package:kamn/presentation/resources/asstes_manager.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
+import 'package:kamn/presentation/resources/styles_manager.dart';
+import 'package:kamn/presentation/shared/widget/dividers.dart';
+import 'package:kamn/presentation/shared/widget/error_image.dart';
+import 'package:lottie/lottie.dart';
 
 class OffersList extends StatelessWidget {
   OffersList({Key? key}) : super(key: key);
-  final List<OfferItem> offers = [];
+  final List<OfferItem> offers = [
+    OfferItem(
+      product: Product(
+          name: "FORUM MID SHOES",
+          provider: "Adidas",
+          price: 3249,
+          id: "id",
+          img: testImage1),
+      newPrice: 2500,
+    ),
+    OfferItem(
+      product: Product(
+          name: "Purple shoe",
+          provider: "Nike",
+          price: 125 * 24,
+          id: "id",
+          img: testImage2),
+      newPrice: 2600,
+    ),
+    OfferItem(
+      product: Product(
+          name: "FORUM MID SHOES",
+          provider: "Adidas",
+          price: 3249,
+          id: "id",
+          img: testImage1),
+      newPrice: 2500,
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return offers.isEmpty
-        ? noOffers(context)
-        : CarouselSlider(
-            options: CarouselOptions(
-                height: 200.0,
+    return SizedBox(
+      height: 180,
+      child: offers.isEmpty
+          ? noOffers(context)
+          : CarouselSlider(
+              options: CarouselOptions(
+                enableInfiniteScroll: false,
                 autoPlay: true,
-                enableInfiniteScroll: offers.length != 1),
-            items: offers.map((e) => offerCard(context, e)).toList(),
-          );
+              ),
+              items: offers.map((e) => offerCard(context, e)).toList(),
+            ),
+    );
   }
 
-  Widget noOffers(BuildContext context) => const Text("No offers");
+  Widget noOffers(BuildContext context) => Padding(
+        padding: PaddingManager.p15.copyWith(top: 0),
+        child: Card(
+          color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.3),
+          elevation: 0,
+          child: Stack(
+            children: [
+              Positioned(
+                left: 20,
+                top: -10,
+                child: Transform.rotate(
+                    angle: 2.9,
+                    child: Icon(
+                      Icons.apps,
+                      size: 220,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onPrimary
+                          .withOpacity(0.5),
+                    )),
+              ),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Lottie.asset(
+                      LottieManager.offers,
+                      width: 100,
+                    ),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FittedBox(
+                            child: Text(
+                              "No offers available now",
+                              style: Theme.of(context).textTheme.displayLarge,
+                            ),
+                          ),
+                          Text(
+                            "Come back later",
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.labelLarge,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Dividers.w10
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
 
   Widget offerCard(
     BuildContext context,
     OfferItem item,
   ) {
-    return Text(item.product.name);
+    return Padding(
+      padding: PaddingManager.p2.copyWith(top: 0, bottom: 10),
+      child: Card(
+        color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.3),
+        elevation: 0,
+        child: Stack(
+          children: [
+            Positioned(
+              left: 20,
+              top: -10,
+              child: Transform.rotate(
+                  angle: 2.9,
+                  child: Icon(
+                    Icons.apps,
+                    size: 220,
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onPrimary
+                        .withOpacity(0.5),
+                  )),
+            ),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(50),
+                  topLeft: Radius.circular(50),
+                ),
+                child: Stack(
+                  children: [
+                    SizedBox(
+                        width: 150,
+                        height: 150,
+                        child: ErrorImage(
+                          item.product.img,
+                        )),
+                  ],
+                ),
+              ),
+            ),
+            Transform.rotate(
+              angle: -0.5,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0, bottom: 5),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.product.price.toString(),
+                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
+                          decoration: TextDecoration.lineThrough, fontSize: 16),
+                    ),
+                    Text(item.newPrice.toString(),
+                        style: Theme.of(context).textTheme.displaySmall)
+                  ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: PaddingManager.p2.copyWith(left: 8),
+              child: Text(
+                item.product.name,
+                style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                    fontSize: 16, color: Theme.of(context).colorScheme.primary),
+              ),
+            ),
+            Align(
+                alignment: Alignment.bottomLeft,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(horizontal: 8)),
+                    onPressed: () {},
+                    child: Text(
+                      StringManger.addToCard,
+                      style: const TextStyle(fontSize: 14),
+                    ),
+                  ),
+                )),
+          ],
+        ),
+      ),
+    );
   }
 }
