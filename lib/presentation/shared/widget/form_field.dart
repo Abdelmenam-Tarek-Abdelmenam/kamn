@@ -8,6 +8,7 @@ class DefaultFormField extends StatelessWidget {
       this.fillHint,
       required this.title,
       this.prefix,
+      this.maxLines,
       this.isPass = false,
       this.validator,
       this.keyboardType,
@@ -24,6 +25,7 @@ class DefaultFormField extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final TextInputType? keyboardType;
   final Widget? suffix;
+  final int? maxLines;
   final Function(String)? onChanged;
 
   @override
@@ -40,6 +42,7 @@ class DefaultFormField extends StatelessWidget {
         controller: controller,
         obscureText: isPass,
         onChanged: onChanged,
+        maxLines: maxLines ?? 1,
         autofillHints: fillHint == null ? null : [fillHint!],
         keyboardType: keyboardType,
         validator: validator,

@@ -32,7 +32,7 @@ class BottomPanel extends StatelessWidget {
     ListItem(
         title: StringManger.tournaments,
         icon: FontAwesomeIcons.medal,
-        route: Routes.match),
+        route: Routes.tournaments),
     ListItem(
         title: StringManger.leaderBoard,
         icon: Icons.leaderboard_outlined,

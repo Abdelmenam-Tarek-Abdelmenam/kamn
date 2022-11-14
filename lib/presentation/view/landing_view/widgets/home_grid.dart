@@ -29,7 +29,7 @@ class HomeGrid extends StatelessWidget {
     GridItem(
         title: StringManger.tournaments,
         image: LottieManager.tournaments,
-        route: Routes.match),
+        route: Routes.tournaments),
     GridItem(
         title: StringManger.leaderBoard,
         image: LottieManager.leaderBoard,

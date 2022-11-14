@@ -30,6 +30,10 @@ class StringManger {
       ["Password Verification", "تاكيد الرقم السري"][langIndex];
   static String get signUp => ["Sign up", "انشاء حساب"][langIndex];
   static String get login => ["Login", "دخول الحساب"][langIndex];
+  static String get submit => ["Submit", "تاكيد"][langIndex];
+  static String get message => ["Message", "الرساله"][langIndex];
+  static String get name => ["Name", "الاسم"][langIndex];
+  static String get phone => ["Phone number", "رقم التليفون"][langIndex];
   static String get forgetPassword =>
       ["Forget Password", "نسيت الرقم السري"][langIndex];
 
@@ -56,4 +60,11 @@ class StringManger {
   static String get basketball => ["Basketball", "كره سله"][langIndex];
   static String get volleyball => ["Volleyball", "كره طائره"][langIndex];
   static String get tennis => ["Tennis", "تنس"][langIndex];
+
+  // customer support
+  static String get quickContact =>
+      ["Quick Contact", "التواصل السريع"][langIndex];
+  static String get chat => ["Chat Us", "راسلنا"][langIndex];
+  static String get call => ["Call Us", "كلمنا"][langIndex];
+  static String get email => ["Email Us", "راسلنا"][langIndex];
 }

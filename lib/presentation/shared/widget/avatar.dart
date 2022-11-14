@@ -18,7 +18,6 @@ class Avatar extends StatelessWidget {
           fit: BoxFit.cover,
           width: width,
           height: width,
-          // placeholder: AssetsManager.avatar,
           errorBuilder: (
             _,
             __,

@@ -8,10 +8,10 @@ const testImage4 =
     "https://thumbs.dreamstime.com/b/avatar-man-soccer-player-graphic-sports-clothes-front-view-over-isolated-background-illustration-73244786.jpg";
 
 class RankedUser {
-  String name;
-  String id;
-  String img;
-  int score;
+  final String name;
+  final String id;
+  final String img;
+  final int score;
 
   RankedUser(
       {required this.name,

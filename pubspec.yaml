@@ -38,6 +38,7 @@ dependencies:
   google_fonts: ^3.0.1
   fluttertoast: ^8.1.1
   #widgets
+  carousel_slider: ^4.1.1
   flutter_svg: ^1.1.6
   lottie: ^2.0.0
   sliding_up_panel: ^2.0.0+1

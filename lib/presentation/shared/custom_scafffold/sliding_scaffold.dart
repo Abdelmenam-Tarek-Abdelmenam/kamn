@@ -16,37 +16,35 @@ class SlidingScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GradientContainer(
-      SafeArea(
-        child: Scaffold(
+      Scaffold(
+        resizeToAvoidBottomInset: true,
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          centerTitle: true,
           backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            title: Text(title),
-          ),
-          body: SlidingUpPanel(
-            color: Colors.transparent,
-            boxShadow: const [],
-            collapsed: collapsedBuilder(context),
-            maxHeight: 375,
-            minHeight: panelHeight,
-            margin: const EdgeInsets.symmetric(horizontal: 30),
-            panel: Container(
-              padding: PaddingManager.p15,
-              margin: const EdgeInsets.only(top: panelHeight),
-              decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(
-                  top: Radius.circular(25),
-                ),
-                color:
-                    Theme.of(context).colorScheme.onPrimary.withOpacity(0.95),
+          elevation: 0,
+          title: Text(title),
+        ),
+        body: SlidingUpPanel(
+          color: Colors.transparent,
+          boxShadow: const [],
+          collapsed: collapsedBuilder(context),
+          maxHeight: 375,
+          minHeight: panelHeight,
+          margin: const EdgeInsets.symmetric(horizontal: 30),
+          panel: Container(
+            padding: PaddingManager.p15,
+            margin: const EdgeInsets.only(top: panelHeight),
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(25),
               ),
-              child: BottomPanel(),
+              color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.95),
             ),
-            body: Column(
-              children: [whiteDivider(context), child],
-            ),
+            child: BottomPanel(),
+          ),
+          body: Column(
+            children: [whiteDivider(context), child],
           ),
         ),
       ),

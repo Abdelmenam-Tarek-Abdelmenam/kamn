@@ -3,9 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../presentation/resources/string_manager.dart';
 
 class AppUser {
-  String id;
-  String? email;
-  String? photoUrl;
+  final String id;
+  final String? email;
+  final String? photoUrl;
   String? name;
 
   AppUser({
