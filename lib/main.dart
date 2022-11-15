@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kamn/data/models/app_user.dart';
 
 import 'bloc/auth_bloc/auth_status_bloc.dart';
+import 'bloc/benfits_bloc/benfits_bloc.dart';
 import 'bloc/my_bloc_observer.dart';
 import 'data/data_sources/fcm.dart';
 import 'data/data_sources/pref_repository.dart';
@@ -34,6 +35,9 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => AuthBloc(user),
+          ),
+          BlocProvider(
+            create: (context) => BenfitsBloc(),
           ),
         ],
         child: MaterialApp(

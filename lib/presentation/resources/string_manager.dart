@@ -9,6 +9,7 @@ class StringManger {
 
   // application info
   static String get appName => ["K.A.M.N", "كامن"][langIndex];
+  static String get all => ["All", "الكل"][langIndex];
   static String get en => ["EN", "انجيزي"][langIndex];
   static String get ar => ["AR", "عربي"][langIndex];
   static String get system => ["System", "النظام"][langIndex];
@@ -67,4 +68,11 @@ class StringManger {
   static String get chat => ["Chat Us", "راسلنا"][langIndex];
   static String get call => ["Call Us", "كلمنا"][langIndex];
   static String get email => ["Email Us", "راسلنا"][langIndex];
+
+  // benfits
+  static String get medical => ["Medical", "طبي"][langIndex];
+  static String get sport => ["Benfits", "رياضي"][langIndex];
+  static String get orthopedist => ["Orthopedist", "دكتور عظام"][langIndex];
+  static String get physiotherapist =>
+      ["Physiotherapist", "علاج طبيعي"][langIndex];
 }
