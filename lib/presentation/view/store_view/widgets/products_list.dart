@@ -7,41 +7,19 @@ class ProductList extends StatelessWidget {
   ProductList({Key? key}) : super(key: key);
   final List<Product> products = [
     Product(
-        name: "FORUM MID SHOES",
-        provider: "Adidas",
-        price: 3249,
-        id: "id",
+        name: "T-Shirt",
+        provider: "KAMN",
+        price: 250,
+        id: "5",
         img: testImage1),
     Product(
-        name: "Purple shoe",
-        provider: "Nike",
-        price: 125 * 24,
-        id: "id",
+        name: "KAMN Hat",
+        provider: "KAMN",
+        price: 70,
+        id: "6",
         img: testImage2),
     Product(
-        name: "FORUM MID SHOES",
-        provider: "Adidas",
-        price: 3249,
-        id: "id",
-        img: testImage1),
-    Product(
-        name: "Purple shoe",
-        provider: "Nike",
-        price: 125 * 24,
-        id: "id",
-        img: testImage2),
-    Product(
-        name: "FORUM MID SHOES",
-        provider: "Adidas",
-        price: 3249,
-        id: "id",
-        img: testImage1),
-    Product(
-        name: "Purple shoe",
-        provider: "Nike",
-        price: 125 * 24,
-        id: "id",
-        img: testImage2),
+        name: "Bottle", provider: "KAMN", price: 50, id: "7", img: testImage3),
   ];
 
   @override

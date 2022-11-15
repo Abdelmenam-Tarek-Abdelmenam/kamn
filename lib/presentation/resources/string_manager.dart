@@ -40,7 +40,7 @@ class StringManger {
   // landing Page
   static String get userPage => ["Profile", "صفحه المستخدم"][langIndex];
   static String get match => ["Thunder matches", "لعب مباراه"][langIndex];
-  static String get coaches => ["Coaches-GYM", "المدربين"][langIndex];
+  static String get coaches => ["Coaches-Gyms", "المدربين"][langIndex];
   static String get benfits => ["Benefits", "الخصومات"][langIndex];
   static String get store => ["Store", "المتجر"][langIndex];
   static String get tournaments => ["Tournaments", "المسابقات"][langIndex];
@@ -67,8 +67,4 @@ class StringManger {
   static String get chat => ["Chat Us", "راسلنا"][langIndex];
   static String get call => ["Call Us", "كلمنا"][langIndex];
   static String get email => ["Email Us", "راسلنا"][langIndex];
-
-  // store
-  static String get addToCard => ["Add to cart", "اضافه للعربه"][langIndex];
-  static String get todayOffer => ["Today offer", "عرض اليوم"][langIndex];
 }

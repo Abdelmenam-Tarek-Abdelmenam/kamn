@@ -6,6 +6,7 @@ import 'package:kamn/data/models/app_user.dart';
 
 import 'bloc/auth_bloc/auth_status_bloc.dart';
 import 'bloc/my_bloc_observer.dart';
+import 'data/data_sources/fcm.dart';
 import 'data/data_sources/pref_repository.dart';
 import 'presentation/resources/routes_manger.dart';
 import 'presentation/resources/string_manager.dart';
@@ -15,6 +16,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PreferenceRepository.init();
   await Firebase.initializeApp();
+  FireNotificationHelper((_) {});
   Bloc.observer = MyBlocObserver();
 
   User? user = FirebaseAuth.instance.currentUser;
@@ -30,38 +32,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
         providers: [
-          // BlocProvider(
-          //   create: (context) => StyleBloc(),
-          // ),
           BlocProvider(
             create: (context) => AuthBloc(user),
           ),
         ],
-        child: Builder(
-          builder: (context) {
-            // StringManger.setLanguage = 0;
-            return
-                // Directionality(
-                // textDirection: state.languageMode.textDirection,
-                // child:
-                MaterialApp(
-              // locale: state.languageMode.locale,
-              // supportedLocales: LanguageMode.values.map((e) => e.locale),
-              // localizationsDelegates: const [
-              //   GlobalMaterialLocalizations.delegate,
-              //   GlobalWidgetsLocalizations.delegate,
-              //   GlobalCupertinoLocalizations.delegate,
-              // ],
-              title: StringManger.appName,
-              theme: lightThemeData,
-              // darkTheme: darkThemeData,
-              debugShowCheckedModeBanner: false,
-              themeMode: ThemeMode.light,
-              onGenerateRoute: RouteGenerator.getRoute,
-              initialRoute: user.isEmpty ? Routes.login : Routes.landing,
-              // ),
-            );
-          },
+        child: MaterialApp(
+          title: StringManger.appName,
+          theme: lightThemeData,
+          debugShowCheckedModeBanner: false,
+          themeMode: ThemeMode.light,
+          onGenerateRoute: RouteGenerator.getRoute,
+          initialRoute: user.isEmpty ? Routes.login : Routes.landing,
+          // ),
         ),
       );
 }

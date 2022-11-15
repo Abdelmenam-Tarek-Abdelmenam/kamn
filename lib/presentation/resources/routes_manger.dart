@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kamn/data/models/product.dart';
 import 'package:kamn/presentation/view/benefits_view/benefits_view.dart';
 import 'package:kamn/presentation/view/landing_view/landing_view.dart';
 import 'package:kamn/presentation/view/login_view/login_view.dart';
@@ -9,6 +10,7 @@ import '../view/customer_support_view/customer_support_view.dart';
 import '../view/leader_board_view/leader_board_view.dart';
 import '../view/login_view/signup_view.dart';
 import '../view/matches_view/matches_view.dart';
+import '../view/store_view/product_view.dart';
 import '../view/store_view/store_view.dart';
 import '../view/tournaments_view/tournaments_view.dart';
 
@@ -25,6 +27,7 @@ class Routes {
   static const String leaderBoard = "/leaderBoard";
   static const String customerSupport = "/customerSupport";
   static const String signup = "/signup";
+  static const String product = "/ProductView";
 }
 
 class RouteGenerator {
@@ -56,6 +59,9 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => const TournamentsView());
       case Routes.user:
         return MaterialPageRoute(builder: (_) => const UserView());
+      case Routes.product:
+        return MaterialPageRoute(
+            builder: (_) => ProductView(settings.arguments as Product));
       default:
         return unDefinedRoute();
     }

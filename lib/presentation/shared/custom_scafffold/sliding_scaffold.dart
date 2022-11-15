@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
+import 'package:kamn/presentation/resources/theme/theme_manager.dart';
 import 'package:kamn/presentation/shared/custom_scafffold/widgets/gradient_container.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 import '../../resources/styles_manager.dart';
 import 'widgets/bottom_panel.dart';
 
-const double panelHeight = 20;
+const double panelHeight = 25;
 
 class SlidingScaffold extends StatelessWidget {
-  const SlidingScaffold({required this.child, required this.title, Key? key})
+  const SlidingScaffold(
+      {required this.child,
+      required this.title,
+      this.bottomNavigationBar,
+      this.floatingActionButton,
+      Key? key})
       : super(key: key);
   final Widget child;
+  final Widget? floatingActionButton;
+  final List<Widget>? bottomNavigationBar;
   final String title;
 
   @override
   Widget build(BuildContext context) {
     return GradientContainer(
       Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: floatingActionButton,
+        bottomNavigationBar:
+            bottomNavigationBar == null ? null : bottomBar(context),
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.transparent,
         appBar: AppBar(
@@ -25,31 +39,51 @@ class SlidingScaffold extends StatelessWidget {
           elevation: 0,
           title: Text(title),
         ),
-        body: SlidingUpPanel(
-          color: Colors.transparent,
-          boxShadow: const [],
-          collapsed: collapsedBuilder(context),
-          maxHeight: 375,
-          minHeight: panelHeight,
-          margin: const EdgeInsets.symmetric(horizontal: 30),
-          panel: Container(
-            padding: PaddingManager.p15,
-            margin: const EdgeInsets.only(top: panelHeight),
-            decoration: BoxDecoration(
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(25),
-              ),
-              color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.95),
-            ),
-            child: BottomPanel(),
-          ),
-          body: Column(
-            children: [whiteDivider(context), child],
-          ),
-        ),
+        body: bottomNavigationBar == null
+            ? SlidingUpPanel(
+                color: Colors.transparent,
+                boxShadow: const [],
+                collapsed: collapsedBuilder(context),
+                maxHeight: 375,
+                minHeight: panelHeight,
+                margin: const EdgeInsets.symmetric(horizontal: 30),
+                panel: Container(
+                  padding: PaddingManager.p15,
+                  margin: const EdgeInsets.only(top: panelHeight),
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.vertical(
+                      top: Radius.circular(25),
+                    ),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onPrimary
+                        .withOpacity(0.95),
+                  ),
+                  child: BottomPanel(),
+                ),
+                body: lastChild(context),
+              )
+            : lastChild(context),
       ),
     );
   }
+
+  Widget bottomBar(BuildContext context) => BottomAppBar(
+        color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.65),
+        shape: const CircularNotchedRectangle(), //shape of notch
+        notchMargin: 4,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 4),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: bottomNavigationBar!,
+          ),
+        ),
+      );
+
+  Widget lastChild(BuildContext context) => Column(
+        children: [whiteDivider(context), child],
+      );
 
   Widget whiteDivider(BuildContext context) => Divider(
         thickness: 2,
@@ -67,19 +101,31 @@ class SlidingScaffold extends StatelessWidget {
           color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.80),
         ),
         child: Padding(
-          padding: const EdgeInsets.only(top: 5.0),
-          child: ListView.separated(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (_, __) => Divider(
-                    thickness: 1.5,
-                    height: 2.5,
-                    color: Theme.of(context).colorScheme.onBackground,
-                  ),
-              separatorBuilder: (_, __) => const SizedBox(
-                    height: 3,
-                  ),
-              itemCount: 2),
+          padding: const EdgeInsets.only(top: 5.0, bottom: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Icon(
+                Icons.arrow_upward_sharp,
+                color: ColorManager.mainBlue.withOpacity(0.8),
+                size: 15,
+              ),
+              Text(
+                StringManger.appName,
+                style: GoogleFonts.acme(
+                  letterSpacing: 2,
+                  fontWeight: FontWeight.w600,
+                  color: ColorManager.mainBlue.withOpacity(0.8),
+                  fontSize: 14,
+                ),
+              ),
+              Icon(
+                Icons.arrow_upward_sharp,
+                color: ColorManager.mainBlue.withOpacity(0.8),
+                size: 15,
+              ),
+            ],
+          ),
         ),
       );
 }

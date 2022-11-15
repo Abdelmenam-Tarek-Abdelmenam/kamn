@@ -19,7 +19,7 @@ class StyleManager {
   ];
 
   static const BorderRadius border = BorderRadius.all(
-    Radius.circular(8),
+    Radius.circular(10),
   );
 
   static const Radius radius10 = Radius.circular(10);

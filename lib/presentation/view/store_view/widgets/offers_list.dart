@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:kamn/data/models/product.dart';
 import 'package:kamn/presentation/resources/asstes_manager.dart';
-import 'package:kamn/presentation/resources/string_manager.dart';
+import 'package:kamn/presentation/resources/routes_manger.dart';
 import 'package:kamn/presentation/resources/styles_manager.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
 import 'package:kamn/presentation/shared/widget/error_image.dart';
@@ -13,30 +13,12 @@ class OffersList extends StatelessWidget {
   final List<OfferItem> offers = [
     OfferItem(
       product: Product(
-          name: "FORUM MID SHOES",
-          provider: "Adidas",
-          price: 3249,
-          id: "id",
+          name: "KAMN T-Shirt",
+          provider: "KAMN",
+          price: 250,
+          id: "1",
           img: testImage1),
-      newPrice: 2500,
-    ),
-    OfferItem(
-      product: Product(
-          name: "Purple shoe",
-          provider: "Nike",
-          price: 125 * 24,
-          id: "id",
-          img: testImage2),
-      newPrice: 2600,
-    ),
-    OfferItem(
-      product: Product(
-          name: "FORUM MID SHOES",
-          provider: "Adidas",
-          price: 3249,
-          id: "id",
-          img: testImage1),
-      newPrice: 2500,
+      newPrice: 200,
     ),
   ];
 
@@ -118,86 +100,95 @@ class OffersList extends StatelessWidget {
   ) {
     return Padding(
       padding: PaddingManager.p2.copyWith(top: 0, bottom: 10),
-      child: Card(
-        color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.3),
-        elevation: 0,
-        child: Stack(
-          children: [
-            Positioned(
-              left: 20,
-              top: -10,
-              child: Transform.rotate(
-                  angle: 2.9,
-                  child: Icon(
-                    Icons.apps,
-                    size: 220,
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onPrimary
-                        .withOpacity(0.5),
-                  )),
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: ClipRRect(
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(50),
-                  topLeft: Radius.circular(50),
-                ),
-                child: Stack(
-                  children: [
-                    SizedBox(
-                        width: 150,
-                        height: 150,
-                        child: ErrorImage(
-                          item.product.img,
-                        )),
-                  ],
-                ),
+      child: InkWell(
+        onTap: () => Navigator.of(context).pushNamed(Routes.product,
+            arguments: (item.product..price = item.newPrice)),
+        child: Card(
+          color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.3),
+          elevation: 0,
+          child: Stack(
+            children: [
+              Positioned(
+                left: 20,
+                top: -10,
+                child: Transform.rotate(
+                    angle: 2.9,
+                    child: Icon(
+                      Icons.apps,
+                      size: 220,
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onPrimary
+                          .withOpacity(0.5),
+                    )),
               ),
-            ),
-            Transform.rotate(
-              angle: -0.5,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 15.0, bottom: 5),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      item.product.price.toString(),
-                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                          decoration: TextDecoration.lineThrough, fontSize: 16),
-                    ),
-                    Text(item.newPrice.toString(),
-                        style: Theme.of(context).textTheme.displaySmall)
-                  ],
-                ),
-              ),
-            ),
-            Padding(
-              padding: PaddingManager.p2.copyWith(left: 8),
-              child: Text(
-                item.product.name,
-                style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                    fontSize: 16, color: Theme.of(context).colorScheme.primary),
-              ),
-            ),
-            Align(
-                alignment: Alignment.bottomLeft,
-                child: Padding(
-                  padding: const EdgeInsets.only(left: 8.0),
-                  child: OutlinedButton(
-                    style: OutlinedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(horizontal: 8)),
-                    onPressed: () {},
-                    child: Text(
-                      StringManger.addToCard,
-                      style: const TextStyle(fontSize: 14),
-                    ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    bottomLeft: Radius.circular(50),
+                    topLeft: Radius.circular(50),
                   ),
-                )),
-          ],
+                  child: Stack(
+                    children: [
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width / 2,
+                          height: 150,
+                          child: ErrorImage(
+                            item.product.img,
+                          )),
+                    ],
+                  ),
+                ),
+              ),
+              Transform.rotate(
+                angle: -0.5,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 5.0, top: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${item.product.price} EGP",
+                        style: Theme.of(context)
+                            .textTheme
+                            .displaySmall!
+                            .copyWith(
+                                decoration: TextDecoration.lineThrough,
+                                fontSize: 16),
+                      ),
+                      Text("${item.newPrice} EGP",
+                          style: Theme.of(context).textTheme.displaySmall)
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: PaddingManager.p2.copyWith(left: 8),
+                child: Text(
+                  item.product.name,
+                  style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                      fontSize: 16,
+                      color: Theme.of(context).colorScheme.primary),
+                ),
+              ),
+              // Align(
+              //     alignment: Alignment.bottomLeft,
+              //     child: Padding(
+              //       padding: const EdgeInsets.only(left: 8.0),
+              //       child: OutlinedButton(
+              //         style: OutlinedButton.styleFrom(
+              //             padding: const EdgeInsets.symmetric(horizontal: 8)),
+              //         onPressed: () {},
+              //         child: Text(
+              //           StringManger.addToCard,
+              //           style: const TextStyle(fontSize: 14),
+              //         ),
+              //       ),
+              //     )),
+            ],
+          ),
         ),
       ),
     );

@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ErrorImage extends StatelessWidget {
-  const ErrorImage(this.url, {this.width, this.height, Key? key})
+  const ErrorImage(this.url,
+      {this.width, this.height, this.fit = BoxFit.cover, Key? key})
       : super(key: key);
   final String url;
   final double? width;
   final double? height;
+  final BoxFit fit;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,7 @@ class ErrorImage extends StatelessWidget {
       url,
       height: height,
       width: width,
-      fit: BoxFit.fill,
+      fit: fit,
       errorBuilder: (
         _,
         __,

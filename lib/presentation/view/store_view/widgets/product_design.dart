@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:kamn/presentation/resources/asstes_manager.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
 import 'package:kamn/presentation/shared/widget/error_image.dart';
-
 import '../../../../data/models/product.dart';
+import '../../../resources/routes_manger.dart';
+
 import '../../../resources/styles_manager.dart';
 
 class ProductDesign extends StatelessWidget {
@@ -22,7 +23,8 @@ class ProductDesign extends StatelessWidget {
         borderRadius: StyleManager.border,
       ),
       child: InkWell(
-        onTap: () {},
+        onTap: () =>
+            Navigator.of(context).pushNamed(Routes.product, arguments: item),
         child: LayoutBuilder(
           builder: (context, constraints) => Stack(
             children: [
@@ -39,7 +41,7 @@ class ProductDesign extends StatelessWidget {
                               AssetsManager.noProductImage,
                               height: constraints.maxHeight * .58,
                               width: double.infinity,
-                              fit: BoxFit.fill,
+                              fit: BoxFit.cover,
                             )
                           : ErrorImage(
                               item.img,
@@ -79,18 +81,18 @@ class ProductDesign extends StatelessWidget {
                   )
                 ],
               ),
-              Positioned(
-                right: 5,
-                top: constraints.maxHeight * .58 - 35,
-                child: const CircleAvatar(
-                  radius: 20,
-                  // backgroundColor: Theme.of(context).primaryColor,
-                  child: Icon(
-                    Icons.add_shopping_cart_sharp,
-                    size: 22,
-                  ),
-                ),
-              )
+              // Positioned(
+              //   right: 5,
+              //   top: constraints.maxHeight * .58 - 35,
+              //   child: const CircleAvatar(
+              //     radius: 20,
+              //     // backgroundColor: Theme.of(context).primaryColor,
+              //     child: Icon(
+              //       Icons.add_shopping_cart_sharp,
+              //       size: 22,
+              //     ),
+              //   ),
+              // )
             ],
           ),
         ),

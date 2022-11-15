@@ -20,6 +20,7 @@ class LottieManager {
   static const store = "${lottiePath}store.zip";
   static const leaderBoard = "${lottiePath}leaderBoard.zip";
   static const tournaments = "${lottiePath}tournaments.zip";
+  static const noTournaments = "${lottiePath}noTournaments.zip";
   static const customerSupport = "${lottiePath}customerSupport.zip";
   static const quickContact = "${lottiePath}quickContact.zip";
   static const login = "${lottiePath}login.json";

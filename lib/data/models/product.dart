@@ -1,13 +1,15 @@
 const testImage1 =
-    "https://assets.adidas.com/images/w_1880,f_auto,q_auto/c9fdf27c73cc481aa8efacb6002c81bc_9366/FY7939_01_standard.jpg";
+    "https://firebasestorage.googleapis.com/v0/b/kamn-bd641.appspot.com/o/products%2FWhatsApp%20Image%202022-11-15%20at%207.36.48%20PM.jpeg?alt=media&token=c8da1a4d-ba05-4c1e-832a-10eb7d188d48";
 const testImage2 =
-    "https://static.nike.com/a/images/c_limit,w_592,f_auto/t_product_v1/dc36a688-526a-40a7-b412-40e734a74487/dunk-high-retro-mens-shoe-dTVTCk.png";
+    "https://firebasestorage.googleapis.com/v0/b/kamn-bd641.appspot.com/o/products%2FWhatsApp%20Image%202022-11-15%20at%208.20.49%20PM.jpeg?alt=media&token=6d6f86a6-0b1c-4767-b321-b3235cec1f51";
+const testImage3 =
+    "https://firebasestorage.googleapis.com/v0/b/kamn-bd641.appspot.com/o/products%2FWhatsApp%20Image%202022-11-15%20at%208.20.57%20PM.jpeg?alt=media&token=1763b777-835c-4453-8067-27c4e985d20e";
 
 class Product {
   final String name;
   final String provider;
   final String? _picture;
-  final double price;
+  double price;
   final String id;
 
   String get img => _picture ?? "";
