@@ -1,16 +1,18 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:kamn/data/models/app_user.dart';
+import 'package:kamn/data/models/coach.dart';
+import 'package:kamn/data/models/gym.dart';
 
-import '../../data/models/benfits.dart';
 import '../../presentation/resources/string_manager.dart';
 
-part 'benfits_event.dart';
-part 'benfits_state.dart';
+part 'coaches_event.dart';
+part 'coaches_state.dart';
 
-class BenfitsBloc extends Bloc<BenfitsEvent, BenfitsState> {
-  BenfitsBloc() : super(BenfitsState.initial()) {
+class CoachesBloc extends Bloc<CoachesEvent, CoachesState> {
+  CoachesBloc() : super(CoachesState.initial()) {
     on<ChangeViewTypeEvent>(_changeViewTypeHandler);
     on<ChangeViewFilterEvent>(_changeViewFilterHandler);
   }

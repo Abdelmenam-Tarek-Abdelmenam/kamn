@@ -58,6 +58,7 @@ enum UserCategory {
 }
 
 enum Games {
+  all,
   gym,
   football,
   basketball,
@@ -67,6 +68,8 @@ enum Games {
   @override
   String toString() {
     switch (this) {
+      case Games.all:
+        return StringManger.all;
       case Games.football:
         return StringManger.football;
       case Games.basketball:

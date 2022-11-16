@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../bloc/coaches_bloc/coaches_bloc.dart';
 import '../../resources/string_manager.dart';
 import '../../shared/custom_scafffold/sliding_scaffold.dart';
+import 'widgets/coaches_list.dart';
+import 'widgets/gyms_list.dart';
 
 class CoachesView extends StatefulWidget {
   const CoachesView({Key? key}) : super(key: key);
@@ -27,19 +31,38 @@ class _CoachesViewState extends State<CoachesView> {
               color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
             ),
             onPressed: () {}),
-        bottomNavigationBar: bottomBar(context),
-        child: Container());
+        bottomNavigationBar:
+            bottomBar(context, context.watch<CoachesBloc>().state.type),
+        child: Expanded(
+          child: ListView(
+            children: [
+              BlocBuilder<CoachesBloc, CoachesState>(
+                // buildWhen: (prev, next) => prev.type != next.type,
+                builder: (context, state) {
+                  if (state.type == CoachesType.coach) {
+                    return CoachesList(state.coaches);
+                  } else {
+                    return GymsList(state.gyms);
+                  }
+                },
+              ),
+              const SizedBox(
+                height: 100,
+              ),
+            ],
+          ),
+        ));
   }
 
-  List<Widget> bottomBar(BuildContext context) => List.generate(
-      2,
-      (i) => SizedBox(
+  List<Widget> bottomBar(BuildContext context, CoachesType type) => CoachesType
+      .values
+      .map((i) => SizedBox(
             width: 120,
             child: TextButton.icon(
               style: TextButton.styleFrom(
                   foregroundColor:
                       Theme.of(context).colorScheme.primary.withOpacity(0.65),
-                  backgroundColor: index == i
+                  backgroundColor: i == type
                       ? Theme.of(context).colorScheme.primary.withOpacity(0.2)
                       : null,
                   shape: RoundedRectangleBorder(
@@ -48,23 +71,19 @@ class _CoachesViewState extends State<CoachesView> {
               icon: Padding(
                 padding: const EdgeInsets.only(right: 4.0),
                 child: Icon(
-                  [
-                    FontAwesomeIcons.handshakeAngle,
-                    FontAwesomeIcons.dumbbell
-                  ][i],
+                  i.toIcon(),
                   size: 25,
                 ),
               ),
               label: Text(
-                [StringManger.coach, StringManger.gym][i],
+                i.toString(),
                 style:
                     const TextStyle(fontWeight: FontWeight.w100, fontSize: 16),
               ),
               onPressed: () {
-                setState(() {
-                  index = i;
-                });
+                context.read<CoachesBloc>().add(ChangeViewTypeEvent(i));
               },
             ),
-          )).toList();
+          ))
+      .toList();
 }

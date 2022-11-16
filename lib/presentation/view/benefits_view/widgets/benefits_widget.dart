@@ -34,7 +34,7 @@ class BenfitsWidget extends StatelessWidget {
                               },
                               label: Text(e.toString()),
                               selected:
-                                  context.watch<BenfitsBloc>().state.filter ==
+                                  context.read<BenfitsBloc>().state.filter ==
                                       e),
                         ),
                       ))
@@ -44,7 +44,7 @@ class BenfitsWidget extends StatelessWidget {
             .map((e) => isMedical &&
                     context.read<BenfitsBloc>().state.filter != DoctorType.all
                 ? Visibility(
-                    visible: context.watch<BenfitsBloc>().state.filter ==
+                    visible: context.read<BenfitsBloc>().state.filter ==
                         (e as MedicalBenefit).type,
                     child: BenefitDesign(e))
                 : BenefitDesign(e))

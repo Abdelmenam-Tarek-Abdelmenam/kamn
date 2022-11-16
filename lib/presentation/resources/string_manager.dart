@@ -56,7 +56,7 @@ class StringManger {
   static String get referee => ["Referee", "حكم"][langIndex];
   static String get fieldOwner => ["Field owner", "صاحب ملعب"][langIndex];
   static String get game => ["Game", "اللعبه"][langIndex];
-  static String get gym => ["GYM", "كمال اجسام"][langIndex];
+  static String get gym => ["Gym", "كمال اجسام"][langIndex];
   static String get football => ["Football", "كره قدم"][langIndex];
   static String get basketball => ["Basketball", "كره سله"][langIndex];
   static String get volleyball => ["Volleyball", "كره طائره"][langIndex];
@@ -75,4 +75,16 @@ class StringManger {
   static String get orthopedist => ["Orthopedist", "دكتور عظام"][langIndex];
   static String get physiotherapist =>
       ["Physiotherapist", "علاج طبيعي"][langIndex];
+
+  // matches
+  static String get ground => ["Grounds", "الملاعب"][langIndex];
+  static String get active => ["active", "المتاح"][langIndex];
+  static String get noGrounds =>
+      ["No available ground now", "لا يوجد ملاعب متاحه"][langIndex];
+  static String get noGyms =>
+      ["No available gyms now", "لا يوجد صالات متاحه"][langIndex];
+  static String get noCoaches =>
+      ["No available coaches now", "لا يوجد مدربين متاحه"][langIndex];
+  static String get noMatches =>
+      ["No available matches now", "لا العاب مفتوحه"][langIndex];
 }

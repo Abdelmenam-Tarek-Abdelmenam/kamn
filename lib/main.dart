@@ -6,6 +6,8 @@ import 'package:kamn/data/models/app_user.dart';
 
 import 'bloc/auth_bloc/auth_status_bloc.dart';
 import 'bloc/benfits_bloc/benfits_bloc.dart';
+import 'bloc/coaches_bloc/coaches_bloc.dart';
+import 'bloc/matches_bloc/matches_bloc.dart';
 import 'bloc/my_bloc_observer.dart';
 import 'data/data_sources/fcm.dart';
 import 'data/data_sources/pref_repository.dart';
@@ -38,6 +40,12 @@ class MyApp extends StatelessWidget {
           ),
           BlocProvider(
             create: (context) => BenfitsBloc(),
+          ),
+          BlocProvider(
+            create: (context) => MatchesBloc(),
+          ),
+          BlocProvider(
+            create: (context) => CoachesBloc(),
           ),
         ],
         child: MaterialApp(

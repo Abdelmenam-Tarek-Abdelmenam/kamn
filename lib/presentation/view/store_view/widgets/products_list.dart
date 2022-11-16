@@ -12,14 +12,9 @@ class ProductList extends StatelessWidget {
         price: 250,
         id: "5",
         img: testImage1),
+    Product(name: "Hat", provider: "KAMN", price: 50, id: "6", img: testImage2),
     Product(
-        name: "KAMN Hat",
-        provider: "KAMN",
-        price: 70,
-        id: "6",
-        img: testImage2),
-    Product(
-        name: "Bottle", provider: "KAMN", price: 50, id: "7", img: testImage3),
+        name: "Bottle", provider: "KAMN", price: 200, id: "7", img: testImage3),
   ];
 
   @override

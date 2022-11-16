@@ -19,7 +19,7 @@ class BenefitsView extends StatelessWidget {
         child: ListView(
           children: [
             BlocBuilder<BenfitsBloc, BenfitsState>(
-              buildWhen: (prev, next) => prev.type != next.type,
+              // buildWhen: (prev, next) => prev.type != next.type,
               builder: (context, state) {
                 if (state.type == BenfitsViewType.sport) {
                   return BenfitsWidget(state.sportBenefits);

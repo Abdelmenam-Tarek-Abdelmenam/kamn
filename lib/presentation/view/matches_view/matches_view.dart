@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kamn/bloc/matches_bloc/matches_bloc.dart';
 import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/shared/custom_scafffold/sliding_scaffold.dart';
 
-class MatchesView extends StatefulWidget {
+import 'widgets/matches_list_view.dart';
+
+class MatchesView extends StatelessWidget {
   const MatchesView({Key? key}) : super(key: key);
 
-  @override
-  State<MatchesView> createState() => _MatchesViewState();
-}
-
-class _MatchesViewState extends State<MatchesView> {
-  int index = 0;
   @override
   Widget build(BuildContext context) {
     return SlidingScaffold(
@@ -26,39 +23,75 @@ class _MatchesViewState extends State<MatchesView> {
               color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
             ),
             onPressed: () {}),
-        bottomNavigationBar: bottomBar(context),
-        child: Container());
+        bottomNavigationBar:
+            bottomBar(context, context.watch<MatchesBloc>().state.type),
+        child: Expanded(
+          child: ListView(
+            children: [
+              Row(
+                children: [
+                  Checkbox(
+                      checkColor: Theme.of(context).colorScheme.primary,
+                      activeColor: Theme.of(context)
+                          .colorScheme
+                          .onPrimary
+                          .withOpacity(0.8),
+                      value: context.watch<MatchesBloc>().state.userAvailable,
+                      onChanged: (val) {
+                        context
+                            .read<MatchesBloc>()
+                            .add(ChangeUserCheckEvent(val!));
+                      }),
+                  Text(
+                    "I'm free all time any place",
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  )
+                ],
+              ),
+              const MatchesListView(),
+              const SizedBox(
+                height: 100,
+              ),
+            ],
+          ),
+        ));
   }
 
-  List<Widget> bottomBar(BuildContext context) => List.generate(
-      2,
-      (i) => TextButton.icon(
-            style: TextButton.styleFrom(
-                foregroundColor:
-                    Theme.of(context).colorScheme.primary.withOpacity(0.65),
-                backgroundColor: index == i
-                    ? Theme.of(context).colorScheme.primary.withOpacity(0.2)
-                    : null,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(
-                    20.0,
+  List<Widget> bottomBar(BuildContext context, MatchesViewType type) =>
+      MatchesViewType.values
+          .map((i) => SizedBox(
+                width: 120,
+                child: TextButton.icon(
+                  style: TextButton.styleFrom(
+                      foregroundColor: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.65),
+                      backgroundColor: i == type
+                          ? Theme.of(context)
+                              .colorScheme
+                              .primary
+                              .withOpacity(0.2)
+                          : null,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      )),
+                  icon: Padding(
+                    padding: const EdgeInsets.only(right: 4.0),
+                    child: Icon(
+                      i.toIcon(),
+                      size: 25,
+                    ),
                   ),
-                )),
-            icon: Padding(
-              padding: const EdgeInsets.only(right: 4.0),
-              child: Icon(
-                [FontAwesomeIcons.futbol, FontAwesomeIcons.peopleGroup][i],
-                size: 25,
-              ),
-            ),
-            label: Text(
-              ["Grounds", "Active"][i],
-              style: const TextStyle(fontWeight: FontWeight.w100, fontSize: 16),
-            ),
-            onPressed: () {
-              setState(() {
-                index = i;
-              });
-            },
-          )).toList();
+                  label: Text(
+                    i.toString(),
+                    style: const TextStyle(
+                        fontWeight: FontWeight.w100, fontSize: 16),
+                  ),
+                  onPressed: () {
+                    context.read<MatchesBloc>().add(ChangeViewTypeEvent(i));
+                  },
+                ),
+              ))
+          .toList();
 }
