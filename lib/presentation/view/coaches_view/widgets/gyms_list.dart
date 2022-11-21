@@ -50,6 +50,7 @@ class GymDesign extends StatelessWidget {
       width: double.infinity,
       padding: PaddingManager.p10,
       decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary.withOpacity(0.65),
         image: DecorationImage(
           image: NetworkImage(item.img),
           fit: BoxFit.cover,
@@ -76,7 +77,10 @@ class GymDesign extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.location_on_outlined),
+                        const Icon(
+                          Icons.location_on_outlined,
+                          size: 25,
+                        ),
                         Dividers.w10,
                         Expanded(
                           child: Text(
@@ -88,9 +92,10 @@ class GymDesign extends StatelessWidget {
                         )
                       ],
                     ),
+                    Dividers.h5,
                     Row(
                       children: [
-                        const Icon(Icons.group),
+                        const Icon(Icons.sports, size: 25),
                         Dividers.w10,
                         Text(
                           item.type.toString(),
@@ -114,11 +119,15 @@ class GymDesign extends StatelessWidget {
           Center(
             child: OutlinedButton.icon(
               style: OutlinedButton.styleFrom(
+                  textStyle: const TextStyle(fontSize: 15),
                   foregroundColor:
                       Theme.of(context).colorScheme.onPrimary.withOpacity(0.7)),
               onPressed: () {},
               label: const Text("Show more"),
-              icon: const Icon(Icons.send),
+              icon: const Icon(
+                Icons.send,
+                size: 20,
+              ),
             ),
           )
         ],

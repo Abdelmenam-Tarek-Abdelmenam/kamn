@@ -13,11 +13,30 @@ class MatchesState extends Equatable {
     required this.userAvailable,
   });
 
-  factory MatchesState.initial() => const MatchesState(
+  factory MatchesState.initial() => MatchesState(
         type: MatchesViewType.grounds,
         userAvailable: false,
-        grounds: [],
-        matches: [],
+        grounds: [
+          Ground(
+              name: "OLympic  playground",
+              address: "Ahmed Zewail Sq., Somouha - Alexandria - Egypt",
+              price: 120,
+              img: testImage1,
+              type: Games.football,
+              rating: 3.5)
+        ],
+        matches: [
+          ActiveMatch(
+              game: Games.basketball,
+              playGroundName: "Smouha Clup",
+              availableCount: 3,
+              time: "22/11/2022 3:40 PM"),
+          ActiveMatch(
+              game: Games.football,
+              playGroundName: "falky Playground",
+              availableCount: 2,
+              time: "23/11/2022 7:80 PM")
+        ],
       );
 
   MatchesState copyWith({

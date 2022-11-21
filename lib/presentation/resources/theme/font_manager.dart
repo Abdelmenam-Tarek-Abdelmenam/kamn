@@ -29,7 +29,7 @@ TextTheme _textTheme(bool dark) => TextTheme(
       titleSmall: GoogleFonts.alegreyaSans(
           fontSize: 24,
           fontWeight: FontWeight.w400,
-          color: dark ? ColorManager.lightBlue : ColorManager.lightBlue),
+          color: dark ? ColorManager.lightBlue : ColorManager.mainBlue),
       labelLarge:
           GoogleFonts.alegreyaSans(fontSize: 22, fontWeight: FontWeight.w500),
       labelSmall: GoogleFonts.alegreyaSans(
