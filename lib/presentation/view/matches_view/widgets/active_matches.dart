@@ -24,9 +24,9 @@ class ActiveMatchesWidget extends StatelessWidget {
             height: 20,
           ),
           SizedBox(
-              height: 300,
+              height: 200,
               child: Lottie.asset(LottieManager.matches,
-                  height: 300, fit: BoxFit.fitHeight)),
+                  height: 250, fit: BoxFit.fitHeight)),
           Text(
             StringManger.noMatches,
             style: Theme.of(context).textTheme.displayMedium,

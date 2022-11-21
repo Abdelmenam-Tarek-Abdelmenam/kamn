@@ -40,7 +40,7 @@ class StringManger {
 
   // landing Page
   static String get userPage => ["Profile", "صفحه المستخدم"][langIndex];
-  static String get match => ["Thunder matches", "لعب مباراه"][langIndex];
+  static String get match => ["Play", "لعب مباراه"][langIndex];
   static String get coaches => ["Coaches-Gyms", "المدربين"][langIndex];
   static String get benfits => ["Benefits", "الخصومات"][langIndex];
   static String get store => ["Store", "المتجر"][langIndex];
@@ -60,7 +60,8 @@ class StringManger {
   static String get football => ["Football", "كره قدم"][langIndex];
   static String get basketball => ["Basketball", "كره سله"][langIndex];
   static String get volleyball => ["Volleyball", "كره طائره"][langIndex];
-  static String get tennis => ["Tennis", "تنس"][langIndex];
+  static String get tennis => ["Padel", "تنس"][langIndex];
+  static String get other => ["Other", "غير ذلك"][langIndex];
 
   // customer support
   static String get quickContact =>
@@ -71,7 +72,7 @@ class StringManger {
 
   // benfits
   static String get medical => ["Medical", "طبي"][langIndex];
-  static String get sport => ["Benfits", "رياضي"][langIndex];
+  static String get sport => ["Sport", "رياضي"][langIndex];
   static String get orthopedist => ["Orthopedist", "دكتور عظام"][langIndex];
   static String get physiotherapist =>
       ["Physiotherapist", "علاج طبيعي"][langIndex];

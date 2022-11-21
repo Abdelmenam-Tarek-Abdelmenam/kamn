@@ -22,11 +22,11 @@ class Dividers {
   );
 
   static const horizontalLine = Divider(
-    thickness: 3,
-    height: 0,
+    thickness: 1,
+    height: 2,
   );
   static const verticalLine = VerticalDivider(
-    thickness: 2,
+    thickness: 1,
     width: 2,
   );
 }

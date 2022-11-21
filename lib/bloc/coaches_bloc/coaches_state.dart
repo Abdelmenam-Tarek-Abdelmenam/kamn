@@ -12,8 +12,42 @@ class CoachesState extends Equatable {
       required this.coaches,
       required this.gyms});
 
-  factory CoachesState.initial() => const CoachesState(
-      type: CoachesType.coach, filter: Games.all, coaches: [], gyms: []);
+  factory CoachesState.initial() =>
+      CoachesState(type: CoachesType.coach, filter: Games.all, coaches: [
+        Coach(
+            name: "Sama",
+            id: "55",
+            description: "Fitness trainer",
+            img: testImg1,
+            price: 120,
+            position: "Fitness trainer",
+            rating: 2.5,
+            game: Games.gym),
+        Coach(
+            name: "Ahmed Mohamed",
+            id: "55",
+            description: "Swimming",
+            img: testImg2,
+            price: 10,
+            rating: 4.75,
+            position: "Padel trainer",
+            game: Games.tennis)
+      ], gyms: [
+        Gym(
+            name: "Golden Gym",
+            address: "22 AboQir street,Alexandria Egypt",
+            price: 1200,
+            img: testImage1,
+            type: GymType.mix,
+            rating: 4.25),
+        Gym(
+            name: "VIP Gym",
+            address: "11 Elrasafa st  moharem bek",
+            price: 800,
+            img: testImage2,
+            type: GymType.separate,
+            rating: 3)
+      ]);
 
   CoachesState copyWith(
       {CoachesType? type,

@@ -4,7 +4,8 @@ import 'package:kamn/bloc/matches_bloc/matches_bloc.dart';
 import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/shared/custom_scafffold/sliding_scaffold.dart';
 
-import 'widgets/matches_list_view.dart';
+import 'widgets/active_matches.dart';
+import 'widgets/grounds.dart';
 
 class MatchesView extends StatelessWidget {
   const MatchesView({Key? key}) : super(key: key);
@@ -14,12 +15,12 @@ class MatchesView extends StatelessWidget {
     return SlidingScaffold(
         title: StringManger.match,
         floatingActionButton: FloatingActionButton(
-            tooltip: "Create",
+            tooltip: "Community",
             backgroundColor:
                 Theme.of(context).colorScheme.onPrimary.withOpacity(0.65),
             elevation: 0,
             child: Icon(
-              Icons.create,
+              Icons.chat,
               color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
             ),
             onPressed: () {}),
@@ -48,7 +49,16 @@ class MatchesView extends StatelessWidget {
                   )
                 ],
               ),
-              const MatchesListView(),
+              BlocBuilder<MatchesBloc, MatchesState>(
+                // buildWhen: (prev, next) => prev.type != next.type,
+                builder: (context, state) {
+                  if (state.type == MatchesViewType.grounds) {
+                    return GroundsWidget(state.grounds);
+                  } else {
+                    return ActiveMatchesWidget(state.matches);
+                  }
+                },
+              ),
               const SizedBox(
                 height: 100,
               ),

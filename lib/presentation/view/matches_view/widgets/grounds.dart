@@ -24,9 +24,9 @@ class GroundsWidget extends StatelessWidget {
             height: 20,
           ),
           SizedBox(
-              height: 300,
+              height: 250,
               child: Lottie.asset(LottieManager.ground,
-                  height: 300, fit: BoxFit.fitHeight)),
+                  height: 250, fit: BoxFit.fitHeight)),
           Text(
             StringManger.noGrounds,
             style: Theme.of(context).textTheme.displayMedium,

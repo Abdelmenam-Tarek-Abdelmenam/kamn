@@ -63,7 +63,8 @@ enum Games {
   football,
   basketball,
   volleyball,
-  tennis;
+  tennis,
+  other;
 
   @override
   String toString() {
@@ -80,6 +81,8 @@ enum Games {
         return StringManger.tennis;
       case Games.gym:
         return StringManger.gym;
+      case Games.other:
+        return StringManger.other;
     }
   }
 }

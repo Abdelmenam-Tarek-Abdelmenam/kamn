@@ -27,8 +27,8 @@ class LottieManager {
   static const signup = "${lottiePath}signup.json";
   static const forgetPassword = "${lottiePath}forgetPassword.json";
   static const offers = "${lottiePath}offers.zip";
-  static const ground = "${lottiePath}ground.json";
-  static const matches = "${lottiePath}matches.zip";
+  static const ground = "${lottiePath}ground.zip";
+  static const matches = "${lottiePath}matches.json";
   static const noGyms = "${lottiePath}noGyms.json";
   static const noCoaches = "${lottiePath}noCoaches.zip";
   static const loading = "${lottiePath}loading.zip";

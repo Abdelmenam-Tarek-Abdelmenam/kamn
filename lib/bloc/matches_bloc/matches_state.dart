@@ -55,7 +55,7 @@ enum MatchesViewType {
   IconData toIcon() {
     switch (this) {
       case MatchesViewType.grounds:
-        return FontAwesomeIcons.futbol;
+        return FontAwesomeIcons.personRunning;
       case MatchesViewType.active:
         return FontAwesomeIcons.peopleGroup;
     }

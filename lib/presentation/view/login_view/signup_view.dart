@@ -25,9 +25,9 @@ class SignupView extends StatelessWidget {
                     Theme.of(context).colorScheme.onPrimary.withOpacity(0.65),
                 // boxShadow: StyleManager.smallShadow,
                 borderRadius:
-                    const BorderRadius.vertical(bottom: Radius.circular(70))),
+                    const BorderRadius.vertical(bottom: Radius.circular(50))),
             child: Padding(
-              padding: PaddingManager.p15.copyWith(bottom: 50),
+              padding: PaddingManager.p15.copyWith(bottom: 30),
               child: signUpWidgets(context),
             ),
           ),

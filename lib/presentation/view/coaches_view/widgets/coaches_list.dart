@@ -3,10 +3,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kamn/bloc/coaches_bloc/coaches_bloc.dart';
 import 'package:kamn/data/models/app_user.dart';
 import 'package:kamn/data/models/coach.dart';
+import 'package:kamn/presentation/shared/widget/dividers.dart';
+import 'package:kamn/presentation/shared/widget/error_image.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../resources/asstes_manager.dart';
 import '../../../resources/string_manager.dart';
+import '../../../resources/styles_manager.dart';
+import '../../../shared/widget/rating_icons.dart';
 
 class CoachesList extends StatelessWidget {
   const CoachesList(this.coaches, {Key? key}) : super(key: key);
@@ -14,6 +18,7 @@ class CoachesList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Games filter = context.read<CoachesBloc>().state.filter;
     return Column(children: [
       Wrap(
         children: Games.values
@@ -37,8 +42,12 @@ class CoachesList extends StatelessWidget {
       ),
       coaches.isEmpty
           ? noCoaches(context)
-          : Wrap(
-              children: coaches.map((e) => CoachDesign(e)).toList(),
+          : Column(
+              children: coaches
+                  .map((e) => Visibility(
+                      visible: filter == Games.all || e.game == filter,
+                      child: CoachDesign(e)))
+                  .toList(),
             )
     ]);
   }
@@ -66,6 +75,83 @@ class CoachDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      margin: const EdgeInsets.all(15.0).copyWith(bottom: 0),
+      padding: PaddingManager.p8,
+      // height: 120,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.65),
+        borderRadius: StyleManager.border,
+      ),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ClipOval(
+                child: ErrorImage(
+                  item.img,
+                  height: 80,
+                ),
+              ),
+              Dividers.w10,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Coach ${item.name}",
+                      style: Theme.of(context).textTheme.displaySmall,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    Dividers.h5,
+                    Text(
+                      item.position,
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelSmall!
+                          .copyWith(fontSize: 18),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    RatingIcons(item.rating),
+                  ],
+                ),
+              )
+            ],
+          ),
+          Dividers.h10,
+          Column(
+            children: [
+              Dividers.horizontalLine,
+              Row(
+                children: [
+                  customButton(context, "Book"),
+                  const SizedBox(
+                    height: 30,
+                    child: Dividers.verticalLine,
+                  ),
+                  customButton(context, "Details"),
+                ],
+              ),
+              Dividers.horizontalLine,
+            ],
+          ),
+        ],
+      ),
+    );
   }
+
+  Widget customButton(BuildContext context, String label) => Expanded(
+        child: InkWell(
+          onTap: () {},
+          child: Center(
+              // height: 40,
+              child: Text(
+            label,
+            style: Theme.of(context).textTheme.labelSmall,
+          )),
+        ),
+      );
 }
