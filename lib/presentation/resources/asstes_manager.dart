@@ -4,7 +4,6 @@ const String lottiePath = "assets/lottie/";
 
 class AssetsManager {
   static const logo = "${imagesPath}logo.png";
-  static const avatar = "${imagesPath}avatar.png";
   static const noProductImage = "${imagesPath}no-product.jpg";
 }
 

@@ -44,9 +44,9 @@ enum DoctorType {
   }
 }
 
-class SportBenefit extends Benefit {
+class OtherBenfits extends Benefit {
   String goods;
-  SportBenefit({
+  OtherBenfits({
     required String name,
     required this.goods,
     required String id,

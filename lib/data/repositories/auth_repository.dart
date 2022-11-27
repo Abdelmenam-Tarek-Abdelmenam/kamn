@@ -95,11 +95,16 @@ class AuthRepository {
   }
 
   Future<void> forgetPassword(String email) async {
+    print(email);
+
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
     } on firebase_auth.FirebaseAuthException catch (e) {
+      print(e);
       throw FireBaseAuthErrors.fromCode(e.code);
     } catch (_) {
+      print(_);
+
       throw const FireBaseAuthErrors();
     }
   }

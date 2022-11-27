@@ -19,15 +19,8 @@ class BenefitsView extends StatelessWidget {
         child: ListView(
           children: [
             BlocBuilder<BenfitsBloc, BenfitsState>(
-              // buildWhen: (prev, next) => prev.type != next.type,
-              builder: (context, state) {
-                if (state.type == BenfitsViewType.sport) {
-                  return BenfitsWidget(state.sportBenefits);
-                } else {
-                  return BenfitsWidget(state.medicalBenefits);
-                }
-              },
-            ),
+                // buildWhen: (prev, next) => prev.type != next.type,
+                builder: (context, state) => BenfitsWidget(state.benfits)),
             const SizedBox(
               height: 100,
             ),
@@ -40,7 +33,7 @@ class BenefitsView extends StatelessWidget {
   List<Widget> bottomBar(BuildContext context, BenfitsViewType type) =>
       BenfitsViewType.values
           .map((i) => SizedBox(
-                width: 120,
+                width: 100,
                 child: TextButton.icon(
                   style: TextButton.styleFrom(
                       foregroundColor: Theme.of(context)
@@ -56,17 +49,14 @@ class BenefitsView extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       )),
-                  icon: Padding(
-                    padding: const EdgeInsets.only(right: 4.0),
-                    child: Icon(
-                      i.toIcon(),
-                      size: 25,
-                    ),
+                  icon: Icon(
+                    i.toIcon(),
+                    size: 20,
                   ),
                   label: Text(
                     i.toString(),
                     style: const TextStyle(
-                        fontWeight: FontWeight.w100, fontSize: 16),
+                        fontWeight: FontWeight.w100, fontSize: 14),
                   ),
                   onPressed: () {
                     context.read<BenfitsBloc>().add(ChangeViewTypeEvent(i));

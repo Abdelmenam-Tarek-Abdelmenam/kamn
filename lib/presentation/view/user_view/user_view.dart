@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kamn/bloc/auth_bloc/auth_status_bloc.dart';
+import 'package:kamn/presentation/resources/routes_manger.dart';
+import 'package:kamn/presentation/shared/widget/dividers.dart';
+import 'package:kamn/presentation/view/user_view/widgets/useer_info.dart';
 
 import '../../resources/string_manager.dart';
 import '../../shared/custom_scafffold/sliding_scaffold.dart';
+import '../../shared/custom_scafffold/top_widget.dart';
 import '../../shared/widget/loading_text.dart';
 
 class UserView extends StatelessWidget {
@@ -11,6 +17,23 @@ class UserView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SlidingScaffold(
         title: StringManger.userPage,
-        child: const Expanded(child: Center(child: LoadingText())));
+        action: BlocBuilder<AuthBloc, AuthStates>(
+          builder: (context, state) {
+            return IconButton(
+              icon: const Icon(Icons.logout),
+              onPressed: () => Navigator.of(context)
+                  .pushNamedAndRemoveUntil(Routes.login, (route) => false),
+            );
+          },
+        ),
+        child: Expanded(
+            child: Column(
+          children: const [
+            TopWidget(bottom: 10, child: UserInfo()),
+            Dividers.h20,
+            Dividers.h20,
+            LoadingText(),
+          ],
+        )));
   }
 }

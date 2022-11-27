@@ -8,6 +8,11 @@ class AppUser {
   final String? photoUrl;
   String? name;
 
+  @override
+  String toString() {
+    return "User $name with email $email";
+  }
+
   AppUser({
     required this.id,
     this.name,

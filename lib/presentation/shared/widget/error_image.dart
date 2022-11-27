@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ErrorImage extends StatelessWidget {
@@ -11,17 +12,15 @@ class ErrorImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      url,
+    return CachedNetworkImage(
+      imageUrl: url,
       height: height,
       width: width,
       fit: fit,
-      errorBuilder: (
-        _,
-        __,
-        ___,
-      ) {
-        return SizedBox(
+      progressIndicatorBuilder: (context, url, downloadProgress) => SizedBox(
+        width: 15,
+        height: 15,
+        child: SizedBox(
           width: width,
           height: height,
           child: const Center(
@@ -30,8 +29,18 @@ class ErrorImage extends StatelessWidget {
               size: 30,
             ),
           ),
-        );
-      },
+        ),
+      ),
+      errorWidget: (context, url, error) => SizedBox(
+        width: width,
+        height: height,
+        child: const Center(
+          child: Icon(
+            Icons.error,
+            size: 30,
+          ),
+        ),
+      ),
     );
   }
 }

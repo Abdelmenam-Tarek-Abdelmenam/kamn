@@ -95,7 +95,7 @@ class GroundDesign extends StatelessWidget {
                     Dividers.h5,
                     Row(
                       children: [
-                        const Icon(Icons.group, size: 25),
+                        const Icon(Icons.sports, size: 25),
                         Dividers.w10,
                         Text(
                           item.type.toString(),

@@ -3,13 +3,22 @@ part of 'benfits_bloc.dart';
 class BenfitsState extends Equatable {
   final BenfitsViewType type;
   final DoctorType filter;
-  final List<SportBenefit> sportBenefits;
+  final List<OtherBenfits> sportBenefits;
   final List<MedicalBenefit> medicalBenefits;
+  final List<OtherBenfits> nutritionBenefits;
+
+  List<Benefit> get benfits => {
+        BenfitsViewType.medical: medicalBenefits,
+        BenfitsViewType.sport: sportBenefits,
+        BenfitsViewType.nutrition: nutritionBenefits
+      }[type]!;
+
   const BenfitsState(
       {required this.type,
       required this.filter,
       required this.medicalBenefits,
-      required this.sportBenefits});
+      required this.sportBenefits,
+      required this.nutritionBenefits});
 
   factory BenfitsState.initial() => BenfitsState(
           type: BenfitsViewType.medical,
@@ -31,7 +40,7 @@ class BenfitsState extends Equatable {
                 type: DoctorType.physiotherapist),
           ],
           sportBenefits: [
-            SportBenefit(
+            OtherBenfits(
                 goods: "Shoes",
                 id: "c",
                 name: "Adidas",
@@ -39,7 +48,7 @@ class BenfitsState extends Equatable {
                 description: "description",
                 img:
                     "https://www.akropoleriga.lv/image/15622466113155_430_430_1.jpg"),
-            SportBenefit(
+            OtherBenfits(
                 goods: "T-Shirts",
                 id: "d",
                 name: "Nike",
@@ -47,17 +56,37 @@ class BenfitsState extends Equatable {
                 description: "description",
                 img:
                     "https://static.nike.com/a/images/f_auto/fa253650-9040-44ac-91e9-7b7175f1cc3f/image.jpeg"),
+          ],
+          nutritionBenefits: [
+            OtherBenfits(
+                goods: "Health expert",
+                id: "h",
+                name: "Ahmed Mahmoud",
+                benefit: "30%",
+                description: "description",
+                img:
+                    "https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=640:*"),
+            OtherBenfits(
+                goods: "Restaurant",
+                id: "d",
+                name: "Laziz",
+                benefit: "free delivery",
+                description: "description",
+                img:
+                    "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/1280px-Tom%27s_Restaurant%2C_NYC.jpg"),
           ]);
 
   BenfitsState copyWith(
       {BenfitsViewType? type,
       DoctorType? filter,
-      List<SportBenefit>? sportBenefits,
+      List<OtherBenfits>? sportBenefits,
+      List<OtherBenfits>? nutritionBenefits,
       List<MedicalBenefit>? medicalBenefits}) {
     return BenfitsState(
         filter: filter ?? this.filter,
         type: type ?? this.type,
         sportBenefits: sportBenefits ?? this.sportBenefits,
+        nutritionBenefits: nutritionBenefits ?? this.nutritionBenefits,
         medicalBenefits: medicalBenefits ?? this.medicalBenefits);
   }
 
@@ -68,6 +97,7 @@ class BenfitsState extends Equatable {
 
 enum BenfitsViewType {
   medical,
+  nutrition,
   sport;
 
   @override
@@ -77,6 +107,8 @@ enum BenfitsViewType {
         return StringManger.sport;
       case BenfitsViewType.medical:
         return StringManger.medical;
+      case BenfitsViewType.nutrition:
+        return StringManger.nutrition;
     }
   }
 
@@ -86,6 +118,8 @@ enum BenfitsViewType {
         return FontAwesomeIcons.personRunning;
       case BenfitsViewType.medical:
         return FontAwesomeIcons.userDoctor;
+      case BenfitsViewType.nutrition:
+        return Icons.fastfood_outlined;
     }
   }
 }

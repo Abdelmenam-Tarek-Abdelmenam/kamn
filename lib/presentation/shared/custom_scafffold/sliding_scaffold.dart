@@ -16,10 +16,12 @@ class SlidingScaffold extends StatelessWidget {
       required this.title,
       this.bottomNavigationBar,
       this.floatingActionButton,
+      this.action,
       Key? key})
       : super(key: key);
   final Widget child;
   final Widget? floatingActionButton;
+  final Widget? action;
   final List<Widget>? bottomNavigationBar;
   final String title;
 
@@ -37,6 +39,7 @@ class SlidingScaffold extends StatelessWidget {
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
+          actions: action == null ? null : [action!],
           title: Text(title),
         ),
         body: bottomNavigationBar == null

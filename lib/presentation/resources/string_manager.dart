@@ -54,7 +54,7 @@ class StringManger {
   static String get player => ["Player", "لاعب"][langIndex];
   static String get coach => ["Coach", "مدرب"][langIndex];
   static String get referee => ["Referee", "حكم"][langIndex];
-  static String get fieldOwner => ["Field owner", "صاحب ملعب"][langIndex];
+  static String get fieldOwner => ["Business owner", "صاحب ملعب"][langIndex];
   static String get game => ["Game", "اللعبه"][langIndex];
   static String get gym => ["Gym", "كمال اجسام"][langIndex];
   static String get football => ["Football", "كره قدم"][langIndex];
@@ -72,6 +72,7 @@ class StringManger {
 
   // benfits
   static String get medical => ["Medical", "طبي"][langIndex];
+  static String get nutrition => ["Nutrition", "تغذيه"][langIndex];
   static String get sport => ["Sport", "رياضي"][langIndex];
   static String get orthopedist => ["Orthopedist", "دكتور عظام"][langIndex];
   static String get physiotherapist =>

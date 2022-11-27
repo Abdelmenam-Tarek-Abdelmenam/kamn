@@ -13,8 +13,9 @@ part 'auth_status_state.dart';
 
 class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
   final AuthRepository _authRepository = AuthRepository();
-
-  AuthBloc(AppUser user) : super(AuthStates.initial(user)) {
+  AuthBloc(AppUser appUser) : super(AuthStates.initial()) {
+    print(appUser);
+    user = appUser;
     on<LoginInUsingGoogleEvent>(_loginUsingGoogleHandler);
     on<SignUpInUsingEmailEvent>(_signUpUsingEmailHandler);
     on<LoginInUsingEmailEvent>(_loginUsingEmailHandler);
@@ -23,6 +24,8 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
     on<ChangeUserCategoryEvent>(_changeUserCategoryHandler);
     on<ChangeUserGameEvent>(_changUserGameHandler);
   }
+
+  static AppUser user = AppUser.empty;
 
   void _changeModeHandler(ChangeAuthModeEvent event, Emitter<AuthStates> emit) {
     emit(state.copyWith(mode: event.mode));
@@ -48,8 +51,8 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
     }
     emit(state.copyWith(status: AuthStatus.submittingGoogle));
     try {
-      AppUser newUser = await _authRepository.signInUsingGoogle();
-      emit(state.copyWith(status: AuthStatus.successLogIn, user: newUser));
+      user = await _authRepository.signInUsingGoogle();
+      emit(state.copyWith(status: AuthStatus.successLogIn));
     } on FireBaseAuthErrors catch (e) {
       showToast(e.message);
       emit(
@@ -75,9 +78,9 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
     emit(state.copyWith(status: AuthStatus.submittingEmail));
 
     try {
-      AppUser newUser = await _authRepository.signInWithEmailAndPassword(
+      user = await _authRepository.signInWithEmailAndPassword(
           event.email, event.password);
-      emit(state.copyWith(status: AuthStatus.successLogIn, user: newUser));
+      emit(state.copyWith(status: AuthStatus.successLogIn));
     } on FireBaseAuthErrors catch (e) {
       showToast(e.message, type: ToastType.error);
       emit(state.copyWith(status: AuthStatus.error));
@@ -97,9 +100,9 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
     emit(state.copyWith(status: AuthStatus.submittingEmail));
 
     try {
-      AppUser newUser = await _authRepository.signUpWithEmailAndPassword(
+      user = await _authRepository.signUpWithEmailAndPassword(
           email: event.email, password: event.password);
-      emit(state.copyWith(status: AuthStatus.successSignUp, user: newUser));
+      emit(state.copyWith(status: AuthStatus.successSignUp));
     } on FireBaseAuthErrors catch (e) {
       showToast(e.message, type: ToastType.error);
       emit(state.copyWith(status: AuthStatus.error));
@@ -112,13 +115,13 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
     ForgetPasswordEvent event,
     Emitter<AuthStates> emit,
   ) async {
-    if (AuthStatus.sendingConfirm == state.status) {
+    if (AuthStatus.submittingEmail == state.status) {
       return;
     }
-    emit(state.copyWith(status: AuthStatus.sendingConfirm));
-    showToast("Password reset email sent to you", type: ToastType.info);
+    emit(state.copyWith(status: AuthStatus.submittingEmail));
     try {
       await _authRepository.forgetPassword(event.email);
+      showToast("Password reset email sent to you", type: ToastType.info);
       emit(state.copyWith(status: AuthStatus.doneConfirm));
     } on FireBaseAuthErrors catch (e) {
       showToast(e.message, type: ToastType.error);

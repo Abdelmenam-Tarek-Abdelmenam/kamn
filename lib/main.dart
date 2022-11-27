@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kamn/data/data_sources/web_services/mongo_repository.dart';
 import 'package:kamn/data/models/app_user.dart';
 
 import 'bloc/auth_bloc/auth_status_bloc.dart';
@@ -19,6 +20,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PreferenceRepository.init();
   await Firebase.initializeApp();
+  await MongoDatabase.init();
   FireNotificationHelper((_) {});
   Bloc.observer = MyBlocObserver();
 
@@ -37,6 +39,7 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => AuthBloc(user),
+            lazy: false,
           ),
           BlocProvider(
             create: (context) => BenfitsBloc(),

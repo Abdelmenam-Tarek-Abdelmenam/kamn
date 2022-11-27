@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../resources/asstes_manager.dart';
+import 'package:kamn/presentation/shared/widget/error_image.dart';
 
 class Avatar extends StatelessWidget {
   const Avatar(this.url, {this.width, Key? key}) : super(key: key);
@@ -13,22 +12,11 @@ class Avatar extends StatelessWidget {
       backgroundColor: Theme.of(context).colorScheme.primary.withOpacity(0.8),
       radius: width == null ? null : (width! / 2) + 4,
       child: ClipOval(
-        child: Image.network(
+        child: ErrorImage(
           url,
           fit: BoxFit.cover,
           width: width,
           height: width,
-          errorBuilder: (
-            _,
-            __,
-            ___,
-          ) {
-            return Image.asset(
-              AssetsManager.avatar,
-              width: width,
-              fit: BoxFit.cover,
-            );
-          },
         ),
       ),
     );

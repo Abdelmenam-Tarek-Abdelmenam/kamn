@@ -11,7 +11,8 @@ class LoadingText extends StatelessWidget {
       children: [
         Text(
           "loading ",
-          style: Theme.of(context).textTheme.displayLarge,
+          style:
+              Theme.of(context).textTheme.displayLarge!.copyWith(fontSize: 20),
         ),
         SpinKitThreeBounce(
           color: Theme.of(context).colorScheme.onBackground,

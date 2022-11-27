@@ -120,7 +120,7 @@ class BenefitDesign extends StatelessWidget {
                       Text(
                         (item is MedicalBenefit)
                             ? (item as MedicalBenefit).type.toString()
-                            : (item as SportBenefit).goods,
+                            : (item as OtherBenfits).goods,
                         style: Theme.of(context).textTheme.bodyLarge,
                       ),
                       Text(

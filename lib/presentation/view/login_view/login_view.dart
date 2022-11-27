@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kamn/bloc/auth_bloc/auth_status_bloc.dart';
 import 'package:kamn/presentation/resources/styles_manager.dart';
+import 'package:kamn/presentation/shared/toast_helper.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
+import 'package:kamn/presentation/shared/widget/loading_text.dart';
 import 'package:kamn/presentation/view/login_view/widgets/login_page_icon.dart';
 
 import '../../resources/routes_manger.dart';
@@ -40,7 +42,7 @@ class LoginView extends StatelessWidget {
             menuIcon: IconButton(
               icon: const Icon(Icons.more_vert),
               onPressed: () {
-                Navigator.pushNamed(context, Routes.home);
+                Navigator.pushNamed(context, Routes.landing);
               },
             ),
             child: SingleChildScrollView(
@@ -80,14 +82,16 @@ class LoginView extends StatelessWidget {
             child: BlocConsumer<AuthBloc, AuthStates>(
               listener: (context, state) {
                 if (state.status == AuthStatus.successLogIn) {
-                  print("Login OK");
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil(Routes.home, (route) => false);
                 } else if (state.status == AuthStatus.successSignUp) {
-                  print("SignUp OK");
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil(Routes.signup, (route) => false);
                 }
               },
               builder: (context, state) {
                 return AnimatedSize(
-                  duration: const Duration(seconds: 1),
+                  duration: const Duration(milliseconds: 750),
                   child: Column(
                     children: [
                       Row(
@@ -104,11 +108,22 @@ class LoginView extends StatelessWidget {
                       passwordsWidgets(state.mode),
                       Dividers.h10,
                       SizedBox(
-                          width: double.infinity,
-                          height: 40,
-                          child: ElevatedButton(
-                              onPressed: () => callBack(context),
-                              child: Text(state.mode.getName)))
+                        height: 40,
+                        child: AnimatedCrossFade(
+                          crossFadeState:
+                              state.status == AuthStatus.submittingEmail
+                                  ? CrossFadeState.showSecond
+                                  : CrossFadeState.showFirst,
+                          duration: const Duration(milliseconds: 300),
+                          firstChild: SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                                onPressed: () => callBack(context, state.mode),
+                                child: Text(state.mode.getName)),
+                          ),
+                          secondChild: const LoadingText(),
+                        ),
+                      )
                     ],
                   ),
                 );
@@ -195,9 +210,23 @@ class LoginView extends StatelessWidget {
         ),
       );
 
-  void callBack(BuildContext context) {
-    Navigator.of(context).pushNamed(Routes.signup);
-    print(emailController.text);
-    print(passController1.text);
+  void callBack(BuildContext context, AuthModes mode) {
+    switch (mode) {
+      case AuthModes.login:
+        context.read<AuthBloc>().add(
+            LoginInUsingEmailEvent(emailController.text, passController1.text));
+        break;
+      case AuthModes.signUp:
+        if (passController1.text == passController2.text) {
+          context.read<AuthBloc>().add(SignUpInUsingEmailEvent(
+              emailController.text, passController1.text));
+        } else {
+          showToast("Passwords are not the same");
+        }
+        break;
+      case AuthModes.forgetPass:
+        context.read<AuthBloc>().add(ForgetPasswordEvent(emailController.text));
+        break;
+    }
   }
 }
