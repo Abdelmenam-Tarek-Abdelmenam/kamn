@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kamn/bloc/auth_bloc/auth_status_bloc.dart';
+import 'package:kamn/data/repositories/auth_repository.dart';
 import 'package:kamn/presentation/resources/routes_manger.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
 import 'package:kamn/presentation/view/user_view/widgets/useer_info.dart';
@@ -20,10 +21,12 @@ class UserView extends StatelessWidget {
         action: BlocBuilder<AuthBloc, AuthStates>(
           builder: (context, state) {
             return IconButton(
-              icon: const Icon(Icons.logout),
-              onPressed: () => Navigator.of(context)
-                  .pushNamedAndRemoveUntil(Routes.login, (route) => false),
-            );
+                icon: const Icon(Icons.logout),
+                onPressed: () async {
+                  AuthRepository.signOut();
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil(Routes.login, (route) => false);
+                });
           },
         ),
         child: Expanded(

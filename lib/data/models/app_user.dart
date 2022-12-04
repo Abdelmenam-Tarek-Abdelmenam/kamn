@@ -20,25 +20,57 @@ class AppUser {
     this.photoUrl,
   });
 
+  Map<String, dynamic> get toJson =>
+      {"id": id, "email": email, "photoUrl": photoUrl, "name": name};
+
+  factory AppUser.fromJson(Map<String, dynamic> json) => AppUser(
+      id: json['id'],
+      email: json["email"],
+      photoUrl: json["photoUrl"],
+      name: json["name"]);
+
   factory AppUser.fromFirebaseUser(
     User? user,
-  ) {
-    if (user == null) {
-      return AppUser.empty;
-    }
-    return AppUser(
-      id: user.uid,
-      email: user.email,
-      photoUrl: user.photoURL,
-      name: user.displayName,
-    );
-  }
+  ) =>
+      user == null
+          ? AppUser.empty()
+          : AppUser(
+              id: user.uid,
+              email: user.email,
+              photoUrl: user.photoURL,
+              name: user.displayName,
+            );
 
-  static AppUser empty = AppUser(
-    id: '',
-  );
+  factory AppUser.empty() => AppUser(
+        id: '',
+      );
 
   bool get isEmpty => id == '';
+}
+
+class CompleteUser {
+  AppUser user;
+  UserCategory? category;
+  Games? game;
+
+  CompleteUser(
+      {required this.user, this.category, this.game, String? userName});
+
+  Map<String, dynamic> get toJson => {
+        "id": user.id,
+        "userData": user.toJson,
+        "Game": game!.index,
+        "category": category!.index
+      };
+
+  factory CompleteUser.fromJson(Map<String, dynamic> json) => CompleteUser(
+      game: Games.values[json['Game']],
+      category: UserCategory.values[json["category"]],
+      user: AppUser.fromJson(json['userData']));
+
+  factory CompleteUser.inComplete(AppUser user) => CompleteUser(user: user);
+
+  bool get isComplete => game != null;
 }
 
 enum UserCategory {

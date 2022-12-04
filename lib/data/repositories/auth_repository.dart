@@ -12,10 +12,10 @@ class AuthRepository {
 
   AuthRepository() : _auth = firebase_auth.FirebaseAuth.instance;
 
-  Future<AppUser> signUpWithEmailAndPassword({
-    required String email,
-    required String password,
-  }) async {
+  Future<AppUser> signUpWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
     try {
       User? user = (await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -31,7 +31,7 @@ class AuthRepository {
     } catch (e) {
       throw const FireBaseAuthErrors();
     }
-    return AppUser.empty;
+    return AppUser.empty();
   }
 
   Future<AppUser> signInWithEmailAndPassword(
@@ -49,7 +49,7 @@ class AuthRepository {
           return AppUser.fromFirebaseUser(user);
         } else {
           sendConfirmationMail(user);
-          throw const FireBaseAuthErrors("Email not verified");
+          throw firebase_auth.FirebaseAuthException(code: "Email not verified");
         }
       }
     } on firebase_auth.FirebaseAuthException catch (e) {
@@ -57,7 +57,7 @@ class AuthRepository {
     } catch (e) {
       throw const FireBaseAuthErrors();
     }
-    return AppUser.empty;
+    return AppUser.empty();
   }
 
   Future<void> sendConfirmationMail(User user) async {
@@ -85,7 +85,7 @@ class AuthRepository {
     } catch (e) {
       throw const FireBaseAuthErrors();
     }
-    return AppUser.empty;
+    return AppUser.empty();
   }
 
   static Future<void> signOut() async {
@@ -95,8 +95,6 @@ class AuthRepository {
   }
 
   Future<void> forgetPassword(String email) async {
-    print(email);
-
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
     } on firebase_auth.FirebaseAuthException catch (e) {
@@ -111,6 +109,8 @@ class AuthRepository {
 }
 
 class FireBaseAuthErrors implements Exception {
+  final String message;
+
   const FireBaseAuthErrors([
     this.message = 'An unknown exception occurred.',
   ]);
@@ -169,5 +169,4 @@ class FireBaseAuthErrors implements Exception {
         return const FireBaseAuthErrors();
     }
   }
-  final String message;
 }

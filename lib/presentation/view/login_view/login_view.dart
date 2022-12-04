@@ -41,9 +41,7 @@ class LoginView extends StatelessWidget {
             showDivider: false,
             menuIcon: IconButton(
               icon: const Icon(Icons.more_vert),
-              onPressed: () {
-                Navigator.pushNamed(context, Routes.landing);
-              },
+              onPressed: () {},
             ),
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
@@ -85,8 +83,8 @@ class LoginView extends StatelessWidget {
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil(Routes.home, (route) => false);
                 } else if (state.status == AuthStatus.successSignUp) {
-                  Navigator.of(context)
-                      .pushNamedAndRemoveUntil(Routes.signup, (route) => false);
+                  print(AuthBloc.user.name);
+                  Navigator.of(context).pushNamed(Routes.signup);
                 }
               },
               builder: (context, state) {

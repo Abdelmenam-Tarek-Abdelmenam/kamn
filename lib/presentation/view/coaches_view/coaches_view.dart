@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../../../bloc/auth_bloc/auth_status_bloc.dart';
 import '../../../bloc/coaches_bloc/coaches_bloc.dart';
 import '../../resources/string_manager.dart';
 import '../../shared/custom_scafffold/sliding_scaffold.dart';
@@ -20,6 +21,9 @@ class _CoachesViewState extends State<CoachesView> {
 
   @override
   Widget build(BuildContext context) {
+    context
+        .read<CoachesBloc>()
+        .add(ChangeViewFilterEvent(context.read<AuthBloc>().state.game));
     return SlidingScaffold(
         title: StringManger.coaches,
         floatingActionButton: FloatingActionButton(

@@ -1,22 +1,45 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:kamn/data/repository_implementer/error_state.dart';
 import 'package:mongo_dart/mongo_dart.dart';
 
 const _mongoUrl =
-    "mongodb+srv://admin:admin@cluster0.tuqcngd.mongodb.net/test?retryWrites=true&w=majority";
-const _collectionName = "users";
+    "mongodb+srv://admin:admin@cluster0.8lmf105.mongodb.net/db?retryWrites=true&w=majority";
+
+const _userCollection = "users";
 
 class MongoDatabase {
-  static late Db db;
+  static Db? _db;
 
   static Future<void> init() async {
-    print("mongo init");
-    db = await Db.create(_mongoUrl);
-    await db.open();
+    if (await Connectivity().isNotConnected()) return;
+    _db = await Db.create(_mongoUrl);
+    await _db?.open();
   }
 
-  Future<void> test() async {
-    DbCollection collection = db.collection(_collectionName);
-    await collection.insertOne(
-        {"userName": "Abdelmenam", "email": "Abdelmenam@gmail", "pass": "123"});
-    print(await collection.find().toList());
+  Future<void> addUser(Map<String, dynamic> userData) async {
+    await _preCheck();
+    DbCollection collection = _db!.collection(_userCollection);
+    await collection.insert(userData);
+  }
+
+  Future<Map<String, dynamic>?> getUser(String id) async {
+    await _preCheck();
+
+    DbCollection collection = _db!.collection(_userCollection);
+    return collection.findOne({"id": id});
+  }
+
+  Future<void> _preCheck() async {
+    if (_db == null) await init();
+    if (await Connectivity().isNotConnected()) {
+      throw const Failure("No Internet connection");
+    }
+  }
+}
+
+extension Check on Connectivity {
+  Future<bool> isNotConnected() async {
+    var connectivityResult = await (checkConnectivity());
+    return connectivityResult == ConnectivityResult.none;
   }
 }

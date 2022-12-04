@@ -2,6 +2,7 @@ part of "auth_status_bloc.dart";
 
 enum AuthStatus {
   initial,
+  registerUser,
   submittingEmail,
   submittingGoogle,
   doneConfirm,

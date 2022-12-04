@@ -36,7 +36,7 @@ class RouteGenerator {
       case Routes.login:
         return MaterialPageRoute(builder: (_) => LoginView());
       case Routes.signup:
-        return MaterialPageRoute(builder: (_) => const SignupView());
+        return MaterialPageRoute(builder: (_) => SignupView());
       case Routes.landing:
         return MaterialPageRoute(
             builder: (_) => const LandingView(HomePageStates.splash));

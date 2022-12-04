@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kamn/presentation/resources/styles_manager.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
 import 'package:kamn/presentation/shared/widget/form_field.dart';
+import 'package:kamn/presentation/shared/widget/loading_text.dart';
+import '../../../bloc/auth_bloc/auth_status_bloc.dart';
 
 import '../../shared/custom_scafffold/gradient_scaffold.dart';
 import 'widgets/user_item_choice.dart';
 
 class SignupView extends StatelessWidget {
-  const SignupView({Key? key}) : super(key: key);
+  SignupView({super.key});
+  final TextEditingController nameController =
+      TextEditingController(text: AuthBloc.user.name);
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +32,7 @@ class SignupView extends StatelessWidget {
                 borderRadius:
                     const BorderRadius.vertical(bottom: Radius.circular(50))),
             child: Padding(
-              padding: PaddingManager.p15.copyWith(bottom: 30),
+              padding: PaddingManager.p15.copyWith(bottom: 0),
               child: signUpWidgets(context),
             ),
           ),
@@ -38,11 +43,28 @@ class SignupView extends StatelessWidget {
 
   Widget signUpWidgets(BuildContext context) => Column(
         children: [
-          DefaultFormField(controller: TextEditingController(), title: "Name"),
+          DefaultFormField(controller: nameController, title: "Name"),
           Dividers.h10,
           const UserChoice(Choice.category),
           Dividers.h10,
           const UserChoice(Choice.game),
+          BlocBuilder<AuthBloc, AuthStates>(
+            builder: (context, state) {
+              return AnimatedCrossFade(
+                  firstChild: ElevatedButton(
+                      onPressed: () {
+                        context
+                            .read<AuthBloc>()
+                            .add(RegisterUserDataEvent(nameController.text));
+                      },
+                      child: const Text("Register")),
+                  secondChild: const LoadingText(),
+                  crossFadeState: state.status == AuthStatus.registerUser
+                      ? CrossFadeState.showSecond
+                      : CrossFadeState.showFirst,
+                  duration: const Duration(milliseconds: 50));
+            },
+          )
         ],
       );
 }

@@ -1,18 +1,21 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:either_dart/either.dart';
 import 'package:equatable/equatable.dart';
 import 'package:kamn/presentation/resources/string_manager.dart';
 
 import '../../data/models/app_user.dart';
-import '../../data/repositories/auth_repository.dart';
+import '../../data/repository_implementer/error_state.dart';
+import '../../data/repository_implementer/sigining.dart';
 import '../../presentation/shared/toast_helper.dart';
 
 part 'auth_status_event.dart';
 part 'auth_status_state.dart';
 
 class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
-  final AuthRepository _authRepository = AuthRepository();
+  final SigningRepository _authRepository = SigningRepository();
+
   AuthBloc(AppUser appUser) : super(AuthStates.initial()) {
     print(appUser);
     user = appUser;
@@ -23,12 +26,16 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
     on<ChangeAuthModeEvent>(_changeModeHandler);
     on<ChangeUserCategoryEvent>(_changeUserCategoryHandler);
     on<ChangeUserGameEvent>(_changUserGameHandler);
+    on<RegisterUserDataEvent>(_registerUserDataHandler);
   }
 
-  static AppUser user = AppUser.empty;
+  bool get loading => [AuthStatus.submittingEmail, AuthStatus.submittingGoogle]
+      .contains(state.status);
+
+  static AppUser user = AppUser.empty();
 
   void _changeModeHandler(ChangeAuthModeEvent event, Emitter<AuthStates> emit) {
-    emit(state.copyWith(mode: event.mode));
+    emit(state.copyWith(mode: event.mode, status: AuthStatus.initial));
   }
 
   void _changeUserCategoryHandler(
@@ -45,89 +52,103 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
     LoginInUsingGoogleEvent event,
     Emitter<AuthStates> emit,
   ) async {
-    if ([AuthStatus.submittingEmail, AuthStatus.submittingGoogle]
-        .contains(state.status)) {
-      return;
-    }
+    if (loading) return;
+
     emit(state.copyWith(status: AuthStatus.submittingGoogle));
-    try {
-      user = await _authRepository.signInUsingGoogle();
-      emit(state.copyWith(status: AuthStatus.successLogIn));
-    } on FireBaseAuthErrors catch (e) {
-      showToast(e.message);
-      emit(
-        state.copyWith(status: AuthStatus.error),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(status: AuthStatus.error),
-      );
-    }
+    Either<Failure, CompleteUser> value =
+        await _authRepository.signInUsingGoogle();
+    value.fold((failure) {
+      failure.show;
+      emit(state.copyWith(status: AuthStatus.error));
+    }, (completeUser) {
+      user = completeUser.user;
+      if (completeUser.isComplete) {
+        emit(state.copyWith(
+            status: AuthStatus.successLogIn,
+            game: completeUser.game,
+            category: completeUser.category));
+      } else {
+        emit(state.copyWith(status: AuthStatus.successSignUp));
+      }
+    });
   }
 
   Future<void> _loginUsingEmailHandler(
     LoginInUsingEmailEvent event,
     Emitter<AuthStates> emit,
   ) async {
-    if ([
-      AuthStatus.submittingEmail,
-      AuthStatus.submittingGoogle,
-    ].contains(state.status)) {
-      return;
-    }
+    if (loading) return;
     emit(state.copyWith(status: AuthStatus.submittingEmail));
+    Either<Failure, CompleteUser> value = await _authRepository
+        .signInWithEmailAndPassword(event.email, event.password);
 
-    try {
-      user = await _authRepository.signInWithEmailAndPassword(
-          event.email, event.password);
-      emit(state.copyWith(status: AuthStatus.successLogIn));
-    } on FireBaseAuthErrors catch (e) {
-      showToast(e.message, type: ToastType.error);
+    value.fold((failure) {
+      failure.show;
       emit(state.copyWith(status: AuthStatus.error));
-    } catch (_) {
-      emit(state.copyWith(status: AuthStatus.error));
-    }
+    }, (completeUser) {
+      user = completeUser.user;
+      if (completeUser.isComplete) {
+        emit(state.copyWith(
+            status: AuthStatus.successLogIn,
+            game: completeUser.game,
+            category: completeUser.category));
+      } else {
+        emit(state.copyWith(status: AuthStatus.successSignUp));
+      }
+    });
   }
 
   Future<void> _signUpUsingEmailHandler(
     SignUpInUsingEmailEvent event,
     Emitter<AuthStates> emit,
   ) async {
-    if ([AuthStatus.submittingEmail, AuthStatus.submittingGoogle]
-        .contains(state.status)) {
-      return;
-    }
-    emit(state.copyWith(status: AuthStatus.submittingEmail));
+    if (loading) return;
 
-    try {
-      user = await _authRepository.signUpWithEmailAndPassword(
-          email: event.email, password: event.password);
+    emit(state.copyWith(status: AuthStatus.submittingEmail));
+    Either<Failure, AppUser> value = await _authRepository
+        .signUpWithEmailAndPassword(event.email, event.password);
+    value.fold((failure) {
+      failure.show;
+      emit(state.copyWith(status: AuthStatus.error));
+    }, (appUser) {
+      user = appUser;
       emit(state.copyWith(status: AuthStatus.successSignUp));
-    } on FireBaseAuthErrors catch (e) {
-      showToast(e.message, type: ToastType.error);
-      emit(state.copyWith(status: AuthStatus.error));
-    } catch (_) {
-      emit(state.copyWith(status: AuthStatus.error));
-    }
+    });
   }
 
   Future<void> _forgetPasswordHandler(
     ForgetPasswordEvent event,
     Emitter<AuthStates> emit,
   ) async {
-    if (AuthStatus.submittingEmail == state.status) {
-      return;
-    }
-    emit(state.copyWith(status: AuthStatus.submittingEmail));
-    try {
-      await _authRepository.forgetPassword(event.email);
+    if (loading) return;
+
+    Either<Failure, void> value =
+        await _authRepository.forgetPassword(event.email);
+    value.fold((failure) {
+      emit(state.copyWith(status: AuthStatus.error));
+      failure.show;
+    }, (_) {
       showToast("Password reset email sent to you", type: ToastType.info);
       emit(state.copyWith(status: AuthStatus.doneConfirm));
-    } on FireBaseAuthErrors catch (e) {
-      showToast(e.message, type: ToastType.error);
+    });
+  }
+
+  Future<void> _registerUserDataHandler(
+    RegisterUserDataEvent event,
+    Emitter<AuthStates> emit,
+  ) async {
+    emit(state.copyWith(status: AuthStatus.registerUser));
+
+    user.name = event.name;
+    CompleteUser completeUser =
+        CompleteUser(user: user, game: state.game, category: state.category);
+    Either<Failure, void> value =
+        await _authRepository.registerUser(completeUser);
+    value.fold((failure) {
       emit(state.copyWith(status: AuthStatus.error));
-    } catch (_) {
-      emit(state.copyWith(status: AuthStatus.error));
-    }
+      failure.show;
+    }, (_) {
+      emit(state.copyWith(status: AuthStatus.successLogIn));
+    });
   }
 }

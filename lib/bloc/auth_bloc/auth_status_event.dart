@@ -9,6 +9,11 @@ abstract class AuthStatusEvent extends Equatable {
 
 class LoginInUsingGoogleEvent extends AuthStatusEvent {}
 
+class RegisterUserDataEvent extends AuthStatusEvent {
+  final String name;
+  const RegisterUserDataEvent(this.name);
+}
+
 class ChangeAuthModeEvent extends AuthStatusEvent {
   final AuthModes mode;
   const ChangeAuthModeEvent(this.mode);
