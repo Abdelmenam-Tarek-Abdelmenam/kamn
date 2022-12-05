@@ -1,21 +1,23 @@
-const testImage1 =
-    "https://pickaface.net/gallery/avatar/PKSToMa56565347d918a.png";
-const testImage2 =
-    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRnRWY_gGQRttc1vDM4LApEo15v3mrisyxPiQ&usqp=CAU";
-const testImage3 =
-    "https://img.freepik.com/free-icon/soccer-player_318-174101.jpg?w=2000";
-const testImage4 =
-    "https://thumbs.dreamstime.com/b/avatar-man-soccer-player-graphic-sports-clothes-front-view-over-isolated-background-illustration-73244786.jpg";
+import 'package:kamn/data/models/app_user.dart';
 
-class RankedUser {
-  final String name;
-  final String id;
-  final String img;
-  final int score;
+const noPlayer =
+    "https://www.thesun.co.uk/wp-content/uploads/2018/05/tp-image-gay-footballer-silouhette1.jpg?strip=all&quality=100&w=960&h=960&crop=1";
 
-  RankedUser(
-      {required this.name,
-      required this.id,
-      required this.img,
-      required this.score});
+class Player extends AppUser {
+  Player(
+      {required super.name,
+      required super.id,
+      required super.photoUrl,
+      required super.score});
+
+  factory Player.empty() =>
+      Player(name: "", id: "", photoUrl: noPlayer, score: 0);
+
+  factory Player.fromJson(Map<String, dynamic>? json) => json == null
+      ? Player.empty()
+      : Player(
+          id: json['id'],
+          photoUrl: json["photoUrl"],
+          name: json["name"],
+          score: json['score']);
 }

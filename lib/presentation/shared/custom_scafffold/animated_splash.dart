@@ -68,10 +68,11 @@ class _SplashViewState extends State<SplashView> {
               Visibility(
                   visible: widget.showDivider, child: whiteDivider(context)),
               splashImage(),
-              Visibility(
-                visible: animationFinished == AnimationState.end,
-                child: widget.child,
-              ),
+              AnimatedCrossFade(
+                  firstChild: Container(),
+                  secondChild: widget.child,
+                  crossFadeState: animationFinished.fadeState,
+                  duration: const Duration(milliseconds: 500)),
             ],
           ),
         ),
@@ -110,5 +111,8 @@ class _SplashViewState extends State<SplashView> {
 enum AnimationState {
   idle,
   start,
-  end,
+  end;
+
+  CrossFadeState get fadeState =>
+      this == end ? CrossFadeState.showSecond : CrossFadeState.showFirst;
 }

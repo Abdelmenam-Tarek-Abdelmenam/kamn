@@ -7,27 +7,30 @@ class AppUser {
   final String? email;
   final String? photoUrl;
   String? name;
+  int score;
 
   @override
   String toString() {
     return "User $name with email $email";
   }
 
-  AppUser({
-    required this.id,
-    this.name,
-    this.email,
-    this.photoUrl,
-  });
+  AppUser(
+      {required this.id, this.name, this.email, this.photoUrl, this.score = 0});
 
-  Map<String, dynamic> get toJson =>
-      {"id": id, "email": email, "photoUrl": photoUrl, "name": name};
+  Map<String, dynamic> get toJson => {
+        "id": id,
+        "email": email,
+        "photoUrl": photoUrl,
+        "name": name,
+        "score": score
+      };
 
   factory AppUser.fromJson(Map<String, dynamic> json) => AppUser(
       id: json['id'],
       email: json["email"],
       photoUrl: json["photoUrl"],
-      name: json["name"]);
+      name: json["name"],
+      score: json['score']);
 
   factory AppUser.fromFirebaseUser(
     User? user,
@@ -56,17 +59,13 @@ class CompleteUser {
   CompleteUser(
       {required this.user, this.category, this.game, String? userName});
 
-  Map<String, dynamic> get toJson => {
-        "id": user.id,
-        "userData": user.toJson,
-        "Game": game!.index,
-        "category": category!.index
-      };
+  Map<String, dynamic> get toJson =>
+      {...user.toJson, "Game": game!.index, "category": category!.index};
 
   factory CompleteUser.fromJson(Map<String, dynamic> json) => CompleteUser(
       game: Games.values[json['Game']],
       category: UserCategory.values[json["category"]],
-      user: AppUser.fromJson(json['userData']));
+      user: AppUser.fromJson(json));
 
   factory CompleteUser.inComplete(AppUser user) => CompleteUser(user: user);
 

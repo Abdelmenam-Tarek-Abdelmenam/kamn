@@ -4,6 +4,6 @@ const String _tableName = "";
 
 class DbRepository {
   DbRepository() {
-    print(_tableName);
+    _tableName;
   }
 }

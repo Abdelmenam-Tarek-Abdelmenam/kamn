@@ -6,7 +6,7 @@ import '../repositories/auth_repository.dart';
 import 'error_state.dart';
 
 class SigningRepository {
-  MongoDatabase mongo = MongoDatabase();
+  MongoDatabase get mongo => MongoDatabase.instance;
   final AuthRepository _authRepository = AuthRepository();
 
   Future<Either<Failure, CompleteUser>> signInUsingGoogle() async {

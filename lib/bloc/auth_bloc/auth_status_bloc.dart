@@ -7,7 +7,7 @@ import 'package:kamn/presentation/resources/string_manager.dart';
 
 import '../../data/models/app_user.dart';
 import '../../data/repository_implementer/error_state.dart';
-import '../../data/repository_implementer/sigining.dart';
+import '../../data/repository_implementer/sigining_repo.dart';
 import '../../presentation/shared/toast_helper.dart';
 
 part 'auth_status_event.dart';
@@ -17,7 +17,6 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
   final SigningRepository _authRepository = SigningRepository();
 
   AuthBloc(AppUser appUser) : super(AuthStates.initial()) {
-    print(appUser);
     user = appUser;
     on<LoginInUsingGoogleEvent>(_loginUsingGoogleHandler);
     on<SignUpInUsingEmailEvent>(_signUpUsingEmailHandler);

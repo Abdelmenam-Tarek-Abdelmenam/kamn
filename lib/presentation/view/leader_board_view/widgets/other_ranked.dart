@@ -6,11 +6,8 @@ import 'package:kamn/presentation/shared/widget/dividers.dart';
 import '../../../../data/models/ranked_user.dart';
 
 class OtherRanked extends StatelessWidget {
-  OtherRanked({Key? key}) : super(key: key);
-  final List<RankedUser> users = List.generate(
-      20,
-      (index) => RankedUser(
-          name: "Ahmed", id: "id", img: testImage2, score: 20 - index));
+  const OtherRanked(this.users, {Key? key}) : super(key: key);
+  final List<Player> users;
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +46,9 @@ class OtherRanked extends StatelessWidget {
                 ),
               ),
               Dividers.w10,
-              Avatar(users[index].img),
+              Avatar(users[index].photoUrl ?? ""),
               Dividers.w10,
-              Expanded(child: nameWidget(users[index].name, context)),
+              Expanded(child: nameWidget(users[index].name!, context)),
               Dividers.w10,
               scoreWidget(users[index].score, context),
               Dividers.w10,

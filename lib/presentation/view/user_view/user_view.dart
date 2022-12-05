@@ -32,7 +32,7 @@ class UserView extends StatelessWidget {
         child: Expanded(
             child: Column(
           children: const [
-            TopWidget(bottom: 10, child: UserInfo()),
+            TopWidget(bottom: 5, child: UserInfo()),
             Dividers.h20,
             Dividers.h20,
             LoadingText(),

@@ -12,6 +12,7 @@ class GridItemDesign extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width / 2 - 20;
+    if (width.isNegative) return Container();
     return SizedBox(
       width: width > 200 ? 200 : width,
       child: Padding(

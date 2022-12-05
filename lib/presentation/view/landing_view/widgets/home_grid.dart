@@ -40,7 +40,7 @@ class HomeGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: PaddingManager.p15,
+        padding: PaddingManager.p10,
         child: Center(
           child: Wrap(children: items.map((e) => GridItemDesign(e)).toList()),
         ),

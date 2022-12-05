@@ -8,7 +8,10 @@ import 'package:kamn/data/models/app_user.dart';
 import 'bloc/auth_bloc/auth_status_bloc.dart';
 import 'bloc/benfits_bloc/benfits_bloc.dart';
 import 'bloc/coaches_bloc/coaches_bloc.dart';
+import 'bloc/leader_board_bloc/leader_board_bloc.dart';
 import 'bloc/matches_bloc/matches_bloc.dart';
+import 'bloc/store_bloc/store_bloc.dart';
+
 import 'bloc/my_bloc_observer.dart';
 import 'data/data_sources/fcm.dart';
 import 'data/data_sources/pref_repository.dart';
@@ -20,7 +23,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PreferenceRepository.init();
   await Firebase.initializeApp();
-  await MongoDatabase.init();
+  await MongoDatabase.instance.init();
   FireNotificationHelper((_) {});
   Bloc.observer = MyBlocObserver();
 
@@ -37,19 +40,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
         providers: [
-          BlocProvider(
-            create: (context) => AuthBloc(user),
-            lazy: false,
-          ),
-          BlocProvider(
-            create: (context) => BenfitsBloc(),
-          ),
-          BlocProvider(
-            create: (context) => MatchesBloc(),
-          ),
-          BlocProvider(
-            create: (context) => CoachesBloc(),
-          ),
+          BlocProvider(create: (context) => AuthBloc(user), lazy: false),
+          BlocProvider(create: (context) => BenfitsBloc()),
+          BlocProvider(create: (context) => MatchesBloc()),
+          BlocProvider(create: (context) => CoachesBloc()),
+          BlocProvider(create: (context) => StoreBloc()),
+          BlocProvider(create: (context) => LeaderBoardBloc()),
         ],
         child: MaterialApp(
           title: StringManger.appName,

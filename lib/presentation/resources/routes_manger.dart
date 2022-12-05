@@ -48,11 +48,11 @@ class RouteGenerator {
       case Routes.coaches:
         return MaterialPageRoute(builder: (_) => const CoachesView());
       case Routes.leaderBoard:
-        return MaterialPageRoute(builder: (_) => const LeaderBoardView());
+        return MaterialPageRoute(builder: (_) => LeaderBoardView());
       case Routes.benefits:
         return MaterialPageRoute(builder: (_) => const BenefitsView());
       case Routes.store:
-        return MaterialPageRoute(builder: (_) => const StoreView());
+        return MaterialPageRoute(builder: (_) => StoreView());
       case Routes.customerSupport:
         return MaterialPageRoute(builder: (_) => const CustomerSupportView());
       case Routes.tournaments:

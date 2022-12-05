@@ -20,10 +20,15 @@ class _CoachesViewState extends State<CoachesView> {
   int index = 0;
 
   @override
-  Widget build(BuildContext context) {
+  void initState() {
     context
         .read<CoachesBloc>()
         .add(ChangeViewFilterEvent(context.read<AuthBloc>().state.game));
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SlidingScaffold(
         title: StringManger.coaches,
         floatingActionButton: FloatingActionButton(

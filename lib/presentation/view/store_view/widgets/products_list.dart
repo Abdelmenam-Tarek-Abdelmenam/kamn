@@ -1,26 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:kamn/data/models/product.dart';
+import 'package:kamn/data/models/show_data.dart';
+import 'package:kamn/presentation/shared/widget/loading_text.dart';
 
 import 'product_design.dart';
 
 class ProductList extends StatelessWidget {
-  ProductList({Key? key}) : super(key: key);
-  final List<Product> products = [
-    Product(
-        name: "T-Shirt",
-        provider: "KAMN",
-        price: 250,
-        id: "5",
-        img: testImage1),
-    Product(name: "Hat", provider: "KAMN", price: 50, id: "6", img: testImage2),
-    Product(
-        name: "Bottle", provider: "KAMN", price: 200, id: "7", img: testImage3),
-  ];
+  const ProductList(this.products, {Key? key}) : super(key: key);
+  final ShowData<Product> products;
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Wrap(children: products.map((e) => ProductDesign(e)).toList()),
+      child: Wrap(children: [
+        ...products.data.map((e) => ProductDesign(e)).toList(),
+        if (!products.isEnd)
+          const Center(child: FittedBox(child: LoadingText()))
+      ]),
     );
   }
 }

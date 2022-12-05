@@ -83,7 +83,6 @@ class LoginView extends StatelessWidget {
                   Navigator.of(context)
                       .pushNamedAndRemoveUntil(Routes.home, (route) => false);
                 } else if (state.status == AuthStatus.successSignUp) {
-                  print(AuthBloc.user.name);
                   Navigator.of(context).pushNamed(Routes.signup);
                 }
               },

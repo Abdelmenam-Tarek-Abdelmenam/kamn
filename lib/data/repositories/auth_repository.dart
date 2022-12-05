@@ -98,11 +98,8 @@ class AuthRepository {
     try {
       await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
     } on firebase_auth.FirebaseAuthException catch (e) {
-      print(e);
       throw FireBaseAuthErrors.fromCode(e.code);
     } catch (_) {
-      print(_);
-
       throw const FireBaseAuthErrors();
     }
   }

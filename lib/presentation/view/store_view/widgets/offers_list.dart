@@ -9,18 +9,8 @@ import 'package:kamn/presentation/shared/widget/error_image.dart';
 import 'package:lottie/lottie.dart';
 
 class OffersList extends StatelessWidget {
-  OffersList({Key? key}) : super(key: key);
-  final List<OfferItem> offers = [
-    OfferItem(
-      product: Product(
-          name: "KAMN T-Shirt",
-          provider: "KAMN",
-          price: 250,
-          id: "1",
-          img: testImage1),
-      newPrice: 200,
-    ),
-  ];
+  const OffersList(this.offers, {Key? key}) : super(key: key);
+  final List<OfferItem> offers;
 
   @override
   Widget build(BuildContext context) {
@@ -101,8 +91,8 @@ class OffersList extends StatelessWidget {
     return Padding(
       padding: PaddingManager.p2.copyWith(top: 0, bottom: 10),
       child: InkWell(
-        onTap: () => Navigator.of(context).pushNamed(Routes.product,
-            arguments: (item.product..price = item.newPrice)),
+        onTap: () =>
+            Navigator.of(context).pushNamed(Routes.product, arguments: (item)),
         child: Card(
           color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.3),
           elevation: 0,
@@ -135,7 +125,7 @@ class OffersList extends StatelessWidget {
                           width: MediaQuery.of(context).size.width / 2,
                           height: 150,
                           child: ErrorImage(
-                            item.product.img,
+                            item.img,
                           )),
                     ],
                   ),
@@ -150,7 +140,7 @@ class OffersList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${item.product.price} EGP",
+                        "${item.oldPrice} EGP",
                         style: Theme.of(context)
                             .textTheme
                             .displaySmall!
@@ -158,7 +148,7 @@ class OffersList extends StatelessWidget {
                                 decoration: TextDecoration.lineThrough,
                                 fontSize: 16),
                       ),
-                      Text("${item.newPrice} EGP",
+                      Text("${item.price} EGP",
                           style: Theme.of(context).textTheme.displaySmall)
                     ],
                   ),
@@ -167,7 +157,7 @@ class OffersList extends StatelessWidget {
               Padding(
                 padding: PaddingManager.p2.copyWith(left: 8),
                 child: Text(
-                  item.product.name,
+                  item.name,
                   style: Theme.of(context).textTheme.displayLarge!.copyWith(
                       fontSize: 16,
                       color: Theme.of(context).colorScheme.primary),
