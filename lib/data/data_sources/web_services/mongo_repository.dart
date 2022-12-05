@@ -8,6 +8,7 @@ const _mongoUrl =
 const _userCollection = "users";
 const _storeCollection = "store";
 const _offersCollection = "offers";
+const _tournamentsCollection = "tournaments";
 
 class MongoDatabase {
   Db? _db;
@@ -56,6 +57,16 @@ class MongoDatabase {
     return await collection.find().toList();
   }
 
+  Future<List<Map<String, dynamic>?>> getAllTournaments(
+      int start, int end) async {
+    await _preCheck();
+
+    DbCollection collection = _db!.collection(_tournamentsCollection);
+    return await collection
+        .find(where.sortBy('date', descending: true).limit(end).skip(start))
+        .toList();
+  }
+
   Future<void> _preCheck() async {
     if (_db == null) await init();
     if (await Connectivity().isNotConnected()) {
@@ -63,17 +74,11 @@ class MongoDatabase {
     }
   }
 
-  // Future<void> saveProducts(List<Map<String, dynamic>> data) async {
-  //     await _preCheck();
-  //     DbCollection collection = _db!.collection(_storeCollection);
-  //     await collection.insertMany(data);
-  //   }
-  //
-  //   Future<void> saveOffers(List<Map<String, dynamic>> data) async {
-  //     await _preCheck();
-  //     DbCollection collection = _db!.collection(_offersCollection);
-  //     await collection.insertMany(data);
-  //   }
+  Future<void> saveData(List<Map<String, dynamic>> data) async {
+    await _preCheck();
+    DbCollection collection = _db!.collection(_tournamentsCollection);
+    await collection.insertMany(data);
+  }
 }
 
 extension Check on Connectivity {

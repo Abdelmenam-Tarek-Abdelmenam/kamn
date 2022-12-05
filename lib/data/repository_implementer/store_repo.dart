@@ -16,7 +16,7 @@ class StoreRepository {
           await MongoDatabase.instance.getSomeProduct(0, end);
       List<Product> products =
           storeData.map((e) => Product.fromJson(e!)).toList();
-      ShowData<Product> productsShow = ShowData(data: products);
+      ShowData<Product> productsShow = ShowData(products);
       return Right(AllStore(offers: offers, products: productsShow));
     } catch (_) {
       return const Left(Failure("Error happened while getting ranked players"));

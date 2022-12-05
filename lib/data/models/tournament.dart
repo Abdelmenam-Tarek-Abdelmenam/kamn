@@ -1,11 +1,21 @@
-const testImage1 =
-    "https://img.redbull.com/images/c_limit,w_1500,h_1000,f_auto,q_auto/redbullcom/2019/07/01/45d83783-3c81-4e6d-850a-a16a2af2c154/red-bull-untapped-logo";
-const testImage2 =
-    "https://www.ticketsmarche.com/mm/RB_Halfcourt_NFQ_Website%20Slider(1140x570).jpg";
-
 class Tournament {
   final String img;
   final String name;
+  final String date;
+  final String? description;
 
-  Tournament({required this.img, required this.name});
+  Tournament(
+      {required this.img,
+      required this.name,
+      required this.date,
+      this.description});
+
+  factory Tournament.fromJson(Map<String, dynamic> json) => Tournament(
+      img: json["img"],
+      name: json["name"],
+      date: json["date"],
+      description: json["description"]);
+
+  Map<String, dynamic> get toJson =>
+      {"img": img, "name": name, "date": date, "description": description};
 }

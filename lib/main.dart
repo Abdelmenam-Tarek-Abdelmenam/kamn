@@ -13,6 +13,7 @@ import 'bloc/matches_bloc/matches_bloc.dart';
 import 'bloc/store_bloc/store_bloc.dart';
 
 import 'bloc/my_bloc_observer.dart';
+import 'bloc/tournament_bloc/tournament_bloc.dart';
 import 'data/data_sources/fcm.dart';
 import 'data/data_sources/pref_repository.dart';
 import 'presentation/resources/routes_manger.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
           BlocProvider(create: (context) => MatchesBloc()),
           BlocProvider(create: (context) => CoachesBloc()),
           BlocProvider(create: (context) => StoreBloc()),
+          BlocProvider(create: (context) => TournamentBloc()),
           BlocProvider(create: (context) => LeaderBoardBloc()),
         ],
         child: MaterialApp(

@@ -6,15 +6,11 @@ class ShowData<T> extends Equatable {
   List<T> data;
   int end = 20;
 
-  ShowData({
-    required this.data,
-  });
+  ShowData(
+    this.data,
+  );
 
-  void addData(T newData) {
-    data.insert(0, newData);
-  }
-
-  factory ShowData.empty() => ShowData(data: const []);
+  factory ShowData.empty() => ShowData(const []);
 
   bool get isEmpty => data.isEmpty;
   bool get isEnd => end > data.length;

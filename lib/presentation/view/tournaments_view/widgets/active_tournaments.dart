@@ -8,8 +8,8 @@ import '../../../resources/styles_manager.dart';
 import 'tournament_card.dart';
 
 class ActiveTournamentsList extends StatelessWidget {
-  ActiveTournamentsList({Key? key}) : super(key: key);
-  final List<Tournament> tournaments = [];
+  const ActiveTournamentsList(this.tournaments, {Key? key}) : super(key: key);
+  final List<Tournament> tournaments;
 
   @override
   Widget build(BuildContext context) {

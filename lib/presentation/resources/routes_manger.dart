@@ -56,7 +56,7 @@ class RouteGenerator {
       case Routes.customerSupport:
         return MaterialPageRoute(builder: (_) => const CustomerSupportView());
       case Routes.tournaments:
-        return MaterialPageRoute(builder: (_) => const TournamentsView());
+        return MaterialPageRoute(builder: (_) => TournamentsView());
       case Routes.user:
         return MaterialPageRoute(builder: (_) => const UserView());
       case Routes.product:
