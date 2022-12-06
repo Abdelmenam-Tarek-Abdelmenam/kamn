@@ -23,7 +23,7 @@ class CustomerSupportView extends StatelessWidget {
               // physics: const BouncingScrollPhysics(),
               child: ListView(
                 children: [
-                  TopWidget(bottom: 20, child: QuickContact()),
+                  const TopWidget(bottom: 20, child: QuickContact()),
                   Padding(
                     padding: PaddingManager.p15,
                     child: ContactsIcons(),

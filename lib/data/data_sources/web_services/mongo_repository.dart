@@ -9,6 +9,7 @@ const _userCollection = "users";
 const _storeCollection = "store";
 const _offersCollection = "offers";
 const _tournamentsCollection = "tournaments";
+const _customerMessageCollection = "customerMessage";
 
 class MongoDatabase {
   Db? _db;
@@ -65,6 +66,12 @@ class MongoDatabase {
     return await collection
         .find(where.sortBy('date', descending: true).limit(end).skip(start))
         .toList();
+  }
+
+  Future<void> sendMessage(Map<String, dynamic> userData) async {
+    await _preCheck();
+    DbCollection collection = _db!.collection(_customerMessageCollection);
+    await collection.insert(userData);
   }
 
   Future<void> _preCheck() async {
