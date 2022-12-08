@@ -30,7 +30,7 @@ class LoginView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => onWillPop(context),
+      onWillPop: () => showMyDialog(context),
       child: GestureDetector(
         onTap: () {
           FocusScope.of(context).unfocus();

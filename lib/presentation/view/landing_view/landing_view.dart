@@ -14,7 +14,7 @@ class LandingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: () => onWillPop(context),
+      onWillPop: () => showMyDialog(context),
       child: state == HomePageStates.splash
           ? SplashView(
               title: StringManger.appName,

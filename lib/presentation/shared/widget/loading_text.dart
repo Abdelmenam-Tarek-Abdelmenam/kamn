@@ -6,19 +6,23 @@ class LoadingText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          "loading ",
-          style:
-              Theme.of(context).textTheme.displayLarge!.copyWith(fontSize: 20),
-        ),
-        SpinKitThreeBounce(
-          color: Theme.of(context).colorScheme.onBackground,
-          size: 15,
-        )
-      ],
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "loading ",
+            style: Theme.of(context)
+                .textTheme
+                .displayLarge!
+                .copyWith(fontSize: 20),
+          ),
+          SpinKitThreeBounce(
+            color: Theme.of(context).colorScheme.onBackground,
+            size: 15,
+          )
+        ],
+      ),
     );
   }
 }

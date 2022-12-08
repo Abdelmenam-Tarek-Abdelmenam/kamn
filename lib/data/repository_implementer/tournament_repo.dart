@@ -1,5 +1,5 @@
 import 'package:either_dart/either.dart';
-import 'package:kamn/data/models/date_extensions.dart';
+import 'package:kamn/data/repositories/date_extensions.dart';
 import 'package:kamn/data/models/tournament.dart';
 import '../data_sources/web_services/mongo_repository.dart';
 import '../models/show_data.dart';
@@ -10,7 +10,7 @@ class TournamentRepository {
   Future<Either<Failure, AllTournament>> getAllStore(int end) async {
     try {
       List<Map<String, dynamic>?> data =
-          await MongoDatabase.instance.getAllTournaments(0, end);
+          await MongoDatabase.instance.getTournaments(0, end);
 
       return Right(AllTournament.fromJson(data));
     } catch (_) {
@@ -25,7 +25,7 @@ class TournamentRepository {
       old.getNext();
       print("start ${old.start} , end ${old.end}");
       List<Map<String, dynamic>?> storeData =
-          await MongoDatabase.instance.getAllTournaments(old.start, old.end);
+          await MongoDatabase.instance.getTournaments(old.start, old.end);
       print(storeData.length);
       List<Tournament> tournaments =
           storeData.map((e) => Tournament.fromJson(e!)).toList();

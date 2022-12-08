@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../presentation/resources/string_manager.dart';
@@ -62,10 +64,13 @@ class CompleteUser {
   Map<String, dynamic> get toJson =>
       {...user.toJson, "Game": game!.index, "category": category!.index};
 
-  factory CompleteUser.fromJson(Map<String, dynamic> json) => CompleteUser(
-      game: Games.values[json['Game']],
-      category: UserCategory.values[json["category"]],
-      user: AppUser.fromJson(json));
+  factory CompleteUser.fromJson(dynamic jsonData) {
+    jsonData = jsonData is String ? json.decode(jsonData) : jsonData;
+    return CompleteUser(
+        game: Games.values[jsonData['Game']],
+        category: UserCategory.values[jsonData["category"]],
+        user: AppUser.fromJson(jsonData));
+  }
 
   factory CompleteUser.inComplete(AppUser user) => CompleteUser(user: user);
 

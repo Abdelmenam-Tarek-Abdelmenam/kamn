@@ -19,6 +19,23 @@ class Gym {
     required this.type,
     required this.rating,
   });
+
+  factory Gym.fromJson(Map<String, dynamic> json) => Gym(
+      name: json['name'],
+      address: json['address'],
+      price: json['price'],
+      img: json['img'],
+      type: json['type'],
+      rating: json['rating']);
+
+  Map<String, dynamic> get toJson => {
+        "name": name,
+        "address": address,
+        "price": price,
+        "img": img,
+        "type": type,
+        "rating": rating
+      };
 }
 
 enum GymType {

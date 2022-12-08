@@ -1,65 +1,56 @@
 part of 'matches_bloc.dart';
 
-class MatchesState extends Equatable {
+class PlayState extends Equatable {
   final MatchesViewType type;
-  final List<Ground> grounds;
-  final List<ActiveMatch> matches;
+  final BlocStatus groundStatus;
+  final BlocStatus matchesStatus;
+  final ShowData<Ground> grounds;
+  final ShowData<ActiveMatch> matches;
   final bool userAvailable;
 
-  const MatchesState({
+  const PlayState({
     required this.type,
     required this.grounds,
     required this.matches,
     required this.userAvailable,
+    required this.groundStatus,
+    required this.matchesStatus,
   });
 
-  factory MatchesState.initial() => MatchesState(
+  factory PlayState.initial() => PlayState(
         type: MatchesViewType.grounds,
         userAvailable: false,
-        grounds: [
-          Ground(
-              name: "OLympic  playground",
-              address: "Ahmed Zewail Sq., Somouha - Alexandria - Egypt",
-              price: 120,
-              img: testImage1,
-              type: Games.football,
-              rating: 3.5)
-        ],
-        matches: [
-          ActiveMatch(
-              game: Games.basketball,
-              playGroundName: "Smouha Clup",
-              availableCount: 3,
-              time: "22/11/2022 3:40 PM"),
-          ActiveMatch(
-              game: Games.football,
-              playGroundName: "falky Playground",
-              availableCount: 2,
-              time: "23/11/2022 7:80 PM")
-        ],
+        grounds: ShowData.empty(),
+        matches: ShowData.empty(),
+        matchesStatus: BlocStatus.idle,
+        groundStatus: BlocStatus.idle,
       );
 
-  MatchesState copyWith({
-    MatchesViewType? type,
-    List<Ground>? grounds,
-    bool? userAvailable,
-    List<ActiveMatch>? matches,
-  }) {
-    return MatchesState(
+  PlayState copyWith(
+      {MatchesViewType? type,
+      ShowData<Ground>? grounds,
+      bool? userAvailable,
+      ShowData<ActiveMatch>? matches,
+      BlocStatus? groundStatus,
+      BlocStatus? matchesStatus}) {
+    return PlayState(
       type: type ?? this.type,
       userAvailable: userAvailable ?? this.userAvailable,
       grounds: grounds ?? this.grounds,
       matches: matches ?? this.matches,
+      matchesStatus: matchesStatus ?? this.groundStatus,
+      groundStatus: groundStatus ?? this.groundStatus,
     );
   }
 
   @override
-  List<Object> get props => [type, userAvailable];
+  List<Object> get props => [type, userAvailable, matchesStatus, groundStatus];
 }
 
 enum MatchesViewType {
   grounds,
-  active;
+  active,
+  community;
 
   @override
   String toString() {
@@ -68,15 +59,19 @@ enum MatchesViewType {
         return StringManger.ground;
       case MatchesViewType.active:
         return StringManger.active;
+      case MatchesViewType.community:
+        return StringManger.community;
     }
   }
 
   IconData toIcon() {
     switch (this) {
       case MatchesViewType.grounds:
-        return FontAwesomeIcons.personRunning;
+        return FontAwesomeIcons.mapLocationDot;
       case MatchesViewType.active:
         return FontAwesomeIcons.peopleGroup;
+      case MatchesViewType.community:
+        return Icons.chat;
     }
   }
 }

@@ -10,6 +10,11 @@ const _storeCollection = "store";
 const _offersCollection = "offers";
 const _tournamentsCollection = "tournaments";
 const _customerMessageCollection = "customerMessage";
+const _groundsCollection = "grounds";
+const _activeMatchesCollection = "activeMatches";
+// const _benfitsCollection = "benfits";
+// const _coachesCollection = "coaches";
+// const _gymCollection = "gym";
 
 class MongoDatabase {
   Db? _db;
@@ -18,8 +23,10 @@ class MongoDatabase {
 
   Future<void> init() async {
     if (await Connectivity().isNotConnected()) return;
-    _db = await Db.create(_mongoUrl);
-    await _db?.open();
+    try {
+      _db = await Db.create(_mongoUrl);
+      await _db?.open();
+    } catch (_) {}
   }
 
   Future<void> addUser(Map<String, dynamic> userData) async {
@@ -35,7 +42,30 @@ class MongoDatabase {
     return collection.findOne({"id": id});
   }
 
-  Future<List<Map<String, dynamic>?>> getAllUser() async {
+  Future<void> setUserAvailable(String id, bool state) async {
+    await _preCheck();
+
+    DbCollection collection = _db!.collection(_userCollection);
+    collection.updateOne(where.eq('id', id), modify.set('available', state));
+  }
+
+  Future<bool?> getUserAvailable(String id) async {
+    await _preCheck();
+
+    DbCollection collection = _db!.collection(_userCollection);
+    Map<String, dynamic>? data =
+        await collection.findOne(where.eq('id', id).fields(['available']));
+    return data!['available'];
+  }
+
+  Future<Map<String, dynamic>?> getUserAvailability(String id) async {
+    await _preCheck();
+
+    DbCollection collection = _db!.collection(_userCollection);
+    return collection.findOne({"id": id});
+  }
+
+  Future<List<Map<String, dynamic>?>> getRankedUser() async {
     await _preCheck();
 
     DbCollection collection = _db!.collection(_userCollection);
@@ -44,7 +74,7 @@ class MongoDatabase {
         .toList();
   }
 
-  Future<List<Map<String, dynamic>?>> getSomeProduct(int start, int end) async {
+  Future<List<Map<String, dynamic>?>> getProduct(int start, int end) async {
     await _preCheck();
 
     DbCollection collection = _db!.collection(_storeCollection);
@@ -58,14 +88,28 @@ class MongoDatabase {
     return await collection.find().toList();
   }
 
-  Future<List<Map<String, dynamic>?>> getAllTournaments(
-      int start, int end) async {
+  Future<List<Map<String, dynamic>?>> getTournaments(int start, int end) async {
     await _preCheck();
 
     DbCollection collection = _db!.collection(_tournamentsCollection);
     return await collection
         .find(where.sortBy('date', descending: true).limit(end).skip(start))
         .toList();
+  }
+
+  Future<List<Map<String, dynamic>?>> getGrounds(int start, int end) async {
+    await _preCheck();
+
+    DbCollection collection = _db!.collection(_groundsCollection);
+    return await collection.find(where.limit(end).skip(start)).toList();
+  }
+
+  Future<List<Map<String, dynamic>?>> getActiveMatches(
+      int start, int end) async {
+    await _preCheck();
+
+    DbCollection collection = _db!.collection(_activeMatchesCollection);
+    return await collection.find(where.limit(end).skip(start)).toList();
   }
 
   Future<void> sendMessage(Map<String, dynamic> userData) async {
@@ -83,7 +127,7 @@ class MongoDatabase {
 
   Future<void> saveData(List<Map<String, dynamic>> data) async {
     await _preCheck();
-    DbCollection collection = _db!.collection(_tournamentsCollection);
+    DbCollection collection = _db!.collection(_activeMatchesCollection);
     await collection.insertMany(data);
   }
 }

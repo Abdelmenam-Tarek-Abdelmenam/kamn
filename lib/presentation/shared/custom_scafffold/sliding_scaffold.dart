@@ -16,6 +16,7 @@ class SlidingScaffold extends StatelessWidget {
       required this.title,
       this.bottomNavigationBar,
       this.floatingActionButton,
+      this.floatingActionButtonLocation,
       this.action,
       Key? key})
       : super(key: key);
@@ -24,12 +25,14 @@ class SlidingScaffold extends StatelessWidget {
   final Widget? action;
   final List<Widget>? bottomNavigationBar;
   final String title;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   @override
   Widget build(BuildContext context) {
     return GradientContainer(
       Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButtonLocation: floatingActionButtonLocation ??
+            FloatingActionButtonLocation.centerDocked,
         floatingActionButton: floatingActionButton,
         bottomNavigationBar:
             bottomNavigationBar == null ? null : bottomBar(context),

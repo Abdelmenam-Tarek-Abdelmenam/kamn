@@ -1,61 +1,74 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:kamn/bloc/auth_bloc/auth_status_bloc.dart';
 import 'package:kamn/bloc/matches_bloc/matches_bloc.dart';
 import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/shared/custom_scafffold/sliding_scaffold.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../bloc/status.dart';
+import '../../shared/widget/error_widget.dart';
+import '../../shared/widget/loading_text.dart';
 import 'widgets/active_matches.dart';
 import 'widgets/grounds.dart';
 
 class MatchesView extends StatelessWidget {
-  const MatchesView({Key? key}) : super(key: key);
+  MatchesView({Key? key}) : super(key: key);
+  final RefreshController _refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
     return SlidingScaffold(
         title: StringManger.match,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: FloatingActionButton(
-            tooltip: "Community",
-            backgroundColor:
-                Theme.of(context).colorScheme.onPrimary.withOpacity(0.65),
+            backgroundColor: context.watch<PlayBloc>().state.userAvailable
+                ? Theme.of(context).colorScheme.secondary.withOpacity(0.8)
+                : Theme.of(context).colorScheme.onPrimary.withOpacity(0.65),
             elevation: 0,
             child: Icon(
-              Icons.chat,
-              color: Theme.of(context).colorScheme.primary.withOpacity(0.7),
+              FontAwesomeIcons.personRunning,
+              color: context.watch<PlayBloc>().state.userAvailable
+                  ? Theme.of(context).colorScheme.onPrimary.withOpacity(0.7)
+                  : Theme.of(context).colorScheme.primary.withOpacity(0.7),
             ),
-            onPressed: () {}),
+            onPressed: () => setActive(context)),
         bottomNavigationBar:
-            bottomBar(context, context.watch<MatchesBloc>().state.type),
+            bottomBar(context, context.watch<PlayBloc>().state.type),
         child: Expanded(
           child: ListView(
             children: [
-              Row(
-                children: [
-                  Checkbox(
-                      checkColor: Theme.of(context).colorScheme.primary,
-                      activeColor: Theme.of(context)
-                          .colorScheme
-                          .onPrimary
-                          .withOpacity(0.8),
-                      value: context.watch<MatchesBloc>().state.userAvailable,
-                      onChanged: (val) {
-                        context
-                            .read<MatchesBloc>()
-                            .add(ChangeUserCheckEvent(val!));
-                      }),
-                  Text(
-                    "I'm free all time any place",
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  )
-                ],
-              ),
-              BlocBuilder<MatchesBloc, MatchesState>(
-                // buildWhen: (prev, next) => prev.type != next.type,
+              BlocBuilder<PlayBloc, PlayState>(
                 builder: (context, state) {
                   if (state.type == MatchesViewType.grounds) {
-                    return GroundsWidget(state.grounds);
+                    switch (state.groundStatus) {
+                      case BlocStatus.idle:
+                        return GroundsWidget(state.grounds);
+                      case BlocStatus.gettingData:
+                        return const LoadingText();
+                      case BlocStatus.getData:
+                        endRefresh();
+                        return GroundsWidget(state.grounds);
+                      case BlocStatus.error:
+                        endRefresh();
+                        return const ErrorView();
+                    }
+                  } else if (state.type == MatchesViewType.active) {
+                    switch (state.matchesStatus) {
+                      case BlocStatus.idle:
+                        return ActiveMatchesWidget(state.matches);
+                      case BlocStatus.gettingData:
+                        return const LoadingText();
+                      case BlocStatus.getData:
+                        endRefresh();
+                        return ActiveMatchesWidget(state.matches);
+                      case BlocStatus.error:
+                        endRefresh();
+                        return const ErrorView();
+                    }
                   } else {
-                    return ActiveMatchesWidget(state.matches);
+                    return const LoadingText();
                   }
                 },
               ),
@@ -70,7 +83,7 @@ class MatchesView extends StatelessWidget {
   List<Widget> bottomBar(BuildContext context, MatchesViewType type) =>
       MatchesViewType.values
           .map((i) => SizedBox(
-                width: 120,
+                width: 100,
                 child: TextButton.icon(
                   style: TextButton.styleFrom(
                       foregroundColor: Theme.of(context)
@@ -86,22 +99,50 @@ class MatchesView extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.0),
                       )),
-                  icon: Padding(
-                    padding: const EdgeInsets.only(right: 4.0),
-                    child: Icon(
-                      i.toIcon(),
-                      size: 25,
+                  icon: Icon(
+                    i.toIcon(),
+                    size: 20,
+                  ),
+                  label: FittedBox(
+                    child: Text(
+                      i.toString(),
+                      style: const TextStyle(
+                          fontWeight: FontWeight.w100, fontSize: 14),
                     ),
                   ),
-                  label: Text(
-                    i.toString(),
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w100, fontSize: 16),
-                  ),
                   onPressed: () {
-                    context.read<MatchesBloc>().add(ChangeViewTypeEvent(i));
+                    context.read<PlayBloc>().add(ChangeViewTypeEvent(i));
                   },
                 ),
               ))
           .toList();
+
+  void communityCallback(BuildContext context) {}
+
+  void setActive(BuildContext context) {
+    String inside = context.read<PlayBloc>().state.userAvailable ? "not" : "";
+    String game = context.read<AuthBloc>().state.game.toString();
+
+    SnackBar snackBar = SnackBar(
+      content: Text(
+        'Are you $inside free All time any place to play $game',
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 14),
+      ),
+      action: SnackBarAction(
+          textColor: Theme.of(context).colorScheme.onPrimary,
+          label: "ok",
+          onPressed: () =>
+              context.read<PlayBloc>().add(const ChangeUserCheckEvent())),
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
+  void endRefresh() {
+    Future.delayed(const Duration(milliseconds: 20)).then((value) {
+      print("Refresh complete");
+      if (_refreshController.isRefresh) _refreshController.refreshCompleted();
+      if (_refreshController.isLoading) _refreshController.loadComplete();
+    });
+  }
 }

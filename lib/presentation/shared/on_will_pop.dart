@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kamn/presentation/resources/string_manager.dart';
 
-Future<bool> onWillPop(BuildContext context) async {
+Future<bool> showMyDialog(BuildContext context) async {
   return (await showDialog(
         context: context,
         builder: (context) => AlertDialog(

@@ -5,6 +5,7 @@ import 'package:either_dart/either.dart';
 import 'package:equatable/equatable.dart';
 import 'package:kamn/presentation/resources/string_manager.dart';
 
+import '../../data/data_sources/pref_repository.dart';
 import '../../data/models/app_user.dart';
 import '../../data/repository_implementer/error_state.dart';
 import '../../data/repository_implementer/sigining_repo.dart';
@@ -16,8 +17,9 @@ part 'auth_status_state.dart';
 class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
   final SigningRepository _authRepository = SigningRepository();
 
-  AuthBloc(AppUser appUser) : super(AuthStates.initial()) {
-    user = appUser;
+  AuthBloc(CompleteUser? appUser) : super(AuthStates.initial(appUser)) {
+    if (appUser != null) user = appUser.user;
+
     on<LoginInUsingGoogleEvent>(_loginUsingGoogleHandler);
     on<SignUpInUsingEmailEvent>(_signUpUsingEmailHandler);
     on<LoginInUsingEmailEvent>(_loginUsingEmailHandler);
@@ -39,12 +41,12 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
 
   void _changeUserCategoryHandler(
       ChangeUserCategoryEvent event, Emitter<AuthStates> emit) {
-    emit(state.copyWith(category: event.category));
+    emit(state.copyWith(category: event.category, status: AuthStatus.initial));
   }
 
   void _changUserGameHandler(
       ChangeUserGameEvent event, Emitter<AuthStates> emit) {
-    emit(state.copyWith(game: event.game));
+    emit(state.copyWith(game: event.game, status: AuthStatus.initial));
   }
 
   Future<void> _loginUsingGoogleHandler(
@@ -62,6 +64,9 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
     }, (completeUser) {
       user = completeUser.user;
       if (completeUser.isComplete) {
+        PreferenceRepository.putData(
+            key: PreferenceKey.userData, value: completeUser.toJson);
+
         emit(state.copyWith(
             status: AuthStatus.successLogIn,
             game: completeUser.game,
@@ -87,6 +92,9 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
     }, (completeUser) {
       user = completeUser.user;
       if (completeUser.isComplete) {
+        PreferenceRepository.putData(
+            key: PreferenceKey.userData, value: completeUser.toJson);
+
         emit(state.copyWith(
             status: AuthStatus.successLogIn,
             game: completeUser.game,
@@ -147,6 +155,8 @@ class AuthBloc extends Bloc<AuthStatusEvent, AuthStates> {
       emit(state.copyWith(status: AuthStatus.error));
       failure.show;
     }, (_) {
+      PreferenceRepository.putData(
+          key: PreferenceKey.userData, value: completeUser.toJson);
       emit(state.copyWith(status: AuthStatus.successLogIn));
     });
   }

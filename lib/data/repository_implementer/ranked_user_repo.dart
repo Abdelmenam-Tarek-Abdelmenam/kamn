@@ -8,7 +8,7 @@ class RankedUserRepository {
   Future<Either<Failure, AllRanked>> getAllRanked() async {
     try {
       List<Map<String, dynamic>?> data =
-          await MongoDatabase.instance.getAllUser();
+          await MongoDatabase.instance.getRankedUser();
       return Right(AllRanked.fromJson(data));
     } catch (_) {
       return const Left(Failure("Error happened while getting ranked players"));

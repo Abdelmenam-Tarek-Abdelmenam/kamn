@@ -12,10 +12,27 @@ abstract class Benefit {
   String img;
   String id;
   Benefit(this.id, this.name, this.benefit, this.img, this.description);
+
+  Benefit.fromJson(Map<String, dynamic> json)
+      : id = json['id'],
+        name = json['name'],
+        benefit = json['benfits'],
+        img = json['img'],
+        description = json['description'];
+
+  Map<String, dynamic> toSubJson(dynamic additional) => {
+        "name": name,
+        "benefit": benefit,
+        "description": description,
+        "img": img,
+        "id": id,
+        "additional": additional
+      };
 }
 
 class MedicalBenefit extends Benefit {
   DoctorType type;
+
   MedicalBenefit(
       {required String name,
       required String id,
@@ -24,6 +41,30 @@ class MedicalBenefit extends Benefit {
       required String img,
       required this.type})
       : super(id, name, benefit, img, description);
+
+  MedicalBenefit.fromJson(Map<String, dynamic> json)
+      : type = DoctorType.values[json['additional']],
+        super.fromJson(json);
+
+  Map<String, dynamic> get toJson => super.toSubJson(type.index);
+}
+
+class OtherBenfits extends Benefit {
+  String goods;
+  OtherBenfits({
+    required String name,
+    required this.goods,
+    required String id,
+    required String benefit,
+    required String description,
+    required String img,
+  }) : super(id, name, benefit, img, description);
+
+  OtherBenfits.fromJson(Map<String, dynamic> json)
+      : goods = json['additional'],
+        super.fromJson(json);
+
+  Map<String, dynamic> get toJson => super.toSubJson(goods);
 }
 
 enum DoctorType {
@@ -42,16 +83,4 @@ enum DoctorType {
         return StringManger.all;
     }
   }
-}
-
-class OtherBenfits extends Benefit {
-  String goods;
-  OtherBenfits({
-    required String name,
-    required this.goods,
-    required String id,
-    required String benefit,
-    required String description,
-    required String img,
-  }) : super(id, name, benefit, img, description);
 }

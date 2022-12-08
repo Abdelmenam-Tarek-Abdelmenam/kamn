@@ -4,19 +4,20 @@ import 'package:kamn/presentation/shared/widget/dividers.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../data/models/matches.dart';
+import '../../../../data/models/show_data.dart';
 import '../../../resources/asstes_manager.dart';
 import '../../../resources/string_manager.dart';
 
 class ActiveMatchesWidget extends StatelessWidget {
   const ActiveMatchesWidget(this.matches, {Key? key}) : super(key: key);
-  final List<ActiveMatch> matches;
+  final ShowData<ActiveMatch> matches;
 
   @override
   Widget build(BuildContext context) {
     return matches.isEmpty
         ? noMatches(context)
         : Wrap(
-            children: matches.map((e) => ActiveMatchDesign(e)).toList(),
+            children: matches.data.map((e) => ActiveMatchDesign(e)).toList(),
           );
   }
 

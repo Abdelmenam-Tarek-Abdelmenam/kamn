@@ -13,7 +13,7 @@ class StoreRepository {
       List<OfferItem> offers =
           offerData.map((e) => OfferItem.fromJson(e!)).toList();
       List<Map<String, dynamic>?> storeData =
-          await MongoDatabase.instance.getSomeProduct(0, end);
+          await MongoDatabase.instance.getProduct(0, end);
       List<Product> products =
           storeData.map((e) => Product.fromJson(e!)).toList();
       ShowData<Product> productsShow = ShowData(products);
@@ -29,7 +29,7 @@ class StoreRepository {
       old.getNext();
       print("start ${old.start} , end ${old.end}");
       List<Map<String, dynamic>?> storeData =
-          await MongoDatabase.instance.getSomeProduct(old.start, old.end);
+          await MongoDatabase.instance.getProduct(old.start, old.end);
       print(storeData.length);
       List<Product> products =
           storeData.map((e) => Product.fromJson(e!)).toList();

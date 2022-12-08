@@ -4,7 +4,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PreferenceKey {
   static const String themeMode = "themeMode";
   static const String languageMode = "languageMode";
-  static const String moneyUnit = "moneyUnit";
+  static const String userData = "userData";
 }
 
 class PreferenceRepository {

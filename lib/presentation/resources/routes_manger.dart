@@ -44,7 +44,7 @@ class RouteGenerator {
         return MaterialPageRoute(
             builder: (_) => const LandingView(HomePageStates.landing));
       case Routes.match:
-        return MaterialPageRoute(builder: (_) => const MatchesView());
+        return MaterialPageRoute(builder: (_) => MatchesView());
       case Routes.coaches:
         return MaterialPageRoute(builder: (_) => const CoachesView());
       case Routes.leaderBoard:

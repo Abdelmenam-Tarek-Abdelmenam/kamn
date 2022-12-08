@@ -38,12 +38,12 @@ class AuthStates extends Equatable {
       required this.category,
       required this.game});
 
-  factory AuthStates.initial() {
-    return const AuthStates(
+  factory AuthStates.initial(CompleteUser? appUser) {
+    return AuthStates(
         status: AuthStatus.initial,
         mode: AuthModes.login,
-        category: UserCategory.player,
-        game: Games.football);
+        category: appUser?.category ?? UserCategory.player,
+        game: appUser?.game ?? Games.football);
   }
 
   @override

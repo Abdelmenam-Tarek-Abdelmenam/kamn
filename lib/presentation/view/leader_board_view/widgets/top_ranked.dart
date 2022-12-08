@@ -15,9 +15,12 @@ class TopRanked extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [rank2(context), rank1(context), rank3(context)],
+      children: [
+        Expanded(child: rank2(context)),
+        Expanded(child: rank1(context)),
+        Expanded(child: rank3(context))
+      ],
     );
   }
 
@@ -72,14 +75,16 @@ class TopRanked extends StatelessWidget {
 
   Widget nameWidget(String name, BuildContext context) => Visibility(
         visible: name.isNotEmpty,
-        child: Text(
-          name,
-          style: Theme.of(context).textTheme.displayLarge!.copyWith(
-                fontWeight: FontWeight.w100,
-                height: 1,
-                color: Theme.of(context).colorScheme.secondary,
-                fontSize: 12,
-              ),
+        child: FittedBox(
+          child: Text(
+            name,
+            style: Theme.of(context).textTheme.displayLarge!.copyWith(
+                  fontWeight: FontWeight.w100,
+                  height: 1,
+                  color: Theme.of(context).colorScheme.secondary,
+                  fontSize: 12,
+                ),
+          ),
         ),
       );
   Widget scoreWidget(int score, BuildContext context) => Visibility(

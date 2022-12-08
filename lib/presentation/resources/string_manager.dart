@@ -81,6 +81,7 @@ class StringManger {
   // matches
   static String get ground => ["Grounds", "الملاعب"][langIndex];
   static String get active => ["active", "المتاح"][langIndex];
+  static String get community => ["Community", "المتاح"][langIndex];
   static String get noGrounds =>
       ["No available ground now", "لا يوجد ملاعب متاحه"][langIndex];
   static String get noGyms =>

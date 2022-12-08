@@ -4,20 +4,21 @@ import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../data/models/matches.dart';
+import '../../../../data/models/show_data.dart';
 import '../../../resources/styles_manager.dart';
 import '../../../shared/widget/dividers.dart';
 import '../../../shared/widget/rating_icons.dart';
 
 class GroundsWidget extends StatelessWidget {
   const GroundsWidget(this.grounds, {Key? key}) : super(key: key);
-  final List<Ground> grounds;
+  final ShowData<Ground> grounds;
 
   @override
   Widget build(BuildContext context) {
     return grounds.isEmpty
         ? noGrounds(context)
         : Wrap(
-            children: grounds.map((e) => GroundDesign(e)).toList(),
+            children: grounds.data.map((e) => GroundDesign(e)).toList(),
           );
   }
 

@@ -25,4 +25,25 @@ class Coach {
       required this.position,
       required this.rating,
       required this.game});
+
+  factory Coach.fromJson(Map<String, dynamic> json) => Coach(
+      name: json['name'],
+      id: json['id'],
+      description: json['description'],
+      img: json['img'],
+      price: json['price'],
+      position: json['position'],
+      rating: json['rating'],
+      game: json['game']);
+
+  Map<String, dynamic> get toJson => {
+        "name": name,
+        "id": id,
+        "description": description,
+        "img": img,
+        "price": price,
+        "position": position,
+        "rating": rating,
+        "game": game
+      };
 }

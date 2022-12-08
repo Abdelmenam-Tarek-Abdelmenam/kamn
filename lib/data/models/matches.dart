@@ -19,6 +19,23 @@ class Ground {
     required this.type,
     required this.rating,
   });
+
+  factory Ground.fromJson(Map<String, dynamic> json) => Ground(
+      name: json['name'],
+      address: json['address'],
+      price: json['price'],
+      img: json['img'],
+      type: Games.values[json['type']],
+      rating: json['rating']);
+
+  Map<String, dynamic> get toJson => {
+        "name": name,
+        "address": address,
+        "price": price,
+        "img": img,
+        "type": type.index,
+        "rating": rating
+      };
 }
 
 class ActiveMatch {
@@ -33,4 +50,17 @@ class ActiveMatch {
     required this.availableCount,
     required this.time,
   });
+
+  factory ActiveMatch.fromJson(Map<String, dynamic> json) => ActiveMatch(
+      game: Games.values[json['game']],
+      playGroundName: json['playGroundName'],
+      availableCount: json['availableCount'],
+      time: json['time']);
+
+  Map<String, dynamic> get toJson => {
+        "game": game.index,
+        "playGroundName": playGroundName,
+        "availableCount": availableCount,
+        "time": time
+      };
 }

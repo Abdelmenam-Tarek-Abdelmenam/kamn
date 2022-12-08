@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,22 +28,23 @@ void main() async {
   FireNotificationHelper((_) {});
   Bloc.observer = MyBlocObserver();
 
-  User? user = FirebaseAuth.instance.currentUser;
-  AppUser appUser = AppUser.fromFirebaseUser(user);
+  String? userData = PreferenceRepository.getData(key: PreferenceKey.userData);
+  CompleteUser? user =
+      userData == null ? null : CompleteUser.fromJson(userData);
 
-  runApp(MyApp(appUser));
+  runApp(MyApp(user));
 }
 
 class MyApp extends StatelessWidget {
   const MyApp(this.user, {super.key});
-  final AppUser user;
+  final CompleteUser? user;
 
   @override
   Widget build(BuildContext context) => MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => AuthBloc(user), lazy: false),
           BlocProvider(create: (context) => BenfitsBloc()),
-          BlocProvider(create: (context) => MatchesBloc()),
+          BlocProvider(create: (context) => PlayBloc()),
           BlocProvider(create: (context) => CoachesBloc()),
           BlocProvider(create: (context) => StoreBloc()),
           BlocProvider(create: (context) => TournamentBloc()),
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           themeMode: ThemeMode.light,
           onGenerateRoute: RouteGenerator.getRoute,
-          initialRoute: user.isEmpty ? Routes.login : Routes.landing,
+          initialRoute: user == null ? Routes.login : Routes.landing,
           // ),
         ),
       );
