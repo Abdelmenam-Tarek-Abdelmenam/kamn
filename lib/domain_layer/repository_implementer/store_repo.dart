@@ -1,8 +1,8 @@
 import 'package:either_dart/either.dart';
 import 'package:kamn/data/models/product.dart';
 import 'package:kamn/data/models/show_data.dart';
-import '../data_sources/web_services/mongo_repository.dart';
 
+import '../../data/data_sources/web_services/mongo_repository.dart';
 import 'error_state.dart';
 
 class StoreRepository {

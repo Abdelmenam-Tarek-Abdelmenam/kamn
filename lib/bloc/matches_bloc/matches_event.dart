@@ -3,7 +3,7 @@ part of 'matches_bloc.dart';
 abstract class PlayEvent extends Equatable {
   const PlayEvent();
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
 class ChangeViewTypeEvent extends PlayEvent {
@@ -15,10 +15,18 @@ class ChangeViewTypeEvent extends PlayEvent {
 }
 
 class ChangeUserCheckEvent extends PlayEvent {
-  const ChangeUserCheckEvent();
+  final FreeGames game;
+  const ChangeUserCheckEvent(this.game);
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [game];
+}
+
+class RemoveUserCheckEvent extends PlayEvent {
+  const RemoveUserCheckEvent();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class GetStartDataEvent extends PlayEvent {

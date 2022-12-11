@@ -2,15 +2,15 @@ import 'package:either_dart/either.dart';
 import 'package:kamn/data/models/matches.dart';
 import '../../bloc/auth_bloc/auth_status_bloc.dart';
 
-import '../data_sources/web_services/mongo_repository.dart';
+import '../../data/data_sources/web_services/mongo_repository.dart';
+import '../../data/models/show_data.dart';
 
-import '../models/show_data.dart';
 import 'error_state.dart';
 
 class PlayRepository {
   String get id => AuthBloc.user.id;
 
-  Future<Either<Failure, void>> setUserAvailable(bool state) async {
+  Future<Either<Failure, void>> setUserAvailable(int? state) async {
     try {
       MongoDatabase.instance.setUserAvailable(id, state);
       return const Right(null);
@@ -19,9 +19,9 @@ class PlayRepository {
     }
   }
 
-  Future<Either<Failure, bool?>> getUserAvailable() async {
+  Future<Either<Failure, int?>> getUserAvailable() async {
     try {
-      bool? state = await MongoDatabase.instance.getUserAvailable(id);
+      int? state = await MongoDatabase.instance.getUserAvailable(id);
       return Right(state);
     } catch (_) {
       return const Left(Failure("Error happened while getting your state"));

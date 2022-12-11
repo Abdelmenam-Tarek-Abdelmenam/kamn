@@ -5,8 +5,8 @@ import 'package:kamn/bloc/status.dart';
 
 import '../../data/models/product.dart';
 import '../../data/models/show_data.dart';
-import '../../data/repository_implementer/error_state.dart';
-import '../../data/repository_implementer/store_repo.dart';
+import '../../domain_layer/repository_implementer/error_state.dart';
+import '../../domain_layer/repository_implementer/store_repo.dart';
 
 part 'store_event.dart';
 part 'store_state.dart';

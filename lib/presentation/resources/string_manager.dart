@@ -16,6 +16,9 @@ class StringManger {
   static String get dark => ["Dark", "مظلم"][langIndex];
   static String get light => ["Light", "مضئ"][langIndex];
   static String get warning => ["Warning", "تحذير"][langIndex];
+  static String get none => ["none", "لا يوجد"][langIndex];
+  static String get cancel => ["Cancel", "الغاء"][langIndex];
+  static String get confirm => ["Confirm", "تاكيد"][langIndex];
   static String get no => ["No", "لا"][langIndex];
   static String get yes => ["Yes", "نعم"][langIndex];
   static String get exitQ => [
@@ -90,4 +93,8 @@ class StringManger {
       ["No available coaches now", "لا يوجد مدربين متاحه"][langIndex];
   static String get noMatches =>
       ["No available matches now", "لا العاب مفتوحه"][langIndex];
+  static String get freeToPlay => [
+        "Are you free any time at any place to play ?",
+        "هل انت متاح جميع الاوقات للعب في اي مكان"
+      ][langIndex];
 }

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:kamn/bloc/auth_bloc/auth_status_bloc.dart';
 import 'package:kamn/bloc/matches_bloc/matches_bloc.dart';
 import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/shared/custom_scafffold/sliding_scaffold.dart';
+import 'package:kamn/presentation/view/matches_view/widgets/active_dialog.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../bloc/status.dart';
@@ -23,13 +23,14 @@ class MatchesView extends StatelessWidget {
         title: StringManger.match,
         floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         floatingActionButton: FloatingActionButton(
-            backgroundColor: context.watch<PlayBloc>().state.userAvailable
-                ? Theme.of(context).colorScheme.secondary.withOpacity(0.8)
-                : Theme.of(context).colorScheme.onPrimary.withOpacity(0.65),
+            backgroundColor:
+                context.watch<PlayBloc>().state.userAvailable != null
+                    ? Theme.of(context).colorScheme.secondary.withOpacity(0.8)
+                    : Theme.of(context).colorScheme.onPrimary.withOpacity(0.65),
             elevation: 0,
             child: Icon(
               FontAwesomeIcons.personRunning,
-              color: context.watch<PlayBloc>().state.userAvailable
+              color: context.watch<PlayBloc>().state.userAvailable != null
                   ? Theme.of(context).colorScheme.onPrimary.withOpacity(0.7)
                   : Theme.of(context).colorScheme.primary.withOpacity(0.7),
             ),
@@ -120,22 +121,11 @@ class MatchesView extends StatelessWidget {
   void communityCallback(BuildContext context) {}
 
   void setActive(BuildContext context) {
-    String inside = context.read<PlayBloc>().state.userAvailable ? "not" : "";
-    String game = context.read<AuthBloc>().state.game.toString();
-
-    SnackBar snackBar = SnackBar(
-      content: Text(
-        'Are you $inside free All time any place to play $game',
-        style: Theme.of(context).textTheme.titleMedium!.copyWith(fontSize: 14),
-      ),
-      action: SnackBarAction(
-          textColor: Theme.of(context).colorScheme.onPrimary,
-          label: "ok",
-          onPressed: () =>
-              context.read<PlayBloc>().add(const ChangeUserCheckEvent())),
-    );
-
-    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    showDialog(
+        context: context,
+        builder: (context) {
+          return const ActiveDialog();
+        });
   }
 
   void endRefresh() {

@@ -3,8 +3,9 @@ import 'package:equatable/equatable.dart';
 import 'package:kamn/bloc/status.dart';
 import 'package:kamn/data/data_sources/web_services/mongo_repository.dart';
 import 'package:kamn/data/models/coustmer_message.dart';
-import 'package:kamn/data/repository_implementer/error_state.dart';
 import 'package:kamn/presentation/shared/toast_helper.dart';
+
+import '../../domain_layer/repository_implementer/error_state.dart';
 
 part 'quick_contact_event.dart';
 

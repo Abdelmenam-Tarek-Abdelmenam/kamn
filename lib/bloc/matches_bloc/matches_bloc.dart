@@ -6,9 +6,9 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kamn/bloc/status.dart';
 import 'package:kamn/data/models/matches.dart';
 import 'package:kamn/data/models/show_data.dart';
-import 'package:kamn/data/repository_implementer/play_repo.dart';
 
-import '../../data/repository_implementer/error_state.dart';
+import '../../domain_layer/repository_implementer/error_state.dart';
+import '../../domain_layer/repository_implementer/play_repo.dart';
 import '../../presentation/resources/string_manager.dart';
 
 part 'matches_event.dart';
@@ -18,6 +18,7 @@ class PlayBloc extends Bloc<PlayEvent, PlayState> {
   PlayBloc() : super(PlayState.initial()) {
     on<ChangeViewTypeEvent>(_changeViewTypeHandler);
     on<ChangeUserCheckEvent>(_changeUserCheckHandler);
+    on<RemoveUserCheckEvent>(_removeUserCheckHandler);
     on<GetStartDataEvent>(_getStartDataHandler);
 
     add(const GetStartDataEvent());
@@ -40,18 +41,27 @@ class PlayBloc extends Bloc<PlayEvent, PlayState> {
 
   Future<void> _changeUserCheckHandler(
       ChangeUserCheckEvent event, Emitter emit) async {
-    bool eventState = !state.userAvailable;
+    int eventState = event.game.index;
     Either<Failure, void> value =
         await _repository.setUserAvailable(eventState);
     value.fold((left) => left.show,
-        (right) => emit(state.copyWith(userAvailable: eventState)));
+        (right) => emit(state.copyWith(userAvailable: event.game)));
+  }
+
+  Future<void> _removeUserCheckHandler(
+      RemoveUserCheckEvent event, Emitter emit) async {
+    Either<Failure, void> value = await _repository.setUserAvailable(null);
+    value.fold((left) => left.show,
+        (right) => emit(state.copyWith(userAvailable: null, forceNull: true)));
   }
 
   Future<void> _getStartDataHandler(GetStartDataEvent _, Emitter emit) async {
     emit(state.copyWith(matchesStatus: BlocStatus.gettingData));
-    Either<Failure, bool?> value = await _repository.getUserAvailable();
-    value.fold((left) => left.show,
-        (right) => emit(state.copyWith(userAvailable: right)));
+    Either<Failure, int?> value = await _repository.getUserAvailable();
+    value.fold(
+        (left) => left.show,
+        (right) => emit(state.copyWith(
+            userAvailable: right == null ? null : FreeGames.values[right])));
     await _getGroundsFirstData(emit);
   }
 

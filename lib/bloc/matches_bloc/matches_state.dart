@@ -6,36 +6,39 @@ class PlayState extends Equatable {
   final BlocStatus matchesStatus;
   final ShowData<Ground> grounds;
   final ShowData<ActiveMatch> matches;
-  final bool userAvailable;
+  final FreeGames? userAvailable;
 
   const PlayState({
     required this.type,
     required this.grounds,
     required this.matches,
-    required this.userAvailable,
+    this.userAvailable,
     required this.groundStatus,
     required this.matchesStatus,
   });
 
   factory PlayState.initial() => PlayState(
         type: MatchesViewType.grounds,
-        userAvailable: false,
         grounds: ShowData.empty(),
         matches: ShowData.empty(),
         matchesStatus: BlocStatus.idle,
         groundStatus: BlocStatus.idle,
       );
 
-  PlayState copyWith(
-      {MatchesViewType? type,
-      ShowData<Ground>? grounds,
-      bool? userAvailable,
-      ShowData<ActiveMatch>? matches,
-      BlocStatus? groundStatus,
-      BlocStatus? matchesStatus}) {
+  PlayState copyWith({
+    MatchesViewType? type,
+    ShowData<Ground>? grounds,
+    FreeGames? userAvailable,
+    ShowData<ActiveMatch>? matches,
+    BlocStatus? groundStatus,
+    BlocStatus? matchesStatus,
+    bool? forceNull,
+  }) {
     return PlayState(
       type: type ?? this.type,
-      userAvailable: userAvailable ?? this.userAvailable,
+      userAvailable: forceNull == null
+          ? userAvailable ?? this.userAvailable
+          : userAvailable,
       grounds: grounds ?? this.grounds,
       matches: matches ?? this.matches,
       matchesStatus: matchesStatus ?? this.groundStatus,
@@ -44,7 +47,7 @@ class PlayState extends Equatable {
   }
 
   @override
-  List<Object> get props => [type, userAvailable, matchesStatus, groundStatus];
+  List<Object?> get props => [type, userAvailable, matchesStatus, groundStatus];
 }
 
 enum MatchesViewType {
@@ -72,6 +75,24 @@ enum MatchesViewType {
         return FontAwesomeIcons.peopleGroup;
       case MatchesViewType.community:
         return Icons.chat;
+    }
+  }
+}
+
+enum FreeGames {
+  basketball,
+  football,
+  volleyball;
+
+  @override
+  String toString() {
+    switch (this) {
+      case FreeGames.basketball:
+        return StringManger.basketball;
+      case FreeGames.football:
+        return StringManger.football;
+      case FreeGames.volleyball:
+        return StringManger.volleyball;
     }
   }
 }

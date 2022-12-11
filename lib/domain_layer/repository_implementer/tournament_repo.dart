@@ -1,8 +1,8 @@
 import 'package:either_dart/either.dart';
-import 'package:kamn/data/repositories/date_extensions.dart';
+import 'package:kamn/domain_layer/date_extensions.dart';
 import 'package:kamn/data/models/tournament.dart';
-import '../data_sources/web_services/mongo_repository.dart';
-import '../models/show_data.dart';
+import '../../data/data_sources/web_services/mongo_repository.dart';
+import '../../data/models/show_data.dart';
 
 import 'error_state.dart';
 

@@ -7,8 +7,8 @@ import 'package:kamn/presentation/resources/string_manager.dart';
 
 import '../../data/data_sources/pref_repository.dart';
 import '../../data/models/app_user.dart';
-import '../../data/repository_implementer/error_state.dart';
-import '../../data/repository_implementer/sigining_repo.dart';
+import '../../domain_layer/repository_implementer/error_state.dart';
+import '../../domain_layer/repository_implementer/sigining_repo.dart';
 import '../../presentation/shared/toast_helper.dart';
 
 part 'auth_status_event.dart';

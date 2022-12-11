@@ -1,6 +1,7 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:kamn/data/repository_implementer/error_state.dart';
 import 'package:mongo_dart/mongo_dart.dart';
+
+import '../../../domain_layer/repository_implementer/error_state.dart';
 
 const _mongoUrl =
     "mongodb+srv://admin:admin@cluster0.8lmf105.mongodb.net/db?retryWrites=true&w=majority";
@@ -42,14 +43,14 @@ class MongoDatabase {
     return collection.findOne({"id": id});
   }
 
-  Future<void> setUserAvailable(String id, bool state) async {
+  Future<void> setUserAvailable(String id, int? state) async {
     await _preCheck();
 
     DbCollection collection = _db!.collection(_userCollection);
     collection.updateOne(where.eq('id', id), modify.set('available', state));
   }
 
-  Future<bool?> getUserAvailable(String id) async {
+  Future<int?> getUserAvailable(String id) async {
     await _preCheck();
 
     DbCollection collection = _db!.collection(_userCollection);

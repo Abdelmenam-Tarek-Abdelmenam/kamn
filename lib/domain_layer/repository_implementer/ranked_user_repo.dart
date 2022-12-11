@@ -1,7 +1,7 @@
 import 'package:either_dart/either.dart';
 import 'package:kamn/data/models/ranked_user.dart';
-import '../data_sources/web_services/mongo_repository.dart';
 
+import '../../data/data_sources/web_services/mongo_repository.dart';
 import 'error_state.dart';
 
 class RankedUserRepository {

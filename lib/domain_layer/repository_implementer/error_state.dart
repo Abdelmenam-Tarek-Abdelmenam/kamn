@@ -1,6 +1,6 @@
 import 'package:kamn/presentation/shared/toast_helper.dart';
 
-import '../repositories/auth_repository.dart';
+import '../../data/repositories/auth_repository.dart';
 
 class Failure implements Exception {
   final String message;

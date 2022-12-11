@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:either_dart/either.dart';
 import 'package:equatable/equatable.dart';
-import 'package:kamn/data/repository_implementer/ranked_user_repo.dart';
 
 import '../../data/models/ranked_user.dart';
-import '../../data/repository_implementer/error_state.dart';
+import '../../domain_layer/repository_implementer/error_state.dart';
+import '../../domain_layer/repository_implementer/ranked_user_repo.dart';
 import '../status.dart';
 
 part 'leader_board_event.dart';
