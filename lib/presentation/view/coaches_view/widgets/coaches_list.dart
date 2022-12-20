@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kamn/bloc/coaches_bloc/coaches_bloc.dart';
 import 'package:kamn/data/models/app_user.dart';
 import 'package:kamn/data/models/coach.dart';
+import 'package:kamn/data/models/show_data.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
 import 'package:kamn/presentation/shared/widget/error_image.dart';
 import 'package:lottie/lottie.dart';
@@ -14,7 +15,7 @@ import '../../../shared/widget/rating_icons.dart';
 
 class CoachesList extends StatelessWidget {
   const CoachesList(this.coaches, {Key? key}) : super(key: key);
-  final List<Coach> coaches;
+  final ShowData<Coach> coaches;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +44,7 @@ class CoachesList extends StatelessWidget {
       coaches.isEmpty
           ? noCoaches(context)
           : Column(
-              children: coaches
+              children: coaches.data
                   .map((e) => Visibility(
                       visible: filter == Games.all || e.game == filter,
                       child: CoachDesign(e)))
@@ -127,7 +128,7 @@ class CoachDesign extends StatelessWidget {
               Dividers.horizontalLine,
               Row(
                 children: [
-                  customButton(context, "Book"),
+                  customButton(context, "Achievements"),
                   const SizedBox(
                     height: 30,
                     child: Dividers.verticalLine,

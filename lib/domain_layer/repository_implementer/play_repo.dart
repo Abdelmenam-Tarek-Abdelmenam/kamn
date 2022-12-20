@@ -35,7 +35,7 @@ class PlayRepository {
       ShowData<Ground> data =
           ShowData(groundData.map((e) => Ground.fromJson(e!)).toList());
       return Right(data);
-    } catch (_) {
+    } catch (_, __) {
       return const Left(Failure("Error happened while getting grounds"));
     }
   }

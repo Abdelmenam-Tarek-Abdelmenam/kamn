@@ -1,8 +1,5 @@
 import 'package:kamn/data/models/app_user.dart';
 
-const testImage1 =
-    "https://media-cdn.tripadvisor.com/media/photo-s/0f/c7/47/36/football-playground.jpg";
-
 class Ground {
   String name;
   String address;
@@ -10,6 +7,13 @@ class Ground {
   String img;
   Games type;
   double rating;
+  String activeHours;
+  List<String> amenities;
+  // Ball,Drinks,Changing Room,Cafeteria
+  List<String> reviews;
+  List<String> images;
+  double lat;
+  double lon;
 
   Ground({
     required this.name,
@@ -18,23 +22,42 @@ class Ground {
     required this.img,
     required this.type,
     required this.rating,
+    required this.activeHours,
+    required this.amenities,
+    required this.images,
+    required this.reviews,
+    required this.lat,
+    required this.lon,
   });
 
   factory Ground.fromJson(Map<String, dynamic> json) => Ground(
-      name: json['name'],
-      address: json['address'],
-      price: json['price'],
-      img: json['img'],
-      type: Games.values[json['type']],
-      rating: json['rating']);
+        name: json['name'],
+        address: json['address'],
+        price: json['price'],
+        img: json['img'],
+        activeHours: json['activeHours'],
+        images: List<String>.from(json['images'] ?? []),
+        reviews: List<String>.from(json['reviews'] ?? []),
+        amenities: json['amenities'].split(","),
+        type: Games.values[json['type']],
+        rating: json['rating'],
+        lat: json['lat'],
+        lon: json['lon'],
+      );
 
   Map<String, dynamic> get toJson => {
         "name": name,
         "address": address,
         "price": price,
         "img": img,
+        "activeHours": activeHours,
+        "amenities": amenities.join(","),
         "type": type.index,
-        "rating": rating
+        "rating": rating,
+        "images": images,
+        "reviews": reviews,
+        "lon": lon,
+        "lat": lat,
       };
 }
 

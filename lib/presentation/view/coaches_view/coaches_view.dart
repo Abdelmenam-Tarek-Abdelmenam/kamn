@@ -2,10 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:pull_to_refresh/pull_to_refresh.dart';
+
 import '../../../bloc/auth_bloc/auth_status_bloc.dart';
 import '../../../bloc/coaches_bloc/coaches_bloc.dart';
+import '../../../bloc/status.dart';
 import '../../resources/string_manager.dart';
+
 import '../../shared/custom_scafffold/sliding_scaffold.dart';
+import '../../shared/widget/error_widget.dart';
+import '../../shared/widget/loading_text.dart';
 import 'widgets/coaches_list.dart';
 import 'widgets/gyms_list.dart';
 
@@ -17,7 +23,7 @@ class CoachesView extends StatefulWidget {
 }
 
 class _CoachesViewState extends State<CoachesView> {
-  int index = 0;
+  final RefreshController _refreshController = RefreshController();
 
   @override
   void initState() {
@@ -43,22 +49,61 @@ class _CoachesViewState extends State<CoachesView> {
         bottomNavigationBar:
             bottomBar(context, context.watch<CoachesBloc>().state.type),
         child: Expanded(
-          child: ListView(
-            children: [
-              BlocBuilder<CoachesBloc, CoachesState>(
-                // buildWhen: (prev, next) => prev.type != next.type,
-                builder: (context, state) {
-                  if (state.type == CoachesType.coach) {
-                    return CoachesList(state.coaches);
-                  } else {
-                    return GymsList(state.gyms);
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 100,
-              ),
-            ],
+          child: SmartRefresher(
+            controller: _refreshController,
+            enablePullDown: true,
+            enablePullUp: false,
+            header: const WaterDropHeader(),
+            onRefresh: () {
+              CoachesBloc bloc = context.read<CoachesBloc>();
+              switch (bloc.state.type) {
+                case CoachesType.coach:
+                  bloc.add(const GetCoachesEvent());
+                  break;
+                case CoachesType.gym:
+                  bloc.add(const GetGymsEvent());
+                  break;
+              }
+            },
+            child: ListView(
+              children: [
+                BlocBuilder<CoachesBloc, CoachesState>(
+                  // buildWhen: (prev, next) => prev.type != next.type,
+                  builder: (context, state) {
+                    if (state.type == CoachesType.coach) {
+                      switch (state.coachesStatus) {
+                        case BlocStatus.idle:
+                          return CoachesList(state.coaches);
+                        case BlocStatus.gettingData:
+                          return const LoadingText();
+                        case BlocStatus.getData:
+                          endRefresh();
+                          return CoachesList(state.coaches);
+                        case BlocStatus.error:
+                          endRefresh();
+                          return const ErrorView();
+                      }
+                    } else {
+                      switch (state.gymStatus) {
+                        case BlocStatus.idle:
+                          return GymsList(state.gyms);
+                        case BlocStatus.gettingData:
+                          return const LoadingText();
+                        case BlocStatus.getData:
+                          endRefresh();
+                          return GymsList(state.gyms);
+                        case BlocStatus.error:
+                          endRefresh();
+                          return const ErrorView();
+                      }
+                    }
+                  },
+                ),
+                const SizedBox(
+                  height: 100,
+                ),
+              ],
+            ),
           ),
         ));
   }
@@ -95,4 +140,11 @@ class _CoachesViewState extends State<CoachesView> {
             ),
           ))
       .toList();
+
+  void endRefresh() {
+    Future.delayed(const Duration(milliseconds: 20)).then((value) {
+      if (_refreshController.isRefresh) _refreshController.refreshCompleted();
+      if (_refreshController.isLoading) _refreshController.loadComplete();
+    });
+  }
 }

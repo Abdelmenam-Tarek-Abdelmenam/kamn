@@ -19,6 +19,8 @@ class PlayBloc extends Bloc<PlayEvent, PlayState> {
     on<ChangeViewTypeEvent>(_changeViewTypeHandler);
     on<ChangeUserCheckEvent>(_changeUserCheckHandler);
     on<RemoveUserCheckEvent>(_removeUserCheckHandler);
+    on<GetMatchesEvent>(_getMatchesEventHandler);
+    on<GetGroundsEvent>(_getGroundsEventHandler);
     on<GetStartDataEvent>(_getStartDataHandler);
 
     add(const GetStartDataEvent());
@@ -88,4 +90,9 @@ class PlayBloc extends Bloc<PlayEvent, PlayState> {
               matches: data,
             )));
   }
+
+  void _getMatchesEventHandler(GetMatchesEvent _, Emitter emit) =>
+      _getMatchesFirstData(emit);
+  void _getGroundsEventHandler(GetGroundsEvent _, Emitter emit) =>
+      _getGroundsFirstData(emit);
 }

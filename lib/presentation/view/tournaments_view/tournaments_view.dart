@@ -87,7 +87,6 @@ class TournamentsView extends StatelessWidget {
 
   void endRefresh() {
     Future.delayed(const Duration(milliseconds: 20)).then((value) {
-      print("Refresh complete");
       if (_refreshController.isRefresh) _refreshController.refreshCompleted();
       if (_refreshController.isLoading) _refreshController.loadComplete();
     });

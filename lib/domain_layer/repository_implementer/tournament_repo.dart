@@ -23,17 +23,13 @@ class TournamentRepository {
       ShowData<Tournament> old) async {
     try {
       old.getNext();
-      print("start ${old.start} , end ${old.end}");
       List<Map<String, dynamic>?> storeData =
           await MongoDatabase.instance.getTournaments(old.start, old.end);
-      print(storeData.length);
       List<Tournament> tournaments =
           storeData.map((e) => Tournament.fromJson(e!)).toList();
       old.data.addAll(tournaments);
-      print(old.data.length);
       return Right(old);
     } catch (_) {
-      print(_);
       return const Left(
           Failure("Error happened while getting tournament data"));
     }
@@ -51,7 +47,6 @@ class AllTournament {
 
   factory AllTournament.fromJson(List<Map<String, dynamic>?> data) {
     List<Tournament> all = data.map((e) => Tournament.fromJson(e!)).toList();
-    print(DateTime.now().formatDate);
     List<Tournament> active = all
         .where((element) => element.date == DateTime.now().formatDate)
         .toList();

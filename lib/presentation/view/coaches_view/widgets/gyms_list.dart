@@ -5,19 +5,20 @@ import 'package:kamn/presentation/shared/widget/rating_icons.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../data/models/gym.dart';
+import '../../../../data/models/show_data.dart';
 import '../../../resources/asstes_manager.dart';
 import '../../../resources/string_manager.dart';
 
 class GymsList extends StatelessWidget {
   const GymsList(this.gyms, {Key? key}) : super(key: key);
-  final List<Gym> gyms;
+  final ShowData<Gym> gyms;
 
   @override
   Widget build(BuildContext context) {
     return gyms.isEmpty
         ? noGyms(context)
         : Wrap(
-            children: gyms.map((e) => GymDesign(e)).toList(),
+            children: gyms.data.map((e) => GymDesign(e)).toList(),
           );
   }
 

@@ -14,6 +14,15 @@ class BenfitsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (benefits.isEmpty) {
+      return Center(
+        child: Text(
+          "No Benefits Available",
+          style:
+              Theme.of(context).textTheme.displayLarge!.copyWith(fontSize: 20),
+        ),
+      );
+    }
     bool isMedical = benefits[0] is MedicalBenefit;
     return Column(
       children: [

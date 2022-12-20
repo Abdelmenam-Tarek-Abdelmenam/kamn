@@ -34,7 +34,7 @@ class Coach {
       price: json['price'],
       position: json['position'],
       rating: json['rating'],
-      game: json['game']);
+      game: Games.values[json['game']]);
 
   Map<String, dynamic> get toJson => {
         "name": name,
@@ -44,6 +44,6 @@ class Coach {
         "price": price,
         "position": position,
         "rating": rating,
-        "game": game
+        "game": game.index
       };
 }

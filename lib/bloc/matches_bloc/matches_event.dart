@@ -32,3 +32,11 @@ class RemoveUserCheckEvent extends PlayEvent {
 class GetStartDataEvent extends PlayEvent {
   const GetStartDataEvent();
 }
+
+class GetGroundsEvent extends PlayEvent {
+  const GetGroundsEvent();
+}
+
+class GetMatchesEvent extends PlayEvent {
+  const GetMatchesEvent();
+}

@@ -13,9 +13,9 @@ const _tournamentsCollection = "tournaments";
 const _customerMessageCollection = "customerMessage";
 const _groundsCollection = "grounds";
 const _activeMatchesCollection = "activeMatches";
-// const _benfitsCollection = "benfits";
-// const _coachesCollection = "coaches";
-// const _gymCollection = "gym";
+const _benfitsCollection = "benfits";
+const _coachesCollection = "coaches";
+const _gymCollection = "gym";
 
 class MongoDatabase {
   Db? _db;
@@ -113,6 +113,30 @@ class MongoDatabase {
     return await collection.find(where.limit(end).skip(start)).toList();
   }
 
+  Future<List<Map<String, dynamic>?>> getCoaches(int start, int end) async {
+    await _preCheck();
+
+    DbCollection collection = _db!.collection(_coachesCollection);
+    return await collection.find(where.limit(end).skip(start)).toList();
+  }
+
+  Future<List<Map<String, dynamic>?>> getGyms(int start, int end) async {
+    await _preCheck();
+
+    DbCollection collection = _db!.collection(_gymCollection);
+    return await collection.find(where.limit(end).skip(start)).toList();
+  }
+
+  Future<List<Map<String, dynamic>?>> getBenfits(
+      int start, int end, String type) async {
+    await _preCheck();
+
+    DbCollection collection = _db!.collection(_benfitsCollection);
+    return await collection
+        .find(where.match("type", type).limit(end).skip(start))
+        .toList();
+  }
+
   Future<void> sendMessage(Map<String, dynamic> userData) async {
     await _preCheck();
     DbCollection collection = _db!.collection(_customerMessageCollection);
@@ -126,11 +150,11 @@ class MongoDatabase {
     }
   }
 
-  Future<void> saveData(List<Map<String, dynamic>> data) async {
-    await _preCheck();
-    DbCollection collection = _db!.collection(_activeMatchesCollection);
-    await collection.insertMany(data);
-  }
+  // Future<void> saveData(List<Map<String, dynamic>> data) async {
+  //   await _preCheck();
+  //   DbCollection collection = _db!.collection(_benfitsCollection);
+  //   await collection.insertMany(data);
+  // }
 }
 
 extension Check on Connectivity {

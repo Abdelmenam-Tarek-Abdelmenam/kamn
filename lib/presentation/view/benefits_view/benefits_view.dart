@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kamn/bloc/benfits_bloc/benfits_bloc.dart';
+import 'package:kamn/data/models/benfits.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
+import '../../../bloc/status.dart';
 import '../../resources/string_manager.dart';
 import '../../shared/custom_scafffold/sliding_scaffold.dart';
+import '../../shared/widget/error_widget.dart';
+import '../../shared/widget/loading_text.dart';
 import 'widgets/benefits_widget.dart';
 
 class BenefitsView extends StatelessWidget {
-  const BenefitsView({Key? key}) : super(key: key);
+  BenefitsView({Key? key}) : super(key: key);
+  final RefreshController _refreshController = RefreshController();
 
   @override
   Widget build(BuildContext context) {
@@ -16,15 +22,48 @@ class BenefitsView extends StatelessWidget {
       bottomNavigationBar:
           bottomBar(context, context.watch<BenfitsBloc>().state.type),
       child: Expanded(
-        child: ListView(
-          children: [
-            BlocBuilder<BenfitsBloc, BenfitsState>(
-                // buildWhen: (prev, next) => prev.type != next.type,
-                builder: (context, state) => BenfitsWidget(state.benfits)),
-            const SizedBox(
-              height: 100,
-            ),
-          ],
+        child: SmartRefresher(
+          controller: _refreshController,
+          enablePullDown: true,
+          enablePullUp: false,
+          header: const WaterDropHeader(),
+          onRefresh: () {
+            BenfitsBloc bloc = context.read<BenfitsBloc>();
+            switch (bloc.state.type) {
+              case BenfitsViewType.medical:
+                bloc.add(const GetBenefitData(medicalModel));
+                break;
+              case BenfitsViewType.nutrition:
+                bloc.add(const GetBenefitData(nutritionModel));
+                break;
+              case BenfitsViewType.sport:
+                bloc.add(const GetBenefitData(sportsModel));
+                break;
+            }
+          },
+          child: ListView(
+            children: [
+              BlocBuilder<BenfitsBloc, BenfitsState>(
+                  // buildWhen: (prev, next) => prev.type != next.type,
+                  builder: (context, state) {
+                switch (state.status) {
+                  case BlocStatus.idle:
+                    return BenfitsWidget(state.benfits.data);
+                  case BlocStatus.gettingData:
+                    return const LoadingText();
+                  case BlocStatus.getData:
+                    endRefresh();
+                    return BenfitsWidget(state.benfits.data);
+                  case BlocStatus.error:
+                    endRefresh();
+                    return const ErrorView();
+                }
+              }),
+              const SizedBox(
+                height: 100,
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -64,4 +103,11 @@ class BenefitsView extends StatelessWidget {
                 ),
               ))
           .toList();
+
+  void endRefresh() {
+    Future.delayed(const Duration(milliseconds: 20)).then((value) {
+      if (_refreshController.isRefresh) _refreshController.refreshCompleted();
+      if (_refreshController.isLoading) _refreshController.loadComplete();
+    });
+  }
 }

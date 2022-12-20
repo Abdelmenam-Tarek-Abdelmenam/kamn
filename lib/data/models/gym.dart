@@ -25,7 +25,7 @@ class Gym {
       address: json['address'],
       price: json['price'],
       img: json['img'],
-      type: json['type'],
+      type: GymType.values[json['type']],
       rating: json['rating']);
 
   Map<String, dynamic> get toJson => {
@@ -33,7 +33,7 @@ class Gym {
         "address": address,
         "price": price,
         "img": img,
-        "type": type,
+        "type": type.index,
         "rating": rating
       };
 }

@@ -23,9 +23,7 @@ class OtherRanked extends StatelessWidget {
   }
 
   Widget itemBuilder(BuildContext context, int index) => InkWell(
-        onTap: () {
-          print(users[index].id);
-        },
+        onTap: () {},
         child: Container(
           decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.60),

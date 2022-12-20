@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:kamn/data/models/matches.dart';
 import 'package:kamn/data/models/product.dart';
 import 'package:kamn/presentation/view/benefits_view/benefits_view.dart';
 import 'package:kamn/presentation/view/landing_view/landing_view.dart';
 import 'package:kamn/presentation/view/login_view/login_view.dart';
+import 'package:kamn/presentation/view/matches_view/ground_details_view.dart';
 import 'package:kamn/presentation/view/user_view/user_view.dart';
 
 import '../view/coaches_view/coaches_view.dart';
@@ -28,6 +30,7 @@ class Routes {
   static const String customerSupport = "/customerSupport";
   static const String signup = "/signup";
   static const String product = "/ProductView";
+  static const String groundDetails = "/GroundDetailsView";
 }
 
 class RouteGenerator {
@@ -50,7 +53,7 @@ class RouteGenerator {
       case Routes.leaderBoard:
         return MaterialPageRoute(builder: (_) => LeaderBoardView());
       case Routes.benefits:
-        return MaterialPageRoute(builder: (_) => const BenefitsView());
+        return MaterialPageRoute(builder: (_) => BenefitsView());
       case Routes.store:
         return MaterialPageRoute(builder: (_) => StoreView());
       case Routes.customerSupport:
@@ -62,6 +65,9 @@ class RouteGenerator {
       case Routes.product:
         return MaterialPageRoute(
             builder: (_) => ProductView(settings.arguments as Product));
+      case Routes.groundDetails:
+        return MaterialPageRoute(
+            builder: (_) => GroundDetailsView(settings.arguments as Ground));
       default:
         return unDefinedRoute();
     }

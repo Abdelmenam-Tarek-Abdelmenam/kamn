@@ -2,6 +2,9 @@ part of 'benfits_bloc.dart';
 
 abstract class BenfitsEvent extends Equatable {
   const BenfitsEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 class ChangeViewTypeEvent extends BenfitsEvent {
@@ -18,4 +21,11 @@ class ChangeViewFilterEvent extends BenfitsEvent {
 
   @override
   List<Object> get props => [filter];
+}
+
+class GetBenefitData extends BenfitsEvent {
+  final String model;
+  const GetBenefitData(this.model);
+  @override
+  List<Object> get props => [model];
 }

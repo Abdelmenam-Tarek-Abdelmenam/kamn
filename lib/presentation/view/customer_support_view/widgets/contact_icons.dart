@@ -10,8 +10,17 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../../resources/styles_manager.dart';
 
+const String phoneUrl = "tel://+201201838240";
+
 class ContactsIcons extends StatelessWidget {
   ContactsIcons({Key? key}) : super(key: key);
+
+  final String emailLink =
+      "mailto:moneam.elbahy@gmail.com?subject=${Uri.encodeComponent("Customer Service")}&body=${Uri.encodeComponent("Hello Kamn i want to Email with you")}";
+
+  final String whatsappUrl = Platform.isAndroid
+      ? "whatsapp://send?phone=+201201838240&text${Uri.parse("Hello Kamn i want to chat with you about Customer Service")}"
+      : "https://wa.me/+201201838240/?text=${Uri.parse("")}"; // new line
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +38,7 @@ class ContactsIcons extends StatelessWidget {
             label: StringManger.call,
             backGround: Colors.orangeAccent,
             foreGround: Colors.deepOrange,
-            url: "tel://+201201838240"),
+            url: phoneUrl),
         Dividers.w10,
         contactIcon(context,
             icon: FontAwesomeIcons.whatsapp,
@@ -97,15 +106,4 @@ class ContactsIcons extends StatelessWidget {
           ),
         ),
       );
-
-  String get whatsappUrl {
-    if (Platform.isAndroid) {
-      return "whatsapp://send?phone=+201201838240&text${Uri.parse("Hello Kamn i want to chat with you about Customer Service")}";
-    } else {
-      return "https://wa.me/+201201838240/?text=${Uri.parse("")}"; // new line
-    }
-  }
-
-  final String emailLink =
-      "mailto:moneam.elbahy@gmail.com?subject=${Uri.encodeComponent("Customer Service")}&body=${Uri.encodeComponent("Hello Kamn i want to Email with you")}";
 }

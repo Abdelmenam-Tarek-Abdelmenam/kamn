@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kamn/presentation/resources/asstes_manager.dart';
+import 'package:kamn/presentation/resources/routes_manger.dart';
 import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:lottie/lottie.dart';
 
@@ -123,7 +124,9 @@ class GroundDesign extends StatelessWidget {
                   textStyle: const TextStyle(fontSize: 15),
                   foregroundColor:
                       Theme.of(context).colorScheme.onPrimary.withOpacity(0.7)),
-              onPressed: () {},
+              onPressed: () => Navigator.pushNamed(
+                  context, Routes.groundDetails,
+                  arguments: item),
               label: const Text("Show more"),
               icon: const Icon(
                 Icons.send,

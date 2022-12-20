@@ -25,7 +25,7 @@ void main() async {
   await PreferenceRepository.init();
   await Firebase.initializeApp();
   await MongoDatabase.instance.init();
-  FireNotificationHelper((_) {});
+  FireNotificationHelper(print);
   Bloc.observer = MyBlocObserver();
 
   String? userData = PreferenceRepository.getData(key: PreferenceKey.userData);

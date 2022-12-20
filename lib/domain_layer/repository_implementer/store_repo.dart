@@ -27,17 +27,13 @@ class StoreRepository {
       ShowData<Product> old) async {
     try {
       old.getNext();
-      print("start ${old.start} , end ${old.end}");
       List<Map<String, dynamic>?> storeData =
           await MongoDatabase.instance.getProduct(old.start, old.end);
-      print(storeData.length);
       List<Product> products =
           storeData.map((e) => Product.fromJson(e!)).toList();
       old.data.addAll(products);
-      print(old.data.length);
       return Right(old);
     } catch (_) {
-      print(_);
       return const Left(Failure("Error happened while getting ranked players"));
     }
   }

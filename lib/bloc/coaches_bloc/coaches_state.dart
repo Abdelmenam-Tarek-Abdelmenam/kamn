@@ -3,66 +3,50 @@ part of 'coaches_bloc.dart';
 class CoachesState extends Equatable {
   final CoachesType type;
   final Games filter;
-  final List<Coach> coaches;
-  final List<Gym> gyms;
+  final ShowData<Coach> coaches;
+  final ShowData<Gym> gyms;
+  final BlocStatus coachesStatus;
+  final BlocStatus gymStatus;
 
-  const CoachesState(
-      {required this.type,
-      required this.filter,
-      required this.coaches,
-      required this.gyms});
+  const CoachesState({
+    required this.type,
+    required this.filter,
+    required this.coaches,
+    required this.gyms,
+    required this.coachesStatus,
+    required this.gymStatus,
+  });
 
-  factory CoachesState.initial() =>
-      CoachesState(type: CoachesType.coach, filter: Games.all, coaches: [
-        Coach(
-            name: "Sama",
-            id: "55",
-            description: "Fitness trainer",
-            img: testImg1,
-            price: 120,
-            position: "Fitness trainer",
-            rating: 2.5,
-            game: Games.gym),
-        Coach(
-            name: "Ahmed Mohamed",
-            id: "55",
-            description: "Swimming",
-            img: testImg2,
-            price: 10,
-            rating: 4.75,
-            position: "Padel trainer",
-            game: Games.tennis)
-      ], gyms: [
-        Gym(
-            name: "Golden Gym",
-            address: "22 AboQir street,Alexandria Egypt",
-            price: 1200,
-            img: testImage1,
-            type: GymType.mix,
-            rating: 4.25),
-        Gym(
-            name: "VIP Gym",
-            address: "11 Elrasafa st  moharem bek",
-            price: 800,
-            img: testImage2,
-            type: GymType.separate,
-            rating: 3)
-      ]);
+  factory CoachesState.initial() => CoachesState(
+        type: CoachesType.coach,
+        filter: Games.all,
+        coaches: ShowData.empty(),
+        gyms: ShowData.empty(),
+        coachesStatus: BlocStatus.idle,
+        gymStatus: BlocStatus.idle,
+      );
 
-  CoachesState copyWith(
-      {CoachesType? type,
-      Games? filter,
-      List<Coach>? coaches,
-      List<Gym>? gyms}) {
+  CoachesState copyWith({
+    CoachesType? type,
+    Games? filter,
+    ShowData<Coach>? coaches,
+    ShowData<Gym>? gyms,
+    BlocStatus? coachesStatus,
+    BlocStatus? gymStatus,
+  }) {
     return CoachesState(
-        filter: filter ?? this.filter,
-        type: type ?? this.type,
-        coaches: coaches ?? this.coaches,
-        gyms: gyms ?? this.gyms);
+      filter: filter ?? this.filter,
+      type: type ?? this.type,
+      coaches: coaches ?? this.coaches,
+      gyms: gyms ?? this.gyms,
+      coachesStatus: coachesStatus ?? this.coachesStatus,
+      gymStatus: gymStatus ?? this.gymStatus,
+    );
   }
 
   @override
-  List<Object> get props => [type, filter, coaches.length, gyms.length];
+  List<Object> get props =>
+      [type, filter, coaches.length, gyms.length, coachesStatus, gymStatus];
 }
 
 enum CoachesType {

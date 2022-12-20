@@ -4,12 +4,12 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:kamn/bloc/matches_bloc/matches_bloc.dart';
 import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/shared/custom_scafffold/sliding_scaffold.dart';
-import 'package:kamn/presentation/view/matches_view/widgets/active_dialog.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import '../../../bloc/status.dart';
 import '../../shared/widget/error_widget.dart';
 import '../../shared/widget/loading_text.dart';
+import 'widgets/active_dialog.dart';
 import 'widgets/active_matches.dart';
 import 'widgets/grounds.dart';
 
@@ -38,45 +38,65 @@ class MatchesView extends StatelessWidget {
         bottomNavigationBar:
             bottomBar(context, context.watch<PlayBloc>().state.type),
         child: Expanded(
-          child: ListView(
-            children: [
-              BlocBuilder<PlayBloc, PlayState>(
-                builder: (context, state) {
-                  if (state.type == MatchesViewType.grounds) {
-                    switch (state.groundStatus) {
-                      case BlocStatus.idle:
-                        return GroundsWidget(state.grounds);
-                      case BlocStatus.gettingData:
-                        return const LoadingText();
-                      case BlocStatus.getData:
-                        endRefresh();
-                        return GroundsWidget(state.grounds);
-                      case BlocStatus.error:
-                        endRefresh();
-                        return const ErrorView();
+          child: SmartRefresher(
+            controller: _refreshController,
+            enablePullDown: true,
+            enablePullUp: false,
+            header: const WaterDropHeader(),
+            onRefresh: () {
+              PlayBloc bloc = context.read<PlayBloc>();
+              switch (bloc.state.type) {
+                case MatchesViewType.grounds:
+                  bloc.add(const GetGroundsEvent());
+                  break;
+                case MatchesViewType.active:
+                  bloc.add(const GetMatchesEvent());
+                  break;
+                case MatchesViewType.community:
+                  // TODO: Handle this case.
+                  break;
+              }
+            },
+            child: ListView(
+              children: [
+                BlocBuilder<PlayBloc, PlayState>(
+                  builder: (context, state) {
+                    if (state.type == MatchesViewType.grounds) {
+                      switch (state.groundStatus) {
+                        case BlocStatus.idle:
+                          return GroundsWidget(state.grounds);
+                        case BlocStatus.gettingData:
+                          return const LoadingText();
+                        case BlocStatus.getData:
+                          endRefresh();
+                          return GroundsWidget(state.grounds);
+                        case BlocStatus.error:
+                          endRefresh();
+                          return const ErrorView();
+                      }
+                    } else if (state.type == MatchesViewType.active) {
+                      switch (state.matchesStatus) {
+                        case BlocStatus.idle:
+                          return ActiveMatchesWidget(state.matches);
+                        case BlocStatus.gettingData:
+                          return const LoadingText();
+                        case BlocStatus.getData:
+                          endRefresh();
+                          return ActiveMatchesWidget(state.matches);
+                        case BlocStatus.error:
+                          endRefresh();
+                          return const ErrorView();
+                      }
+                    } else {
+                      return const LoadingText();
                     }
-                  } else if (state.type == MatchesViewType.active) {
-                    switch (state.matchesStatus) {
-                      case BlocStatus.idle:
-                        return ActiveMatchesWidget(state.matches);
-                      case BlocStatus.gettingData:
-                        return const LoadingText();
-                      case BlocStatus.getData:
-                        endRefresh();
-                        return ActiveMatchesWidget(state.matches);
-                      case BlocStatus.error:
-                        endRefresh();
-                        return const ErrorView();
-                    }
-                  } else {
-                    return const LoadingText();
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 100,
-              ),
-            ],
+                  },
+                ),
+                const SizedBox(
+                  height: 100,
+                ),
+              ],
+            ),
           ),
         ));
   }
@@ -130,7 +150,6 @@ class MatchesView extends StatelessWidget {
 
   void endRefresh() {
     Future.delayed(const Duration(milliseconds: 20)).then((value) {
-      print("Refresh complete");
       if (_refreshController.isRefresh) _refreshController.refreshCompleted();
       if (_refreshController.isLoading) _refreshController.loadComplete();
     });
