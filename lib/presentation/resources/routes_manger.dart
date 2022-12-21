@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:kamn/data/models/gym.dart';
 import 'package:kamn/data/models/matches.dart';
 import 'package:kamn/data/models/product.dart';
 import 'package:kamn/presentation/view/benefits_view/benefits_view.dart';
+import 'package:kamn/presentation/view/coaches_view/gym_details_view.dart';
 import 'package:kamn/presentation/view/landing_view/landing_view.dart';
 import 'package:kamn/presentation/view/login_view/login_view.dart';
 import 'package:kamn/presentation/view/matches_view/ground_details_view.dart';
@@ -31,6 +33,7 @@ class Routes {
   static const String signup = "/signup";
   static const String product = "/ProductView";
   static const String groundDetails = "/GroundDetailsView";
+  static const String gymDetails = "/GymDetailsView";
 }
 
 class RouteGenerator {
@@ -68,6 +71,9 @@ class RouteGenerator {
       case Routes.groundDetails:
         return MaterialPageRoute(
             builder: (_) => GroundDetailsView(settings.arguments as Ground));
+      case Routes.gymDetails:
+        return MaterialPageRoute(
+            builder: (_) => GymDetailsView(settings.arguments as Gym));
       default:
         return unDefinedRoute();
     }

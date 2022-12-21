@@ -1,8 +1,3 @@
-const testImage1 =
-    "https://metrosaga.com/wp-content/uploads/2020/05/Untitled-design-4-1.jpg";
-const testImage2 =
-    "https://pr1.nicelocal.ae/HuYTsHFZ5SaV70m7eEJiFw/640x360,q85/4px-BW84_n0QJGVPszge3NRBsKw-2VcOifrJIjPYFYkOtaCZxxXQ2ZxQkxfFFFrmj6ePV27Tl2w7t3qugr0qZPzJFTR8h7wYldczZH4iUAe0O_dE-P7QhQ";
-
 class Gym {
   String name;
   String address;
@@ -10,6 +5,14 @@ class Gym {
   String img;
   GymType type;
   double rating;
+  List<String> amenities;
+  // Spa,Jacuzzi
+  List<String> reviews;
+  List<String> images;
+  Map<String, String> subscriptions;
+  double lat;
+  double lon;
+  List<GymCoach> coaches;
 
   Gym({
     required this.name,
@@ -18,6 +21,13 @@ class Gym {
     required this.img,
     required this.type,
     required this.rating,
+    required this.amenities,
+    required this.images,
+    required this.reviews,
+    required this.lat,
+    required this.lon,
+    required this.subscriptions,
+    required this.coaches,
   });
 
   factory Gym.fromJson(Map<String, dynamic> json) => Gym(
@@ -26,7 +36,15 @@ class Gym {
       price: json['price'],
       img: json['img'],
       type: GymType.values[json['type']],
-      rating: json['rating']);
+      rating: json['rating'],
+      images: List<String>.from(json['images'] ?? []),
+      reviews: List<String>.from(json['reviews'] ?? []),
+      amenities: json['amenities'].split(","),
+      lat: json['lat'],
+      lon: json['lon'],
+      subscriptions: Map<String, String>.from(json['subscriptions']),
+      coaches: List<GymCoach>.from(
+          json['coaches'].map((e) => GymCoach.fromJson(e))));
 
   Map<String, dynamic> get toJson => {
         "name": name,
@@ -34,7 +52,14 @@ class Gym {
         "price": price,
         "img": img,
         "type": type.index,
-        "rating": rating
+        "rating": rating,
+        "amenities": amenities.join(","),
+        "images": images,
+        "reviews": reviews,
+        "lon": lon,
+        "lat": lat,
+        "subscriptions": subscriptions,
+        "coaches": coaches.map((e) => e.toJson).toList(),
       };
 }
 
@@ -51,4 +76,22 @@ enum GymType {
         return "Separate";
     }
   }
+}
+
+class GymCoach {
+  String name;
+  String description;
+  String img;
+
+  GymCoach({
+    required this.img,
+    required this.name,
+    required this.description,
+  });
+
+  factory GymCoach.fromJson(Map<String, dynamic> json) => GymCoach(
+      img: json['img'], name: json['name'], description: json['description']);
+
+  Map<String, dynamic> get toJson =>
+      {"img": img, "name": name, "description": description};
 }

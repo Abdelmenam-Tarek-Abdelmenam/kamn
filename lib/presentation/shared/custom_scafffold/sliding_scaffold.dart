@@ -18,58 +18,69 @@ class SlidingScaffold extends StatelessWidget {
       this.floatingActionButton,
       this.floatingActionButtonLocation,
       this.action,
+      this.tabs,
       Key? key})
       : super(key: key);
   final Widget child;
   final Widget? floatingActionButton;
   final Widget? action;
   final List<Widget>? bottomNavigationBar;
+  final List<Widget>? tabs;
   final String title;
   final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   @override
   Widget build(BuildContext context) {
     return GradientContainer(
-      Scaffold(
-        floatingActionButtonLocation: floatingActionButtonLocation ??
-            FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: floatingActionButton,
-        bottomNavigationBar:
-            bottomNavigationBar == null ? null : bottomBar(context),
-        resizeToAvoidBottomInset: true,
-        backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          centerTitle: true,
+      DefaultTabController(
+        length: tabs?.length ?? 0,
+        child: Scaffold(
+          floatingActionButtonLocation: floatingActionButtonLocation ??
+              FloatingActionButtonLocation.centerDocked,
+          floatingActionButton: floatingActionButton,
+          bottomNavigationBar:
+              bottomNavigationBar == null ? null : bottomBar(context),
+          resizeToAvoidBottomInset: true,
           backgroundColor: Colors.transparent,
-          elevation: 0,
-          actions: action == null ? null : [action!],
-          title: Text(title),
-        ),
-        body: bottomNavigationBar == null
-            ? SlidingUpPanel(
-                color: Colors.transparent,
-                boxShadow: const [],
-                collapsed: collapsedBuilder(context),
-                maxHeight: 375,
-                minHeight: panelHeight,
-                margin: const EdgeInsets.symmetric(horizontal: 30),
-                panel: Container(
-                  padding: PaddingManager.p15,
-                  margin: const EdgeInsets.only(top: panelHeight),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(25),
+          appBar: AppBar(
+            centerTitle: true,
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            actions: action == null ? null : [action!],
+            title: Text(title),
+            bottom: tabs == null
+                ? null
+                : TabBar(
+                    labelPadding: PaddingManager.p10,
+                    indicatorColor: Theme.of(context).colorScheme.onPrimary,
+                    tabs: tabs!),
+          ),
+          body: bottomNavigationBar == null
+              ? SlidingUpPanel(
+                  color: Colors.transparent,
+                  boxShadow: const [],
+                  collapsed: collapsedBuilder(context),
+                  maxHeight: 375,
+                  minHeight: panelHeight,
+                  margin: const EdgeInsets.symmetric(horizontal: 30),
+                  panel: Container(
+                    padding: PaddingManager.p15,
+                    margin: const EdgeInsets.only(top: panelHeight),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(25),
+                      ),
+                      color: Theme.of(context)
+                          .colorScheme
+                          .onPrimary
+                          .withOpacity(0.95),
                     ),
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onPrimary
-                        .withOpacity(0.95),
+                    child: BottomPanel(),
                   ),
-                  child: BottomPanel(),
-                ),
-                body: lastChild(context),
-              )
-            : lastChild(context),
+                  body: lastChild(context),
+                )
+              : lastChild(context),
+        ),
       ),
     );
   }

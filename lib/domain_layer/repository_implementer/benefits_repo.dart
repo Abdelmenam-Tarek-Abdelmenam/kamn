@@ -21,7 +21,7 @@ class BenefitsRepository {
       }
       return Right(data);
     } catch (_, __) {
-      return const Left(Failure("Error happened while getting Gyms"));
+      return Left(Failure("Error happened while getting $type benfits"));
     }
   }
 }

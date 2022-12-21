@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kamn/presentation/resources/routes_manger.dart';
 import 'package:kamn/presentation/resources/styles_manager.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
 import 'package:kamn/presentation/shared/widget/rating_icons.dart';
@@ -123,7 +124,10 @@ class GymDesign extends StatelessWidget {
                   textStyle: const TextStyle(fontSize: 15),
                   foregroundColor:
                       Theme.of(context).colorScheme.onPrimary.withOpacity(0.7)),
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context)
+                    .pushNamed(Routes.gymDetails, arguments: item);
+              },
               label: const Text("Show more"),
               icon: const Icon(
                 Icons.send,
