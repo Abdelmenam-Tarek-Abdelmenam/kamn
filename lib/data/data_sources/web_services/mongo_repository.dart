@@ -146,10 +146,18 @@ class MongoDatabase {
   }
 
   Future<void> _preCheck() async {
-    if (_db == null) await init();
     if (await Connectivity().isNotConnected()) {
       _db = null;
       throw const Failure("No Internet connection");
+    }
+    if (_db == null) {
+      await init();
+    } else if (!_db!.isConnected || _db!.state == State.opening) {
+      if (_db!.state == State.opening) {
+        _db!.state = State
+            .closed; // I am manually updating the state to CLOSE to prevent the invalid state exception.
+      }
+      await _db?.open();
     }
   }
 

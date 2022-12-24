@@ -211,9 +211,10 @@ class BackGround extends StatelessWidget {
 }
 
 class PriceList extends StatefulWidget {
-  const PriceList(this.subscription, {Key? key}) : super(key: key);
+  const PriceList(this.subscription, {this.label = "Subscriptions", Key? key})
+      : super(key: key);
   final Map<String, dynamic> subscription;
-
+  final String label;
   @override
   State<PriceList> createState() => _PriceListState();
 }
@@ -245,7 +246,7 @@ class _PriceListState extends State<PriceList> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8.0),
                             child: Text(
-                              " Subscriptions",
+                              widget.label,
                               style: Theme.of(context)
                                   .textTheme
                                   .displayMedium!
@@ -278,8 +279,7 @@ class _PriceListState extends State<PriceList> {
                                         .textTheme
                                         .displayLarge!
                                         .copyWith(fontSize: 16)),
-                                trailing: Text(
-                                    "${widget.subscription[key]!} EGP",
+                                trailing: Text("${widget.subscription[key]!}",
                                     style: Theme.of(context)
                                         .textTheme
                                         .labelSmall!

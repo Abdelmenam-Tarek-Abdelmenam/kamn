@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:kamn/data/models/benfits.dart';
 import 'package:kamn/data/models/coach.dart';
 import 'package:kamn/data/models/gym.dart';
 import 'package:kamn/data/models/matches.dart';
 import 'package:kamn/data/models/product.dart';
 import 'package:kamn/presentation/view/benefits_view/benefits_view.dart';
+import 'package:kamn/presentation/view/benefits_view/benefit_details_view.dart';
 import 'package:kamn/presentation/view/coaches_view/coaach_details_view.dart';
 import 'package:kamn/presentation/view/coaches_view/coach_achievment_view.dart';
 import 'package:kamn/presentation/view/coaches_view/gym_details_view.dart';
@@ -39,6 +41,7 @@ class Routes {
   static const String gymDetails = "/GymDetailsView";
   static const String coachDetails = "/coachDetails";
   static const String coachAchievements = "/coachAchievements";
+  static const String benfitsDetails = "/benfitsDetails";
 }
 
 class RouteGenerator {
@@ -85,6 +88,10 @@ class RouteGenerator {
       case Routes.coachAchievements:
         return MaterialPageRoute(
             builder: (_) => CoachAchievementsView(settings.arguments as Coach));
+      case Routes.benfitsDetails:
+        return MaterialPageRoute(
+            builder: (_) => BenfitsDetailsView(settings.arguments as Benefit));
+
       default:
         return unDefinedRoute();
     }

@@ -60,6 +60,9 @@ class GroundDetailsView extends StatelessWidget {
               ),
               Dividers.h5,
               ReviewList(ground.reviews),
+              const SizedBox(
+                height: 100,
+              ),
             ],
           ),
         ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kamn/bloc/benfits_bloc/benfits_bloc.dart';
+import 'package:kamn/presentation/resources/routes_manger.dart';
 
 import '../../../../data/models/benfits.dart';
 import '../../../resources/asstes_manager.dart';
@@ -69,10 +70,10 @@ class BenefitDesign extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (item is MedicalBenefit) {
-      (item as MedicalBenefit).type ==
-          context.watch<BenfitsBloc>().state.filter;
-    }
+    // if (item is MedicalBenefit) {
+    //   (item as MedicalBenefit).type ==
+    //       context.watch<BenfitsBloc>().state.filter;
+    // }
     return Container(
       margin: const EdgeInsets.all(15.0).copyWith(bottom: 0),
       height: 130,
@@ -141,7 +142,11 @@ class BenefitDesign extends StatelessWidget {
                             style: OutlinedButton.styleFrom(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 8)),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).pushNamed(
+                                  Routes.benfitsDetails,
+                                  arguments: item);
+                            },
                             child: const Text(
                               "Show more",
                               style: TextStyle(fontSize: 14),

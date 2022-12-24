@@ -63,6 +63,9 @@ class GymDetailsView extends StatelessWidget {
                     ),
                     Dividers.h5,
                     ReviewList(gym.reviews),
+                    const SizedBox(
+                      height: 100,
+                    ),
                   ],
                 ),
               ),

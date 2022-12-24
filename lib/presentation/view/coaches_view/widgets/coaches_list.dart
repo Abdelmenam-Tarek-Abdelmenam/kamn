@@ -90,10 +90,13 @@ class CoachDesign extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              ClipOval(
-                child: ErrorImage(
-                  item.img,
-                  height: 80,
+              Hero(
+                tag: item.id,
+                child: ClipOval(
+                  child: ErrorImage(
+                    item.img,
+                    height: 80,
+                  ),
                 ),
               ),
               Dividers.w10,

@@ -7,11 +7,6 @@ import '../../shared/custom_scafffold/sliding_scaffold.dart';
 import '../../shared/custom_scafffold/top_widget.dart';
 import '../../shared/details_widget.dart';
 import '../../shared/widget/avatar.dart';
-import '../../shared/widget/error_image.dart';
-
-// description
-// Feedback
-// consultation
 
 class CoachDetailsView extends StatelessWidget {
   const CoachDetailsView(this.coach, {Key? key}) : super(key: key);
@@ -68,6 +63,9 @@ class CoachDetailsView extends StatelessWidget {
                 ),
                 Dividers.h10,
                 ReviewList(coach.reviews),
+                const SizedBox(
+                  height: 100,
+                ),
               ],
             ),
           )
@@ -127,6 +125,9 @@ class CoachDetailsView extends StatelessWidget {
                 ],
               ),
             ),
+            const SizedBox(
+              height: 100,
+            ),
           ],
         ),
       );
@@ -140,9 +141,12 @@ class CoachDetailsView extends StatelessWidget {
             alignment: Alignment.center,
             child: Padding(
               padding: const EdgeInsets.only(bottom: 18.0),
-              child: Avatar(
-                coach.img,
-                width: 100,
+              child: Hero(
+                tag: coach.id,
+                child: Avatar(
+                  coach.img,
+                  width: 100,
+                ),
               ),
             ),
           ),

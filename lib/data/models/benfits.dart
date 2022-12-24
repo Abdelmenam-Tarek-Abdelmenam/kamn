@@ -15,14 +15,26 @@ abstract class Benefit {
   String description;
   String img;
   String id;
-  Benefit(this.id, this.name, this.benefit, this.img, this.description);
+  List<String> reviews;
+  double lat;
+  double lon;
+  String address;
+  Map<String, String> packages;
+
+  Benefit(this.id, this.name, this.benefit, this.img, this.description,
+      this.packages, this.address, this.reviews, this.lat, this.lon);
 
   Benefit.fromJson(Map<String, dynamic> json)
       : id = json['id'],
         name = json['name'],
         benefit = json['benefit'],
         img = json['img'],
-        description = json['description'];
+        description = json['description'],
+        packages = Map<String, String>.from(json['packages']),
+        address = json['address'],
+        reviews = List<String>.from(json['reviews'] ?? []),
+        lat = json['lat'],
+        lon = json['lon'];
 
   Map<String, dynamic> toSubJson(dynamic additional, String type) => {
         "name": name,
@@ -32,20 +44,31 @@ abstract class Benefit {
         "id": id,
         "additional": additional,
         "type": type,
+        "packages": packages,
+        "address": address,
+        "reviews": reviews,
+        "lat": lat,
+        "lon": lon
       };
 }
 
 class MedicalBenefit extends Benefit {
   DoctorType type;
 
-  MedicalBenefit(
-      {required String name,
-      required String id,
-      required String benefit,
-      required String description,
-      required String img,
-      required this.type})
-      : super(id, name, benefit, img, description);
+  MedicalBenefit({
+    required String name,
+    required String id,
+    required String benefit,
+    required String description,
+    required String img,
+    required this.type,
+    required Map<String, String> packages,
+    required String address,
+    required List<String> reviews,
+    required double lat,
+    required double lon,
+  }) : super(id, name, benefit, img, description, packages, address, reviews,
+            lat, lon);
 
   MedicalBenefit.fromJson(Map<String, dynamic> json)
       : type = DoctorType.values[json['additional']],
@@ -64,7 +87,13 @@ class OtherBenfits extends Benefit {
     required String benefit,
     required String description,
     required String img,
-  }) : super(id, name, benefit, img, description);
+    required Map<String, String> packages,
+    required String address,
+    required List<String> reviews,
+    required double lat,
+    required double lon,
+  }) : super(id, name, benefit, img, description, packages, address, reviews,
+            lat, lon);
 
   OtherBenfits.fromJson(Map<String, dynamic> json)
       : goods = json['additional'],
@@ -90,55 +119,3 @@ enum DoctorType {
     }
   }
 }
-
-List<MedicalBenefit> mBenfits = [
-  MedicalBenefit(
-      id: "a",
-      name: "Abdelmenam",
-      benefit: "50%",
-      description: "description",
-      img: testImage1,
-      type: DoctorType.orthopedist),
-  MedicalBenefit(
-      id: "b",
-      name: "Yasmeen",
-      benefit: "free",
-      description: "description",
-      img: testImage2,
-      type: DoctorType.physiotherapist),
-];
-List<OtherBenfits> sBenfits = [
-  OtherBenfits(
-      goods: "Shoes",
-      id: "c",
-      name: "Adidas",
-      benefit: "30%",
-      description: "description",
-      img: "https://www.akropoleriga.lv/image/15622466113155_430_430_1.jpg"),
-  OtherBenfits(
-      goods: "T-Shirts",
-      id: "d",
-      name: "Nike",
-      benefit: "free shipping",
-      description: "description",
-      img:
-          "https://static.nike.com/a/images/f_auto/fa253650-9040-44ac-91e9-7b7175f1cc3f/image.jpeg"),
-];
-List<OtherBenfits> nBefits = [
-  OtherBenfits(
-      goods: "Health expert",
-      id: "h",
-      name: "Ahmed Mahmoud",
-      benefit: "30%",
-      description: "description",
-      img:
-          "https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg?crop=0.66698xw:1xh;center,top&resize=640:*"),
-  OtherBenfits(
-      goods: "Restaurant",
-      id: "d",
-      name: "Laziz",
-      benefit: "free delivery",
-      description: "description",
-      img:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Tom%27s_Restaurant%2C_NYC.jpg/1280px-Tom%27s_Restaurant%2C_NYC.jpg"),
-];
