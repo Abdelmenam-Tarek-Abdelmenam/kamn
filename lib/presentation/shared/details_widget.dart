@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:kamn/data/repositories/lanucher_extentions.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
+import 'package:lottie/lottie.dart';
 
 import '../resources/asstes_manager.dart';
 import '../resources/styles_manager.dart';
@@ -69,13 +70,20 @@ class AddressBox extends StatelessWidget {
         Expanded(
             child: Text(
           address,
-          textAlign: TextAlign.center,
+          textAlign: TextAlign.start,
           style:
               Theme.of(context).textTheme.displayMedium!.copyWith(fontSize: 16),
         )),
-        IconButton(
-            onPressed: () => launchMapsUrl(lat, lon),
-            icon: const Icon(Icons.location_on_outlined))
+        InkWell(
+          onTap: () => launchMapsUrl(lat, lon),
+          child: CircleAvatar(
+            backgroundColor:
+                Theme.of(context).colorScheme.onPrimary.withOpacity(0.6),
+            child: Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Lottie.asset(LottieManager.location)),
+          ),
+        )
       ],
     ));
   }
@@ -199,5 +207,89 @@ class BackGround extends StatelessWidget {
       ),
       child: child,
     );
+  }
+}
+
+class PriceList extends StatefulWidget {
+  const PriceList(this.subscription, {Key? key}) : super(key: key);
+  final Map<String, dynamic> subscription;
+
+  @override
+  State<PriceList> createState() => _PriceListState();
+}
+
+class _PriceListState extends State<PriceList> {
+  bool active = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return StatefulBuilder(builder: (context, setState) {
+      return BackGround(
+          padding: EdgeInsets.zero,
+          child: Center(
+            child: ExpansionPanelList(
+              elevation: 0.0,
+              animationDuration: const Duration(seconds: 1),
+              expandedHeaderPadding: EdgeInsets.zero,
+              expansionCallback: (int index, bool status) {
+                active = !status;
+                setState(() {});
+              },
+              children: [
+                ExpansionPanel(
+                    canTapOnHeader: true,
+                    backgroundColor: Colors.transparent,
+                    isExpanded: active,
+                    headerBuilder: (context, _) => Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              " Subscriptions",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displayMedium!
+                                  .copyWith(fontSize: 18),
+                            ),
+                          ),
+                        ),
+                    body: Column(
+                      children: widget.subscription.keys
+                          .map((key) => ListTile(
+                                iconColor:
+                                    Theme.of(context).colorScheme.primary,
+                                // contentPadding: EdgeInsets.zero,
+                                dense: true,
+                                visualDensity: const VisualDensity(
+                                    vertical: -2), // to compact
+                                tileColor: Theme.of(context)
+                                    .colorScheme
+                                    .onPrimary
+                                    .withOpacity(0.65),
+                                shape: Border.symmetric(
+                                    horizontal: BorderSide(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onPrimary)),
+                                style: ListTileStyle.drawer,
+                                leading: const Icon(Icons.attach_money),
+                                title: Text(key,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayLarge!
+                                        .copyWith(fontSize: 16)),
+                                trailing: Text(
+                                    "${widget.subscription[key]!} EGP",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .labelSmall!
+                                        .copyWith(fontSize: 14)),
+                              ))
+                          .toList(),
+                    )),
+              ],
+            ),
+          ));
+    });
   }
 }

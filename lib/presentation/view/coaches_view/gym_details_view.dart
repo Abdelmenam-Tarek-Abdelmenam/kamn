@@ -38,7 +38,7 @@ class GymDetailsView extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    priceText(),
+                    PriceList(gym.subscriptions),
                     Dividers.h10,
                     FacilitiesList(gym.amenities),
                     Dividers.h10,
@@ -78,65 +78,6 @@ class GymDetailsView extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  Widget priceText() {
-    bool active = false;
-    return StatefulBuilder(builder: (context, setState) {
-      return BackGround(
-          padding: EdgeInsets.zero,
-          child: Center(
-            child: ExpansionPanelList(
-              elevation: 0.0,
-              animationDuration: const Duration(seconds: 1),
-              expandedHeaderPadding: EdgeInsets.zero,
-              expansionCallback: (int index, bool status) {
-                active = !status;
-                setState(() {});
-              },
-              children: [
-                ExpansionPanel(
-                    canTapOnHeader: true,
-                    backgroundColor: Colors.transparent,
-                    isExpanded: active,
-                    headerBuilder: (context, _) => Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                              " Subscriptions",
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .displayMedium!
-                                  .copyWith(fontSize: 18),
-                            ),
-                          ),
-                        ),
-                    body: Column(
-                      children: gym.subscriptions.keys
-                          .map((key) => ListTile(
-                                iconColor:
-                                    Theme.of(context).colorScheme.onPrimary,
-                                contentPadding: EdgeInsets.zero,
-                                tileColor: Colors.transparent,
-                                leading: const Icon(Icons.attach_money),
-                                title: Text(key,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displayMedium!
-                                        .copyWith(fontSize: 16)),
-                                trailing: Text("${gym.subscriptions[key]!} ",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displayMedium!
-                                        .copyWith(fontSize: 14)),
-                              ))
-                          .toList(),
-                    )),
-              ],
-            ),
-          ));
-    });
   }
 
   Widget coachBuilder(BuildContext context, GymCoach coach) {

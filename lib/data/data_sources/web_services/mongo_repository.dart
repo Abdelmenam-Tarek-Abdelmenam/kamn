@@ -27,7 +27,9 @@ class MongoDatabase {
     try {
       _db = await Db.create(_mongoUrl);
       await _db?.open();
-    } catch (_) {}
+    } catch (_, __) {
+      _db = null;
+    }
   }
 
   Future<void> addUser(Map<String, dynamic> userData) async {
@@ -146,6 +148,7 @@ class MongoDatabase {
   Future<void> _preCheck() async {
     if (_db == null) await init();
     if (await Connectivity().isNotConnected()) {
+      _db = null;
       throw const Failure("No Internet connection");
     }
   }

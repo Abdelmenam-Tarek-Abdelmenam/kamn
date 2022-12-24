@@ -31,4 +31,5 @@ class LottieManager {
   static const noGyms = "${lottiePath}noGyms.json";
   static const noCoaches = "${lottiePath}noCoaches.zip";
   static const loading = "${lottiePath}loading.zip";
+  static const location = "${lottiePath}location.zip";
 }

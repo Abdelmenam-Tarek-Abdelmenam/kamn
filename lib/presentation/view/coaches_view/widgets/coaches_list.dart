@@ -4,6 +4,7 @@ import 'package:kamn/bloc/coaches_bloc/coaches_bloc.dart';
 import 'package:kamn/data/models/app_user.dart';
 import 'package:kamn/data/models/coach.dart';
 import 'package:kamn/data/models/show_data.dart';
+import 'package:kamn/presentation/resources/routes_manger.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
 import 'package:kamn/presentation/shared/widget/error_image.dart';
 import 'package:lottie/lottie.dart';
@@ -128,12 +129,18 @@ class CoachDesign extends StatelessWidget {
               Dividers.horizontalLine,
               Row(
                 children: [
-                  customButton(context, "Achievements"),
+                  customButton(context, "Achievements", () {
+                    Navigator.of(context)
+                        .pushNamed(Routes.coachAchievements, arguments: item);
+                  }),
                   const SizedBox(
                     height: 30,
                     child: Dividers.verticalLine,
                   ),
-                  customButton(context, "Details"),
+                  customButton(context, "Details", () {
+                    Navigator.of(context)
+                        .pushNamed(Routes.coachDetails, arguments: item);
+                  }),
                 ],
               ),
               Dividers.horizontalLine,
@@ -144,15 +151,19 @@ class CoachDesign extends StatelessWidget {
     );
   }
 
-  Widget customButton(BuildContext context, String label) => Expanded(
+  Widget customButton(
+          BuildContext context, String label, void Function() onTab) =>
+      Expanded(
         child: InkWell(
-          onTap: () {},
-          child: Center(
-              // height: 40,
-              child: Text(
-            label,
-            style: Theme.of(context).textTheme.labelSmall,
-          )),
+          onTap: onTab,
+          child: SizedBox(
+            height: 30,
+            child: Center(
+                child: Text(
+              label,
+              style: Theme.of(context).textTheme.labelSmall,
+            )),
+          ),
         ),
       );
 }
