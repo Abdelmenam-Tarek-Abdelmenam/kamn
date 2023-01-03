@@ -19,9 +19,11 @@ class SlidingScaffold extends StatelessWidget {
       this.floatingActionButtonLocation,
       this.action,
       this.tabs,
+      this.showSliding = true,
       Key? key})
       : super(key: key);
   final Widget child;
+  final bool showSliding;
   final Widget? floatingActionButton;
   final Widget? action;
   final List<Widget>? bottomNavigationBar;
@@ -55,7 +57,7 @@ class SlidingScaffold extends StatelessWidget {
                     indicatorColor: Theme.of(context).colorScheme.onPrimary,
                     tabs: tabs!),
           ),
-          body: bottomNavigationBar == null
+          body: bottomNavigationBar == null && showSliding == true
               ? SlidingUpPanel(
                   color: Colors.transparent,
                   boxShadow: const [],

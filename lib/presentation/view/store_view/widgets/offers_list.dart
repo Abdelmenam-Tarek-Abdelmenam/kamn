@@ -91,8 +91,8 @@ class OffersList extends StatelessWidget {
     return Padding(
       padding: PaddingManager.p2.copyWith(top: 0, bottom: 10),
       child: InkWell(
-        onTap: () =>
-            Navigator.of(context).pushNamed(Routes.product, arguments: (item)),
+        onTap: () => Navigator.of(context)
+            .pushNamed(Routes.product, arguments: (item.product)),
         child: Card(
           color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.3),
           elevation: 0,
@@ -125,7 +125,7 @@ class OffersList extends StatelessWidget {
                           width: MediaQuery.of(context).size.width / 2,
                           height: 150,
                           child: ErrorImage(
-                            item.img,
+                            item.product.img,
                           )),
                     ],
                   ),
@@ -148,7 +148,7 @@ class OffersList extends StatelessWidget {
                                 decoration: TextDecoration.lineThrough,
                                 fontSize: 16),
                       ),
-                      Text("${item.price} EGP",
+                      Text("${item.product.price} EGP",
                           style: Theme.of(context).textTheme.displaySmall)
                     ],
                   ),
@@ -157,7 +157,7 @@ class OffersList extends StatelessWidget {
               Padding(
                 padding: PaddingManager.p2.copyWith(left: 8),
                 child: Text(
-                  item.name,
+                  item.product.name,
                   style: Theme.of(context).textTheme.displayLarge!.copyWith(
                       fontSize: 16,
                       color: Theme.of(context).colorScheme.primary),

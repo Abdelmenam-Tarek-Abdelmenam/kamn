@@ -26,8 +26,10 @@ class MongoDatabase {
     if (await Connectivity().isNotConnected()) return;
     try {
       _db = await Db.create(_mongoUrl);
-      await _db?.open();
+      await _db?.open(secure: true, tlsAllowInvalidCertificates: true);
     } catch (_, __) {
+      // print(_);
+      // print(__);
       _db = null;
     }
   }
