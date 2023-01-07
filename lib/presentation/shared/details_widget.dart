@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:kamn/data/repositories/lanucher_extentions.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
 import 'package:kamn/presentation/shared/widget/form_field.dart';
 import 'package:lottie/lottie.dart';
@@ -22,7 +23,7 @@ class FacilitiesList extends StatelessWidget {
         child: Column(
       children: [
         Text(
-          "Facilities",
+          StringManger.facilities,
           style: Theme.of(context).textTheme.headlineSmall!.copyWith(
               fontSize: 18,
               fontWeight: FontWeight.w300,
@@ -108,7 +109,7 @@ class ImagesList extends StatelessWidget {
       child: images.isEmpty
           ? Center(
               child: Text(
-              "No photos yet",
+              StringManger.noPhotos,
               style: Theme.of(context).textTheme.labelSmall,
             ))
           : Column(
@@ -174,9 +175,12 @@ class _ReviewListState extends State<ReviewList> {
                       ? OutlinedButton.icon(
                           onPressed: () => showAddDialog(context),
                           icon: const Icon(Icons.add_box_outlined),
-                          label: Text(
-                            "Add Review",
-                            style: Theme.of(context).textTheme.labelSmall,
+                          label: Hero(
+                            tag: "H",
+                            child: Text(
+                              StringManger.addReview,
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
                           ))
                       : Container(
                           padding: PaddingManager.p10,
@@ -222,9 +226,12 @@ class _ReviewListState extends State<ReviewList> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FittedBox(
-                            child: Text(
-                              "Add Review",
-                              style: Theme.of(context).textTheme.titleLarge,
+                            child: Hero(
+                              tag: "H",
+                              child: Text(
+                                StringManger.addReview,
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
                             ),
                           ),
                           Dividers.h10,
@@ -232,11 +239,12 @@ class _ReviewListState extends State<ReviewList> {
                             key: formKey,
                             child: DefaultFormField(
                               controller: newReview,
-                              title: "Review",
+                              title: StringManger.review,
                               maxLines: 3,
                               hideBorder: true,
-                              validator: (val) =>
-                                  val!.isEmpty ? "Review can't be empty" : null,
+                              validator: (val) => val!.isEmpty
+                                  ? StringManger.emptyReview
+                                  : null,
                               prefix: Icons.message_outlined,
                             ),
                           ),
@@ -250,7 +258,7 @@ class _ReviewListState extends State<ReviewList> {
                                 }
                               },
                               icon: const Icon(Icons.add),
-                              label: const Text("Add"))
+                              label: Text(StringManger.add))
                         ],
                       ),
                     )),
@@ -282,10 +290,9 @@ class BackGround extends StatelessWidget {
 }
 
 class PriceList extends StatefulWidget {
-  const PriceList(this.subscription, {this.label = "Subscriptions", Key? key})
-      : super(key: key);
+  const PriceList(this.subscription, {this.label, Key? key}) : super(key: key);
   final Map<String, dynamic> subscription;
-  final String label;
+  final String? label;
   @override
   State<PriceList> createState() => _PriceListState();
 }
@@ -317,7 +324,7 @@ class _PriceListState extends State<PriceList> {
                           child: Padding(
                             padding: const EdgeInsets.only(left: 8.0),
                             child: Text(
-                              widget.label,
+                              widget.label ?? StringManger.subscriptions,
                               style: Theme.of(context)
                                   .textTheme
                                   .displayMedium!

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:kamn/data/models/product.dart';
 import 'package:kamn/presentation/resources/asstes_manager.dart';
 import 'package:kamn/presentation/resources/routes_manger.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/resources/styles_manager.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
 import 'package:kamn/presentation/shared/widget/error_image.dart';
@@ -63,12 +64,12 @@ class OffersList extends StatelessWidget {
                         children: [
                           FittedBox(
                             child: Text(
-                              "No offers available now",
+                              StringManger.noOffers,
                               style: Theme.of(context).textTheme.displayLarge,
                             ),
                           ),
                           Text(
-                            "Come back later",
+                            StringManger.comeBack,
                             textAlign: TextAlign.center,
                             style: Theme.of(context).textTheme.labelLarge,
                           ),
@@ -140,7 +141,7 @@ class OffersList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "${item.oldPrice} EGP",
+                        "${item.oldPrice} ${StringManger.priceUnit}",
                         style: Theme.of(context)
                             .textTheme
                             .displaySmall!
@@ -148,7 +149,7 @@ class OffersList extends StatelessWidget {
                                 decoration: TextDecoration.lineThrough,
                                 fontSize: 16),
                       ),
-                      Text("${item.product.price} EGP",
+                      Text("${item.product.price} ${StringManger.priceUnit}",
                           style: Theme.of(context).textTheme.displaySmall)
                     ],
                   ),
@@ -163,20 +164,6 @@ class OffersList extends StatelessWidget {
                       color: Theme.of(context).colorScheme.primary),
                 ),
               ),
-              // Align(
-              //     alignment: Alignment.bottomLeft,
-              //     child: Padding(
-              //       padding: const EdgeInsets.only(left: 8.0),
-              //       child: OutlinedButton(
-              //         style: OutlinedButton.styleFrom(
-              //             padding: const EdgeInsets.symmetric(horizontal: 8)),
-              //         onPressed: () {},
-              //         child: Text(
-              //           StringManger.addToCard,
-              //           style: const TextStyle(fontSize: 14),
-              //         ),
-              //       ),
-              //     )),
             ],
           ),
         ),

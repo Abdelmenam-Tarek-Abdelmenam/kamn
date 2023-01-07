@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/shared/custom_scafffold/sliding_scaffold.dart';
 import 'package:kamn/presentation/shared/details_widget.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
@@ -28,7 +29,7 @@ class GymDetailsView extends StatelessWidget {
         icon: const Icon(Icons.call),
         onPressed: () {},
       ),
-      tabs: const [Text("General"), Text("Coaches")],
+      tabs: [Text(StringManger.coaches), Text(StringManger.coaches)],
       child: Expanded(
         child: TabBarView(
           children: [
@@ -43,7 +44,7 @@ class GymDetailsView extends StatelessWidget {
                     FacilitiesList(gym.amenities),
                     Dividers.h10,
                     Text(
-                      "Photos",
+                      StringManger.photos,
                       style: Theme.of(context)
                           .textTheme
                           .labelLarge!
@@ -55,7 +56,7 @@ class GymDetailsView extends StatelessWidget {
                     AddressBox(gym.address, gym.lat, gym.lon),
                     Dividers.h10,
                     Text(
-                      "Reviews",
+                      StringManger.reviews,
                       style: Theme.of(context)
                           .textTheme
                           .labelLarge!

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kamn/bloc/auth_bloc/auth_status_bloc.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
 
 import '../../../shared/widget/avatar.dart';
 
@@ -34,7 +35,7 @@ class UserInfo extends StatelessWidget {
         Positioned(
           bottom: 0,
           child: Text(
-            AuthBloc.user.name ?? "App User",
+            AuthBloc.user.name ?? StringManger.appUser,
             style: Theme.of(context).textTheme.displayLarge!.copyWith(
                   fontWeight: FontWeight.w100,
                   height: 1,

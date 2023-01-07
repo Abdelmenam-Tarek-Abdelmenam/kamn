@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kamn/data/models/coach.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/resources/styles_manager.dart';
 import 'package:kamn/presentation/shared/custom_scafffold/sliding_scaffold.dart';
 import 'package:kamn/presentation/shared/widget/error_image.dart';
@@ -21,7 +22,7 @@ class CoachAchievementsView extends StatelessWidget {
         child: coach.achievements.isEmpty
             ? Center(
                 child: Text(
-                  "No Achievements",
+                  StringManger.noAchievements,
                   style: Theme.of(context)
                       .textTheme
                       .displayMedium!

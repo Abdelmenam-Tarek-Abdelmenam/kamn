@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/shared/details_widget.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
 import 'package:kamn/presentation/shared/widget/error_image.dart';
@@ -78,7 +79,7 @@ class ProductView extends StatelessWidget {
                         valueListenable: quantity,
                         builder: (context, val, _) {
                           return Text(
-                            "Total Price : ${val * product.price} ",
+                            "${StringManger.totalPrice} : ${val * product.price} ",
                             style: Theme.of(context).textTheme.labelLarge,
                           );
                         }),
@@ -96,10 +97,10 @@ class ProductView extends StatelessWidget {
                             .withOpacity(0.7),
                         borderRadius: const BorderRadius.only(
                             topLeft: Radius.circular(30))),
-                    child: const Center(
+                    child: Center(
                       child: Text(
-                        "Add to cart",
-                        style: TextStyle(color: Colors.white),
+                        StringManger.addToCart,
+                        style: const TextStyle(color: Colors.white),
                       ),
                     )),
               ),
@@ -114,7 +115,7 @@ class ProductView extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Quantity",
+            StringManger.quantity,
             style:
                 Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18),
           ),
@@ -171,7 +172,7 @@ class ProductView extends StatelessWidget {
                 children: [
                   Dividers.h10,
                   Text(
-                    "Choose Variety",
+                    StringManger.chooseVariety,
                     style: Theme.of(context)
                         .textTheme
                         .labelLarge!
@@ -180,7 +181,7 @@ class ProductView extends StatelessWidget {
                   Dividers.h5,
                   DefaultDropDownMenu(
                       prefix: Icons.menu,
-                      title: "Varieties",
+                      title: StringManger.varieties,
                       items: product.varieties
                           .map(
                               (e) => DropdownMenuItem(value: e, child: Text(e)))
@@ -190,7 +191,7 @@ class ProductView extends StatelessWidget {
                 ],
               )),
           Text(
-            "Reviews",
+            StringManger.reviews,
             style:
                 Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18),
           ),

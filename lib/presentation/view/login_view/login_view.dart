@@ -218,7 +218,7 @@ class LoginView extends StatelessWidget {
           context.read<AuthBloc>().add(SignUpInUsingEmailEvent(
               emailController.text, passController1.text));
         } else {
-          showToast("Passwords are not the same");
+          showToast(StringManger.wrongPasswords);
         }
         break;
       case AuthModes.forgetPass:

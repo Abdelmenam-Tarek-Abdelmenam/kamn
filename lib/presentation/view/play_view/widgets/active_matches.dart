@@ -72,7 +72,7 @@ class ActiveMatchDesign extends StatelessWidget {
           Dividers.h5,
           FittedBox(
             child: Text(
-              "${item.game} - Available ${item.availableCount} ",
+              "${item.game} - ${StringManger.available} ${item.availableCount} ",
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context)
@@ -96,7 +96,7 @@ class ActiveMatchDesign extends StatelessWidget {
                 padding: PaddingManager.p4.copyWith(right: 10, left: 10),
               ),
               onPressed: () {},
-              label: const Text("Join game"),
+              label: Text(StringManger.join),
               icon: const Icon(
                 Icons.play_arrow_rounded,
                 size: 20,

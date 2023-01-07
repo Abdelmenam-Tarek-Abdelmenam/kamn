@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kamn/data/models/coach.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
 
 import '../../resources/styles_manager.dart';
@@ -14,11 +15,11 @@ class CoachDetailsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SlidingScaffold(
-      tabs: const [
-        Text("Description"),
-        Text("Consultation"),
+      tabs: [
+        Text(StringManger.description),
+        Text(StringManger.consultation),
       ],
-      title: "Coach ${coach.name}",
+      title: "${StringManger.coach} ${coach.name}",
       action: IconButton(
         onPressed: () {},
         icon: const Icon(Icons.call),
@@ -43,7 +44,7 @@ class CoachDetailsView extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        "Overview",
+                        StringManger.overview,
                         textAlign: TextAlign.center,
                         style: Theme.of(context)
                             .textTheme
@@ -64,7 +65,7 @@ class CoachDetailsView extends StatelessWidget {
                 ),
                 Dividers.h10,
                 Text(
-                  "Reviews",
+                  StringManger.reviews,
                   style: Theme.of(context)
                       .textTheme
                       .labelLarge!
@@ -91,7 +92,7 @@ class CoachDetailsView extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "Online Consultation",
+                    StringManger.onlineConsultation,
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme
@@ -115,7 +116,7 @@ class CoachDetailsView extends StatelessWidget {
               child: Column(
                 children: [
                   Text(
-                    "Offline Consultation",
+                    StringManger.offlineConsultation,
                     textAlign: TextAlign.center,
                     style: Theme.of(context)
                         .textTheme

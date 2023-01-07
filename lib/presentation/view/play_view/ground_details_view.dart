@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kamn/data/models/matches.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/shared/custom_scafffold/sliding_scaffold.dart';
 import 'package:kamn/presentation/shared/details_widget.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
@@ -40,7 +41,7 @@ class GroundDetailsView extends StatelessWidget {
               FacilitiesList(ground.amenities),
               Dividers.h10,
               Text(
-                "Photos",
+                StringManger.photos,
                 style: Theme.of(context)
                     .textTheme
                     .labelLarge!
@@ -52,7 +53,7 @@ class GroundDetailsView extends StatelessWidget {
               AddressBox(ground.address, ground.lat, ground.lon),
               Dividers.h10,
               Text(
-                "Reviews",
+                StringManger.reviews,
                 style: Theme.of(context)
                     .textTheme
                     .labelLarge!

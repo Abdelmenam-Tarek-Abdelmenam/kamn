@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/resources/styles_manager.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
 import 'package:kamn/presentation/shared/widget/form_field.dart';
@@ -57,7 +58,7 @@ class SignupView extends StatelessWidget {
                             .read<AuthBloc>()
                             .add(RegisterUserDataEvent(nameController.text));
                       },
-                      child: const Text("Register")),
+                      child: Text(StringManger.register)),
                   secondChild: const LoadingText(),
                   crossFadeState: state.status == AuthStatus.registerUser
                       ? CrossFadeState.showSecond

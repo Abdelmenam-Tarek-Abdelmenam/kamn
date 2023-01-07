@@ -105,7 +105,7 @@ class CoachDesign extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Coach ${item.name}",
+                      "${StringManger.coach} ${item.name}",
                       style: Theme.of(context).textTheme.displaySmall,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -132,7 +132,7 @@ class CoachDesign extends StatelessWidget {
               Dividers.horizontalLine,
               Row(
                 children: [
-                  customButton(context, "Achievements", () {
+                  customButton(context, StringManger.achievements, () {
                     Navigator.of(context)
                         .pushNamed(Routes.coachAchievements, arguments: item);
                   }),
@@ -140,7 +140,7 @@ class CoachDesign extends StatelessWidget {
                     height: 30,
                     child: Dividers.verticalLine,
                   ),
-                  customButton(context, "Details", () {
+                  customButton(context, StringManger.details, () {
                     Navigator.of(context)
                         .pushNamed(Routes.coachDetails, arguments: item);
                   }),

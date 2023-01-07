@@ -127,7 +127,7 @@ class GroundDesign extends StatelessWidget {
               onPressed: () => Navigator.pushNamed(
                   context, Routes.groundDetails,
                   arguments: item),
-              label: const Text("Show more"),
+              label: Text(StringManger.showMore),
               icon: const Icon(
                 Icons.send,
                 size: 20,

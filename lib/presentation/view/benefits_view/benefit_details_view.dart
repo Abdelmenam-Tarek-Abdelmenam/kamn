@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kamn/data/models/benfits.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/resources/styles_manager.dart';
 import 'package:kamn/presentation/shared/custom_scafffold/sliding_scaffold.dart';
 import 'package:kamn/presentation/shared/custom_scafffold/top_widget.dart';
@@ -40,7 +41,7 @@ class BenfitsDetailsView extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            "Overview",
+                            StringManger.overview,
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
@@ -65,12 +66,12 @@ class BenfitsDetailsView extends StatelessWidget {
                       ),
                     ),
                     Dividers.h10,
-                    PriceList(benefit.packages, label: "Packages"),
+                    PriceList(benefit.packages, label: StringManger.packages),
                     Dividers.h10,
                     AddressBox(benefit.address, benefit.lat, benefit.lon),
                     Dividers.h10,
                     Text(
-                      "Reviews",
+                      StringManger.reviews,
                       style: Theme.of(context)
                           .textTheme
                           .labelLarge!

@@ -78,7 +78,7 @@ class ContactsIcons extends StatelessWidget {
                       if (await canLaunchUrl(Uri.parse(url))) {
                         await launchUrl(Uri.parse(url));
                       } else {
-                        showToast("Can't launch this contact method");
+                        showToast(StringManger.contactsErrors);
                       }
                     },
                     child: CircleAvatar(

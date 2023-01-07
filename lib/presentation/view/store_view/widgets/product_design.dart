@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kamn/presentation/resources/asstes_manager.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
 import 'package:kamn/presentation/shared/widget/error_image.dart';
 import '../../../../data/models/product.dart';
@@ -73,7 +74,7 @@ class ProductDesign extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyLarge,
                         ),
                         Text(
-                          "${item.price} EGP",
+                          "${item.price} ${StringManger.priceUnit}",
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                       ],

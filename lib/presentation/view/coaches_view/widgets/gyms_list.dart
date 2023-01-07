@@ -128,7 +128,7 @@ class GymDesign extends StatelessWidget {
                 Navigator.of(context)
                     .pushNamed(Routes.gymDetails, arguments: item);
               },
-              label: const Text("Show more"),
+              label: Text(StringManger.showMore),
               icon: const Icon(
                 Icons.send,
                 size: 20,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kamn/bloc/benfits_bloc/benfits_bloc.dart';
 import 'package:kamn/presentation/resources/routes_manger.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
 
 import '../../../../data/models/benfits.dart';
 import '../../../resources/asstes_manager.dart';
@@ -18,7 +19,7 @@ class BenfitsWidget extends StatelessWidget {
     if (benefits.isEmpty) {
       return Center(
         child: Text(
-          "No Benefits Available",
+          StringManger.noBenfits,
           style:
               Theme.of(context).textTheme.displayLarge!.copyWith(fontSize: 20),
         ),
@@ -147,9 +148,9 @@ class BenefitDesign extends StatelessWidget {
                                   Routes.benfitsDetails,
                                   arguments: item);
                             },
-                            child: const Text(
-                              "Show more",
-                              style: TextStyle(fontSize: 14),
+                            child: Text(
+                              StringManger.showMore,
+                              style: const TextStyle(fontSize: 14),
                             )),
                       )
                     ],

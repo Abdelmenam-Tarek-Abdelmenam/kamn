@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:kamn/presentation/resources/string_manager.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../../data/models/tournament.dart';
@@ -57,7 +58,7 @@ class ActiveTournamentsList extends StatelessWidget {
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Text(
-                  "No tournaments active now",
+                  StringManger.noTournaments,
                   style: Theme.of(context)
                       .textTheme
                       .displayLarge!
