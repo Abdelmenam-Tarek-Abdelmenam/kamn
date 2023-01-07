@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../resources/styles_manager.dart';
-
 class DefaultDropDownMenu extends StatelessWidget {
   const DefaultDropDownMenu(
       {required this.title,
@@ -19,17 +17,13 @@ class DefaultDropDownMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: PaddingManager.p8.copyWith(top: 2),
-      // decoration: BoxDecoration(
-      //     borderRadius: StyleManager.border,
-      //     border: Border.all(
-      //         width: 3,
-      //         color: Theme.of(context).colorScheme.primary.withOpacity(0.8)),
-      //     color: Colors.transparent),
+      padding: const EdgeInsets.all(1),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(4),
+          color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.65)),
       child: DropdownButtonFormField(
         items: items,
-        dropdownColor:
-            Theme.of(context).colorScheme.onPrimary.withOpacity(0.65),
+        dropdownColor: Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
         onChanged: onChanged,
         style: Theme.of(context).textTheme.labelLarge!.copyWith(
             color: Theme.of(context).colorScheme.primary.withOpacity(0.8),

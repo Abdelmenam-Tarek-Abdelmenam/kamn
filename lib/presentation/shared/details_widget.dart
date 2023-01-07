@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:kamn/data/repositories/lanucher_extentions.dart';
 import 'package:kamn/presentation/shared/widget/dividers.dart';
+import 'package:kamn/presentation/shared/widget/form_field.dart';
 import 'package:lottie/lottie.dart';
 
 import '../resources/asstes_manager.dart';
@@ -135,9 +138,17 @@ class ImagesList extends StatelessWidget {
   }
 }
 
-class ReviewList extends StatelessWidget {
+class ReviewList extends StatefulWidget {
   const ReviewList(this.reviews, {Key? key}) : super(key: key);
   final List<String> reviews;
+
+  @override
+  State<ReviewList> createState() => _ReviewListState();
+}
+
+class _ReviewListState extends State<ReviewList> {
+  final TextEditingController newReview = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -148,46 +159,106 @@ class ReviewList extends StatelessWidget {
         color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.6),
         borderRadius: StyleManager.border,
       ),
-      child: reviews.isEmpty
-          ? Center(
-              child: Text(
-              "No Reviews yet",
-              style: Theme.of(context).textTheme.labelSmall,
-            ))
-          : Column(
-              children: [
-                SizedBox(
-                  height: 80,
-                  width: MediaQuery.of(context).size.width - 100,
-                  child: CarouselSlider(
-                    carouselController: CarouselController(),
-                    options: CarouselOptions(
-                        autoPlay: false, enableInfiniteScroll: false),
-                    items: reviews
-                        .map(
-                          (e) => Container(
-                            padding: PaddingManager.p10,
-                            margin: const EdgeInsets.symmetric(horizontal: 10),
-                            decoration: BoxDecoration(
-                                borderRadius: StyleManager.border,
-                                border: Border.all(
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                    width: 1)),
-                            child: Center(
-                                child: SingleChildScrollView(
-                                    child: Text(
-                              e,
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ))),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                )
-              ],
+      child: Column(
+        children: [
+          SizedBox(
+            height: 80,
+            width: MediaQuery.of(context).size.width - 100,
+            child: CarouselSlider(
+              carouselController: CarouselController(),
+              options:
+                  CarouselOptions(autoPlay: false, enableInfiniteScroll: false),
+              items: List.generate(
+                  widget.reviews.length + 1,
+                  (index) => index == widget.reviews.length
+                      ? OutlinedButton.icon(
+                          onPressed: () => showAddDialog(context),
+                          icon: const Icon(Icons.add_box_outlined),
+                          label: Text(
+                            "Add Review",
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ))
+                      : Container(
+                          padding: PaddingManager.p10,
+                          margin: const EdgeInsets.symmetric(horizontal: 10),
+                          decoration: BoxDecoration(
+                              borderRadius: StyleManager.border,
+                              border: Border.all(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  width: 1)),
+                          child: Center(
+                              child: SingleChildScrollView(
+                                  child: Text(
+                            widget.reviews[index],
+                            style: Theme.of(context).textTheme.labelSmall,
+                          ))),
+                        )),
             ),
+          )
+        ],
+      ),
     );
+  }
+
+  void showAddDialog(BuildContext context) {
+    newReview.clear();
+    showDialog(
+        context: context,
+        builder: (context) {
+          return BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 1.5, sigmaY: 1.5),
+            child: Dialog(
+              backgroundColor:
+                  Theme.of(context).colorScheme.onPrimary.withOpacity(0.7),
+              shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(20))),
+              child: SizedBox(
+                height: 200,
+                child: ClipRRect(
+                    borderRadius: const BorderRadius.all(Radius.circular(20)),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FittedBox(
+                            child: Text(
+                              "Add Review",
+                              style: Theme.of(context).textTheme.titleLarge,
+                            ),
+                          ),
+                          Dividers.h10,
+                          Form(
+                            key: formKey,
+                            child: DefaultFormField(
+                              controller: newReview,
+                              title: "Review",
+                              maxLines: 3,
+                              hideBorder: true,
+                              validator: (val) =>
+                                  val!.isEmpty ? "Review can't be empty" : null,
+                              prefix: Icons.message_outlined,
+                            ),
+                          ),
+                          Dividers.h5,
+                          FilledButton.tonalIcon(
+                              onPressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  widget.reviews.add(newReview.text);
+                                  setState(() {});
+                                  Navigator.of(context).pop();
+                                }
+                              },
+                              icon: const Icon(Icons.add),
+                              label: const Text("Add"))
+                        ],
+                      ),
+                    )),
+              ),
+              //  contentPadding: const EdgeInsets.all(0.0),
+            ),
+          );
+        });
   }
 }
 

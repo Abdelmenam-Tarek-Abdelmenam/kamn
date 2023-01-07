@@ -37,6 +37,7 @@ class CoachDetailsView extends StatelessWidget {
           Padding(
             padding: PaddingManager.p10,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 BackGround(
                   child: Column(
@@ -62,6 +63,14 @@ class CoachDetailsView extends StatelessWidget {
                   ),
                 ),
                 Dividers.h10,
+                Text(
+                  "Reviews",
+                  style: Theme.of(context)
+                      .textTheme
+                      .labelLarge!
+                      .copyWith(fontSize: 18),
+                ),
+                Dividers.h5,
                 ReviewList(coach.reviews),
                 const SizedBox(
                   height: 100,

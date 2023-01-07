@@ -10,6 +10,7 @@ class DefaultFormField extends StatelessWidget {
       this.prefix,
       this.maxLines,
       this.isPass = false,
+      this.hideBorder = false,
       this.validator,
       this.keyboardType,
       this.suffix,
@@ -26,6 +27,7 @@ class DefaultFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final Widget? suffix;
   final int? maxLines;
+  final bool hideBorder;
   final Function(String)? onChanged;
 
   @override
@@ -53,14 +55,24 @@ class DefaultFormField extends StatelessWidget {
           contentPadding: const EdgeInsets.only(right: 5.0),
           errorStyle: const TextStyle(fontSize: 10),
           errorBorder: InputBorder.none,
-          border: UnderlineInputBorder(
-              borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
-                  width: 3)),
-          enabledBorder: UnderlineInputBorder(
-              borderSide: BorderSide(
-                  color: Theme.of(context).colorScheme.primary.withOpacity(0.8),
-                  width: 3)),
+          border: hideBorder
+              ? InputBorder.none
+              : UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.8),
+                      width: 3)),
+          enabledBorder: hideBorder
+              ? InputBorder.none
+              : UnderlineInputBorder(
+                  borderSide: BorderSide(
+                      color: Theme.of(context)
+                          .colorScheme
+                          .primary
+                          .withOpacity(0.8),
+                      width: 3)),
           suffixIcon: suffix,
           prefixIcon: prefix == null
               ? null

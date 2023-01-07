@@ -11,14 +11,14 @@ import 'package:kamn/presentation/view/coaches_view/coach_achievment_view.dart';
 import 'package:kamn/presentation/view/coaches_view/gym_details_view.dart';
 import 'package:kamn/presentation/view/landing_view/landing_view.dart';
 import 'package:kamn/presentation/view/login_view/login_view.dart';
-import 'package:kamn/presentation/view/matches_view/ground_details_view.dart';
+import 'package:kamn/presentation/view/play_view/ground_details_view.dart';
 import 'package:kamn/presentation/view/user_view/user_view.dart';
 
 import '../view/coaches_view/coaches_view.dart';
 import '../view/customer_support_view/customer_support_view.dart';
 import '../view/leader_board_view/leader_board_view.dart';
 import '../view/login_view/signup_view.dart';
-import '../view/matches_view/matches_view.dart';
+import '../view/play_view/matches_view.dart';
 import '../view/store_view/product_view.dart';
 import '../view/store_view/store_view.dart';
 import '../view/tournaments_view/tournaments_view.dart';

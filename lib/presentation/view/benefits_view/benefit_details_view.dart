@@ -34,6 +34,7 @@ class BenfitsDetailsView extends StatelessWidget {
               Padding(
                 padding: PaddingManager.p10,
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     BackGround(
                       child: Column(
@@ -68,6 +69,14 @@ class BenfitsDetailsView extends StatelessWidget {
                     Dividers.h10,
                     AddressBox(benefit.address, benefit.lat, benefit.lon),
                     Dividers.h10,
+                    Text(
+                      "Reviews",
+                      style: Theme.of(context)
+                          .textTheme
+                          .labelLarge!
+                          .copyWith(fontSize: 18),
+                    ),
+                    Dividers.h5,
                     ReviewList(benefit.reviews),
                   ],
                 ),

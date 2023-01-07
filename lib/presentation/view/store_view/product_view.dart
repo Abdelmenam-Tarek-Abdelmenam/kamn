@@ -21,88 +21,91 @@ class ProductView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SlidingScaffold(
-        showSliding: false,
-        title: product.name,
-        child: Expanded(
-          child: Stack(alignment: Alignment.bottomRight, children: [
-            ListView(
-              children: [
-                TopWidget(
-                    bottom: 25,
-                    child: Stack(
-                      alignment: Alignment.topRight,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 70, left: 30),
-                          child: ClipRRect(
-                            borderRadius: StyleManager.border,
-                            child: Column(
-                              children: [
-                                Hero(
-                                  tag: product.id,
-                                  child: ErrorImage(
-                                    product.img,
-                                    fit: BoxFit.fitWidth,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: SlidingScaffold(
+          showSliding: false,
+          title: product.name,
+          child: Expanded(
+            child: Stack(alignment: Alignment.bottomRight, children: [
+              ListView(
+                children: [
+                  TopWidget(
+                      bottom: 25,
+                      child: Stack(
+                        alignment: Alignment.topRight,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 70, left: 30),
+                            child: ClipRRect(
+                              borderRadius: StyleManager.border,
+                              child: Column(
+                                children: [
+                                  Hero(
+                                    tag: product.id,
+                                    child: ErrorImage(
+                                      product.img,
+                                      fit: BoxFit.fitWidth,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Align(
-                          alignment: Alignment.topRight,
-                          child: FilledButton.tonalIcon(
-                              icon: const Icon(Icons.attach_money),
-                              onPressed: () {},
-                              label: Text(product.price.toString())),
-                        )
-                      ],
-                    )),
-                Padding(
-                  padding: PaddingManager.p15,
-                  child: productDetails(context),
-                ),
-                const SizedBox(
-                  height: 100,
-                ),
-              ],
-            ),
-            Positioned(
-                left: 0,
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: ValueListenableBuilder<int>(
-                      valueListenable: quantity,
-                      builder: (context, val, _) {
-                        return Text(
-                          "Total Price : ${val * product.price} ",
-                          style: Theme.of(context).textTheme.labelLarge,
-                        );
-                      }),
-                )),
-            Positioned(
-              right: 0,
-              child: Container(
-                  width: 150,
-                  height: 50,
-                  padding: const EdgeInsets.all(15),
-                  decoration: BoxDecoration(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .primary
-                          .withOpacity(0.7),
-                      borderRadius: const BorderRadius.only(
-                          topLeft: Radius.circular(30))),
-                  child: const Center(
-                    child: Text(
-                      "Add to cart",
-                      style: TextStyle(color: Colors.white),
-                    ),
+                          Align(
+                            alignment: Alignment.topRight,
+                            child: FilledButton.tonalIcon(
+                                icon: const Icon(Icons.attach_money),
+                                onPressed: () {},
+                                label: Text(product.price.toString())),
+                          )
+                        ],
+                      )),
+                  Padding(
+                    padding: PaddingManager.p15,
+                    child: productDetails(context),
+                  ),
+                  const SizedBox(
+                    height: 100,
+                  ),
+                ],
+              ),
+              Positioned(
+                  left: 0,
+                  child: Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: ValueListenableBuilder<int>(
+                        valueListenable: quantity,
+                        builder: (context, val, _) {
+                          return Text(
+                            "Total Price : ${val * product.price} ",
+                            style: Theme.of(context).textTheme.labelLarge,
+                          );
+                        }),
                   )),
-            ),
-          ]),
-        ));
+              Positioned(
+                right: 0,
+                child: Container(
+                    width: 150,
+                    height: 50,
+                    padding: const EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                        color: Theme.of(context)
+                            .colorScheme
+                            .primary
+                            .withOpacity(0.7),
+                        borderRadius: const BorderRadius.only(
+                            topLeft: Radius.circular(30))),
+                    child: const Center(
+                      child: Text(
+                        "Add to cart",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    )),
+              ),
+            ]),
+          )),
+    );
   }
 
   Widget productDetails(BuildContext context) {
@@ -113,8 +116,9 @@ class ProductView extends StatelessWidget {
           Text(
             "Quantity",
             style:
-                Theme.of(context).textTheme.bodySmall?.copyWith(fontSize: 22),
+                Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18),
           ),
+          Dividers.h5,
           Row(
             children: [
               myIcon(context, FontAwesomeIcons.minus, () {
@@ -124,29 +128,32 @@ class ProductView extends StatelessWidget {
                 }
               }),
               Expanded(
-                child: SliderTheme(
-                  data: SliderTheme.of(context).copyWith(
-                    thumbShape: PolygonSliderThumb(
-                        thumbRadius: 16.0,
-                        sliderValue: quantity.value.toDouble()),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: SliderTheme(
+                    data: SliderTheme.of(context).copyWith(
+                      thumbShape: PolygonSliderThumb(
+                          thumbRadius: 16.0,
+                          sliderValue: quantity.value.toDouble()),
+                    ),
+                    child: Slider(
+                        min: 1,
+                        max: 100,
+                        divisions: 99,
+                        activeColor: Theme.of(context)
+                            .colorScheme
+                            .onPrimary
+                            .withOpacity(0.7),
+                        inactiveColor: Theme.of(context)
+                            .colorScheme
+                            .onPrimary
+                            .withOpacity(0.1),
+                        value: quantity.value.toDouble(),
+                        onChanged: (value) {
+                          quantity.value = value.round();
+                          setState(() {});
+                        }),
                   ),
-                  child: Slider(
-                      min: 1,
-                      max: 100,
-                      divisions: 99,
-                      activeColor: Theme.of(context)
-                          .colorScheme
-                          .onPrimary
-                          .withOpacity(0.7),
-                      inactiveColor: Theme.of(context)
-                          .colorScheme
-                          .onPrimary
-                          .withOpacity(0.1),
-                      value: quantity.value.toDouble(),
-                      onChanged: (value) {
-                        quantity.value = value.round();
-                        setState(() {});
-                      }),
                 ),
               ),
               myIcon(context, FontAwesomeIcons.plus, () {
@@ -163,6 +170,14 @@ class ProductView extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Dividers.h10,
+                  Text(
+                    "Choose Variety",
+                    style: Theme.of(context)
+                        .textTheme
+                        .labelLarge!
+                        .copyWith(fontSize: 16),
+                  ),
+                  Dividers.h5,
                   DefaultDropDownMenu(
                       prefix: Icons.menu,
                       title: "Varieties",
@@ -174,7 +189,12 @@ class ProductView extends StatelessWidget {
                   Dividers.h10,
                 ],
               )),
-          Dividers.h10,
+          Text(
+            "Reviews",
+            style:
+                Theme.of(context).textTheme.labelLarge!.copyWith(fontSize: 18),
+          ),
+          Dividers.h5,
           ReviewList(product.reviews),
         ],
       );
@@ -184,7 +204,7 @@ class ProductView extends StatelessWidget {
   Widget myIcon(
       BuildContext context, IconData icon, void Function() onPressed) {
     return Container(
-      height: 40,
+      height: 35,
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.65),
         borderRadius: BorderRadius.circular(10),
@@ -228,8 +248,8 @@ class PolygonSliderThumb extends SliderComponentShape {
       required Size sizeWithOverflow}) {
     final Canvas canvas = context.canvas;
     int sides = 4;
-    double innerPolygonRadius = thumbRadius * 1.2;
-    double outerPolygonRadius = thumbRadius * 1.4;
+    double innerPolygonRadius = thumbRadius * 1;
+    double outerPolygonRadius = thumbRadius * 1.2;
     double angle = (pi * 2) / sides;
     final outerPathColor = Paint()
       ..color = ColorManager.mainBlue
@@ -282,8 +302,8 @@ class PolygonSliderThumb extends SliderComponentShape {
 
     TextSpan span = TextSpan(
       style: TextStyle(
-        fontSize: thumbRadius,
-        fontWeight: FontWeight.w700,
+        fontSize: thumbRadius - 3,
+        fontWeight: FontWeight.w500,
         color: ColorManager.mainBlue,
       ),
       text: sliderValue.round().toString(),
