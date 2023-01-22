@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kamn/data/data_sources/web_services/mongo_repository.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'bloc/auth_bloc/auth_status_bloc.dart';
 import 'bloc/benfits_bloc/benfits_bloc.dart';
@@ -32,7 +33,13 @@ void main() async {
   CompleteUser? user =
       userData == null ? null : CompleteUser.fromJson(userData);
 
-  runApp(MyApp(user));
+  await SentryFlutter.init(
+    (options) {
+      options.dsn = _sentryKey;
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(MyApp(user)),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -62,3 +69,6 @@ class MyApp extends StatelessWidget {
         ),
       );
 }
+
+const _sentryKey =
+    'https://e340116efbe34fb0b639b99805246bdf@o4504541550477312.ingest.sentry.io/4504541552967680';

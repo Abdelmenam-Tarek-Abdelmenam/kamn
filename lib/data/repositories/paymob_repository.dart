@@ -1,7 +1,15 @@
 import 'package:dio/dio.dart';
 
-const String _payMobKey =
-    "ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6VXhNaUo5LmV5SnVZVzFsSWpvaWFXNXBkR2xoYkNJc0ltTnNZWE56SWpvaVRXVnlZMmhoYm5RaUxDSndjbTltYVd4bFgzQnJJam8yTWpNeE5EbDkubXRlQXhzNEpSME9zTVQtVkt3aFQ0VHNEZ2hWWk1WN2E3UVlrRF85ZGpqeVRyX0lUamZSMWRHemZObEhoSDhROTRGOVQtY01BbndfWGNEY0hoNk5rcXc=";
+import '../dio_errors.dart';
+
+// Authentication Request ==> requestAuth
+// Order Registration API ==> registerOrder
+// Payment Key Request    ==>  getPaymentKey
+
+// define your payment channel
+//  1- Card payment   ==> iFrame
+//  2- Kiosk Payments ==> getKioskPaymentsCode
+//  3- Mobile Wallets ==>
 
 class PayMobRepository {
   static PayMobRepository? _instance;
@@ -11,7 +19,7 @@ class PayMobRepository {
 
   void init() {
     dio = Dio(BaseOptions(
-      baseUrl: 'https://accept.paymob.com/api/',
+      baseUrl: PaymobConstants.baseUrl,
       headers: {
         'content-type': 'application/json',
       },
@@ -19,18 +27,18 @@ class PayMobRepository {
     ));
   }
 
-  Future<String> getToken(String price, String firstName, String lastName,
+  Future<String> requestAuth(String price, String firstName, String lastName,
       String email, String phone) async {
-    Map<String, dynamic> value =
-        await _postData(url: 'auth/tokens', data: {'api_key': _payMobKey});
+    Map<String, dynamic> value = await _postData(
+        url: PaymobConstants.getAuthToken,
+        data: {'api_key': PaymobConstants.paymentApiKey});
     return value['token'];
   }
 
-  Future<String> registerOrder(String token, String price, String firstName,
-      String lastName, String email, String phone) async {
+  Future<String> registerOrder(String authToken, String price) async {
     Map<String, dynamic> value =
-        await _postData(url: 'ecommerce/orders', data: {
-      'auth_token': token,
+        await _postData(url: PaymobConstants.getOrderId, data: {
+      'auth_token': authToken,
       'delivery_needed': 'false',
       "amount_cents": price,
       "currency": "EGP",
@@ -40,7 +48,7 @@ class PayMobRepository {
     return value['id'];
   }
 
-  Future<String> getPaymentToken(
+  Future<String> getPaymentKey(
       {required String token,
       required String orderId,
       required String integrationIdCard,
@@ -50,7 +58,7 @@ class PayMobRepository {
       required String email,
       required String phone}) async {
     Map<String, dynamic> value =
-        await _postData(url: 'acceptance/payment_keys', data: {
+        await _postData(url: PaymobConstants.getPaymentRequest, data: {
       "auth_token": token,
       "amount_cents": price,
       "expiration": 3600,
@@ -78,6 +86,40 @@ class PayMobRepository {
     return value['token'].toString();
   }
 
+  Future<String> getKioskPaymentsCode(String paymentToken) async {
+    Map<String, dynamic> value =
+        await _postData(url: PaymobConstants.getRefCode, data: {
+      'payment_token': paymentToken,
+      "source": {"identifier": "AGGREGATOR", "subtype": "AGGREGATOR"},
+    });
+
+    return value['id'];
+  }
+
+  Future<String> mobileWalletsPayments(
+      String paymentToken, String number) async {
+    Map<String, dynamic> value =
+        await _postData(url: PaymobConstants.getWalletsCode, data: {
+      'payment_token': paymentToken,
+      "source": {"identifier": number, "subtype": "WALLET"},
+    });
+
+    return value['redirect_url'];
+  }
+
+  Future<String> refundRequest(
+      String paymentToken, String id, double price) async {
+    Map<String, dynamic> value = await _postData(
+        url: PaymobConstants.getRefundRequest,
+        data: {
+          "auth_token": paymentToken,
+          "transaction_id": id,
+          "amount_cents": price
+        });
+
+    return value['redirect_url'];
+  }
+
   Future<dynamic> _postData(
       {required String url,
       Map<String, dynamic>? data,
@@ -94,37 +136,21 @@ class PayMobRepository {
   }
 }
 
-class DioErrors implements Exception {
-  const DioErrors([
-    this.message = 'An unknown exception occurred.',
-  ]);
+class PaymobConstants {
+  static const String baseUrl = 'https://accept.paymob.com/api';
+  static const paymentApiKey =
+      "ZXlKMGVYQWlPaUpLVjFRaUxDSmhiR2NpT2lKSVV6VXhNaUo5LmV5SnVZVzFsSWpvaWFXNXBkR2xoYkNJc0ltTnNZWE56SWpvaVRXVnlZMmhoYm5RaUxDSndjbTltYVd4bFgzQnJJam8yTWpNeE5EbDkubXRlQXhzNEpSME9zTVQtVkt3aFQ0VHNEZ2hWWk1WN2E3UVlrRF85ZGpqeVRyX0lUamZSMWRHemZObEhoSDhROTRGOVQtY01BbndfWGNEY0hoNk5rcXc=";
 
-  factory DioErrors.fromCode(DioError error) {
-    String message;
-    switch (error.type) {
-      case DioErrorType.connectTimeout:
-        message = 'server not reachable';
-        break;
-      case DioErrorType.sendTimeout:
-        message = 'send Time out';
-        break;
-      case DioErrorType.receiveTimeout:
-        message = 'server not reachable';
-        break;
-      case DioErrorType.response:
-        message = 'the server response, but with a incorrect status';
-        break;
-      case DioErrorType.cancel:
-        message = 'request is cancelled';
-        break;
-      case DioErrorType.other:
-        error.message.contains('SocketException')
-            ? message = 'check your internet connection'
-            : message = "Unknown error happened";
-        break;
-    }
-    return DioErrors(message);
-  }
+  static const String getAuthToken = '/auth/tokens';
+  static const getOrderId = '/ecommerce/orders';
+  static const getPaymentRequest = '/acceptance/payment_keys';
+  static const getRefundRequest = 'acceptance/void_refund/refund';
+  static const getRefCode = '/acceptance/payments/pay';
+  static const getWalletsCode = 'acceptance/payments/pay';
 
-  final String message;
+  static String cardPaymentIframe(String token) =>
+      "https://accept.paymob.com/api/acceptance/iframes/699886?payment_token=$token";
+
+  static const String integrationIdCard = 'ENTER_YOUR_INTEGRATION_ID';
+  static const String integrationIdKiosk = 'ENTER_YOUR_INTEGRATION_ID';
 }
